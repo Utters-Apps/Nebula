@@ -31,7 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="antialiased min-h-screen flex flex-col" oncontextmenu="return false;">
 
@@ -203,7 +203,7 @@
     </div>
 
     <div id="game-layer"
-         class="fixed inset-0 z-[60] bg-[#020617] hidden flex-col animate-fade-in">
+         class="fixed inset-0 z-[60] bg-[#020617] hidden flex-col animate-fade-in fullscreen-container">
         <div class="h-12 sm:h-14 glass-nav flex justify-between items-center px-3 sm:px-6 shrink-0 z-10">
             <div class="flex items-center gap-3">
                 <button id="btn-close-game"
@@ -367,6 +367,19 @@
     <!-- Inline toast container for non-bloqueante mensagens -->
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-    <script src="app.js" type="module" defer></script>
+    <!-- iOS fullscreen helper banner (shown only on iOS; small & unobtrusive) -->
+    <div id="ios-fullscreen-banner" class="ios-fullscreen-banner hidden" role="dialog" aria-hidden="true">
+        <div class="ios-fullscreen-banner-card">
+            <div class="ios-fullscreen-banner-text">
+                O Safari no iOS não permite Fullscreen nativo fora do PWA — você pode tentar uma "tela cheia visual".
+            </div>
+            <div class="ios-fullscreen-banner-actions">
+                <button id="ios-fullscreen-try" class="ios-btn ios-btn-primary">Tentar Tela Cheia</button>
+                <button id="ios-fullscreen-dismiss" class="ios-btn ios-btn-secondary">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js" type="module" defer></script>
 </body>
 </html>
