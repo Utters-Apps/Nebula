@@ -1247,3 +1247,100 @@ body::after {
     #volume-slider::-webkit-slider-thumb { width:16px; height:16px; }
 }
 
+/* ===== Mobile search & favorites polish ===== */
+/* make search results full-bleed cards on mobile, larger touch targets and cleaner info hierarchy */
+#search-results-content .game-card {
+    min-width: calc(86vw);
+    max-width: calc(92vw);
+    height: auto;
+    aspect-ratio: 16/9;
+    border-radius: 14px;
+    margin: 6px auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+}
+
+/* grid variant for search (two-column on wider phones) */
+@media (min-width: 420px) and (max-width: 640px) {
+    #search-results-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    #search-results-grid .game-card { min-width: auto; }
+}
+
+/* card inner tweaks for clearer title/desc layout on mobile */
+#search-results-grid .game-card img,
+#search-results-content .game-card img {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    object-fit: cover;
+}
+
+/* improve favorites card visibility on mobile */
+.favorites-grid-card {
+    border-radius: 12px;
+    padding: 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    box-shadow: 0 10px 26px rgba(2,6,23,0.6);
+}
+
+/* increase font sizes slightly for tap readability */
+.favorites-grid-card .fav-card-title { font-size: 1.05rem; }
+.favorites-grid-card .fav-card-desc { font-size: 0.98rem; color: #cbd5e1; }
+
+/* make favorite action buttons larger and easier to tap */
+.fav-play-btn, .fav-remove-btn {
+    min-height: 46px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+}
+
+/* Search result card controls: more prominent, separated row on mobile */
+#search-results-grid .card-play {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+}
+#search-results-grid .card-fav {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+}
+
+/* subtle fade-in for mobile search header */
+#search-results-content .section-title {
+    font-size: 1.15rem;
+    padding-left: 0.6rem;
+    margin-bottom: 10px;
+}
+
+/* Empty state centering improvements for mobile */
+#search-results-content p#no-search-results-msg {
+    padding: 18px;
+    font-size: 0.98rem;
+}
+
+/* ===== Prevent page scrolling while a game is active =====
+   Add a class to documentElement to lock background scroll and touch gestures, while allowing the game-layer itself to remain interactive.
+*/
+.no-game-scroll, .no-game-scroll body, .no-game-scroll #app-container {
+    overflow: hidden !important;
+    touch-action: none !important; /* reduce accidental gestures behind iframe */
+    height: 100% !important;
+    -webkit-overflow-scrolling: auto !important;
+}
+
+/* Ensure game-layer remains scroll-free and fills viewport */
+#game-layer {
+    overscroll-behavior: none;
+    touch-action: none;
+}
+
+/* Make sure the iframe itself can still receive pointer events while page body is locked */
+#game-frame {
+    pointer-events: auto !important;
+}
+
