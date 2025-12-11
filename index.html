@@ -1,36 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <!-- Mobile-first, no zoom to keep cloud gaming controls stable -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <!-- Disable iOS double-tap-to-zoom gesture and pinch (gesturestart) guard is handled in JS -->
-    <title>Nebula Nexus Cloud</title>
+    <title>Nexus Cloud - Premium Gaming</title>
 
-    <!-- Favicon padrão -->
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="ICON.png">
-
-    <!-- Para melhor compatibilidade -->
     <link rel="shortcut icon" href="ICON.png" type="image/x-icon">
-
-    <!-- Ícone para Apple (iPhone/iPad) -->
     <link rel="apple-touch-icon" href="ICON.png">
-
-    <!-- Ícone em alta resolução -->
     <link rel="icon" sizes="192x192" href="ICON.png">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- FontAwesome for icons -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
           rel="stylesheet">
-
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="antialiased min-h-screen flex flex-col" oncontextmenu="return false;">
@@ -49,8 +36,8 @@
             <div class="mb-5 inline-block p-4 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10">
                 <i class="fas fa-cloud text-3xl sm:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"></i>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-white tracking-tight">Bem-vindo ao Nexus</h1>
-            <p class="text-gray-400 mb-6 text-xs sm:text-sm">Entre para continuar sua experiência.</p>
+            <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-white tracking-tight">Welcome to Nexus</h1>
+            <p class="text-gray-400 mb-6 text-xs sm:text-sm">Sign in to continue your experience.</p>
 
             <form id="login-form" class="space-y-4" onsubmit="return false;">
                 <div class="relative group">
@@ -59,13 +46,13 @@
                            id="username-input"
                            required
                            autocomplete="nickname"
-                           placeholder="Nome de usuário"
+                           placeholder="Username"
                            class="w-full bg-[#0f172a] border border-gray-700 text-white pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-600 text-sm">
                 </div>
                 <button id="login-submit"
                         type="submit"
                         class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-900/30 transform transition hover:scale-[1.02] active:scale-95 text-sm">
-                    Entrar
+                    Sign in
                 </button>
             </form>
         </div>
@@ -80,41 +67,36 @@
             <div class="flex items-center gap-2">
                 <i class="fas fa-gamepad text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 text-xl sm:text-2xl"></i>
                 <span class="font-bold text-lg tracking-tight text-white hidden sm:inline">NEXUS</span>
-                <!-- Button added next to NEXUS -->
                 <a href="https://discord.gg/hze6KcXSNn" target="_blank" rel="noopener noreferrer"
                    class="ml-2 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1220] border border-gray-700/60 text-xs text-gray-200 hover:bg-[#0e1626] transition"
-                   title="Entrar no Discord do Serviço">
+                   title="Join our Discord">
                     <i class="fab fa-discord text-sm" aria-hidden="true"></i>
                     <span class="hidden sm:inline">Discord</span>
                 </a>
             </div>
             <div class="flex items-center gap-3 w-full justify-end">
-                <!-- Search + Tabs Wrapper -->
                 <div class="flex items-center gap-2 sm:gap-3 flex-1 justify-end max-w-md">
-                    <!-- Search Input -->
                     <div class="flex items-center bg-[#0b1220] rounded-full px-3 py-1.5 border border-gray-700/60 w-40 xs:w-52 sm:w-64 lg:w-72 shadow-sm shadow-black/50">
                         <i class="fas fa-search text-gray-400 text-xs mr-2"></i>
                         <input type="text"
                                id="search-input"
-                               placeholder="Buscar jogos..."
+                               placeholder="Search games..."
                                class="bg-transparent border-none text-xs sm:text-sm text-gray-300 focus:outline-none w-full"
                                autocomplete="off">
                     </div>
 
-                    <!-- Tabs inline -->
                     <div class="hidden sm:flex items-center bg-[#020617]/60 border border-gray-700/60 rounded-full px-1.5 py-0.5 shadow-sm shadow-black/50">
                         <button id="tab-home" class="tab-btn tab-btn-active" data-tab="home">
                             <i class="fas fa-house-chimney"></i>
-                            <span>Início</span>
+                            <span>Home</span>
                         </button>
                         <button id="tab-favorites" class="tab-btn" data-tab="favorites">
                             <i class="fas fa-heart"></i>
-                            <span>Favoritos</span>
+                            <span>Favorites</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Compact tabs on very small screens -->
                 <div class="flex sm:hidden items-center gap-1 mr-1">
                     <button id="tab-home-mobile" class="tab-chip tab-btn-active" data-tab="home">
                         <i class="fas fa-house-chimney"></i>
@@ -126,13 +108,9 @@
 
                 <div class="flex items-center gap-2 pl-3 border-l border-gray-700/50">
                     <span id="user-display-name"
-                          class="text-xs sm:text-sm font-semibold text-gray-300 hidden sm:block">Visitante</span>
+                          class="text-xs sm:text-sm font-semibold text-gray-300 hidden sm:block">Guest</span>
 
                     <div class="flex items-center gap-2">
-                        <!-- Right-top Discord button removed as requested -->
-                        
-
-
                         <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xs sm:text-sm shadow-inner border border-white/20">
                             <i class="fas fa-user"></i>
                         </div>
@@ -156,13 +134,13 @@
 
             <!-- Favorites Content -->
             <div id="favorites-content" class="px-3 sm:px-6 hidden animate-fade-in">
-                <h2 class="section-title border-purple-500">Minha Biblioteca</h2>
+                <h2 class="section-title border-purple-500">My Library</h2>
                 <div id="favorites-grid"
                      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     <p id="no-favorites-msg"
                        class="text-gray-500 col-span-full py-10 text-center text-sm sm:text-base">
                         <i class="fas fa-exclamation-circle mr-2"></i>
-                        Você ainda não adicionou nenhum jogo aos favoritos.
+                        You haven't added any games to your favorites yet.
                     </p>
                 </div>
             </div>
@@ -170,14 +148,14 @@
             <!-- Search Results -->
             <div id="search-results-content" class="px-3 sm:px-6 hidden animate-fade-in">
                 <h2 class="section-title border-blue-500">
-                    Resultados para "<span id="search-query-display"></span>"
+                    Results for "<span id="search-query-display"></span>"
                 </h2>
                 <div id="search-results-grid"
                      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     <p id="no-search-results-msg"
                        class="text-gray-500 col-span-full py-10 text-center text-sm sm:text-base">
                         <i class="fas fa-frown-open mr-2"></i>
-                        Nenhum jogo encontrado.
+                        No games found.
                     </p>
                 </div>
             </div>
@@ -185,20 +163,19 @@
     </div>
 
     <!-- Game Player Overlay -->
-    <!-- Global Enhanced Loader (new) -->
     <div id="global-loader" class="fixed inset-0 z-[140] hidden items-center justify-center bg-black/80">
         <div class="loader-card w-[88%] max-w-md p-6 rounded-2xl bg-gradient-to-b from-[#071028]/80 to-[#071028]/60 border border-white/6 text-center backdrop-blur-sm">
             <div class="flex items-center justify-center mb-4">
                 <div class="glow-ring mr-4"></div>
                 <div style="text-align:left">
-                    <div id="global-loader-title" class="text-white font-bold text-lg">Carregando...</div>
-                    <div id="global-loader-sub" class="text-gray-300 text-sm mt-1">Preparando sessão. Isso pode levar alguns instantes.</div>
+                    <div id="global-loader-title" class="text-white font-bold text-lg">Loading...</div>
+                    <div id="global-loader-sub" class="text-gray-300 text-sm mt-1">Preparing session. This may take a moment.</div>
                 </div>
             </div>
             <div class="progress-track mt-4 rounded-full bg-white/6 h-3 overflow-hidden">
                 <div id="global-loader-bar" class="progress-fill h-full bg-gradient-to-r from-blue-500 to-purple-500 w-0"></div>
             </div>
-            <div id="global-loader-hint" class="text-xs text-gray-400 mt-3">Dica: use F11 para ativar tela cheia (desktop).</div>
+            <div id="global-loader-hint" class="text-xs text-gray-400 mt-3">Tip: use F11 for fullscreen (desktop).</div>
         </div>
     </div>
 
@@ -211,23 +188,22 @@
                     <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all">
                         <i class="fas fa-arrow-left text-xs sm:text-sm"></i>
                     </div>
-                    <span class="font-medium hidden sm:block text-sm">Voltar</span>
+                    <span class="font-medium hidden sm:block text-sm">Back</span>
                 </button>
                 <div class="h-6 w-px bg-white/10 mx-1 sm:mx-2"></div>
                 <span id="playing-title"
                       class="font-bold text-sm sm:text-lg text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 line-clamp-1">
-                    Jogo
+                    Game
                 </span>
             </div>
             <div class="flex gap-2 items-center">
-                <!-- Volume control: icon + slider -->
                 <div id="game-volume-control" class="flex items-center gap-2 pr-2" style="min-width:120px;">
                     <button id="btn-volume-toggle" class="bg-white/10 p-2 rounded-full text-white hover:bg-white/30 transition active:scale-95" title="Volume">
                         <i id="volume-icon" class="fas fa-volume-up text-sm sm:text-lg"></i>
                     </button>
                     <input id="volume-slider" type="range" min="0" max="100" value="80" step="1"
                            class="w-28 sm:w-36 h-2 rounded-full accent-blue-500 touch-none"
-                           aria-label="Ajustar volume do jogo">
+                           aria-label="Adjust game volume">
                 </div>
 
                 <button id="btn-fullscreen"
@@ -235,10 +211,9 @@
                     <i class="fas fa-expand text-sm sm:text-lg"></i>
                 </button>
 
-                <!-- Hide-toolbar button (only visible in fullscreen) -->
                 <button id="btn-hide-toolbar"
                         class="hidden bg-white/10 p-2 rounded-full text-white hover:bg-white/30 transition hover:scale-110 active:scale-95"
-                        title="Ocultar barra">
+                        title="Hide toolbar">
                     <i class="fas fa-eye-slash text-sm sm:text-lg"></i>
                 </button>
             </div>
@@ -248,7 +223,7 @@
             <div id="loader"
                  class="absolute loader ease-linear rounded-full border-4 border-t-4 border-gray-700 h-14 w-14 sm:h-16 sm:w-16 z-20"></div>
             <p id="loading-status" class="absolute text-gray-400 text-sm mt-24 opacity-0 transition-opacity duration-300 z-20">
-                Iniciando sessão de streaming...
+                Starting streaming session...
             </p>
             <iframe id="game-frame"
                     class="w-full h-full border-none z-10"
@@ -305,22 +280,21 @@
 
                     <div class="flex items-center gap-3 text-xs sm:text-sm text-gray-400 bg-white/5 p-3 rounded-lg border border-white/5">
                         <i class="fas fa-keyboard text-gray-500 text-sm"></i>
-                        <span id="modal-controls">Teclado e mouse padrão.</span>
+                        <span id="modal-controls">Default keyboard & mouse.</span>
                     </div>
 
                     <div class="flex gap-3 pt-1">
                         <button id="modal-play-btn"
                                 class="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-white/10 text-sm">
-                            <i class="fas fa-play"></i> Jogar agora
+                            <i class="fas fa-play"></i> Play now
                         </button>
                         <button id="modal-list-btn"
                                 class="flex-1 bg-white/10 text-white py-3 rounded-xl font-bold hover:bg-white/20 border border-white/10 transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 text-sm">
-                            <i class="fas fa-heart"></i> Favoritos
+                            <i class="fas fa-heart"></i> Add to favorites
                         </button>
-                        <!-- Added share button -->
                         <button id="modal-share-btn"
                                 class="bg-white/10 text-white py-3 rounded-xl font-bold hover:bg-white/20 border border-white/10 transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-content-center gap-2 text-sm">
-                            <i class="fas fa-share-alt"></i> Compartilhar
+                            <i class="fas fa-share-alt"></i> Share
                         </button>
                     </div>
                 </div>
@@ -335,47 +309,47 @@
                         </span>
                     </div>
                     <div class="text-gray-400">
-                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Qualidade</span>
+                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Quality</span>
                         <span class="text-white">Cloud Streaming HD</span>
                     </div>
                     <div class="text-gray-400">
-                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Melhor para</span>
-                        <span class="text-white">Wi‑Fi ou 5G estável</span>
+                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Best for</span>
+                        <span class="text-white">Stable Wi‑Fi or 5G</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Custom Confirmation Modal (in-app, replaces native confirm/prompt) -->
+    <!-- Custom Confirmation Modal (in-app) -->
     <div id="confirm-modal" class="confirm-modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="confirm-card">
             <div class="confirm-body">
                 <div class="confirm-icon"><i class="fas fa-exclamation-triangle"></i></div>
                 <div class="confirm-content">
-                    <h3 id="confirm-title">Confirmar</h3>
-                    <p id="confirm-message">Tem certeza?</p>
+                    <h3 id="confirm-title">Confirm</h3>
+                    <p id="confirm-message">Are you sure?</p>
                 </div>
             </div>
             <div class="confirm-actions">
-                <button id="confirm-cancel" class="btn-cancel">Cancelar</button>
-                <button id="confirm-ok" class="btn-ok">Confirmar</button>
+                <button id="confirm-cancel" class="btn-cancel">Cancel</button>
+                <button id="confirm-ok" class="btn-ok">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- Inline toast container for non-bloqueante mensagens -->
+    <!-- Toast container -->
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- iOS fullscreen helper banner (shown only on iOS; small & unobtrusive) -->
+    <!-- iOS fullscreen helper -->
     <div id="ios-fullscreen-banner" class="ios-fullscreen-banner hidden" role="dialog" aria-hidden="true">
         <div class="ios-fullscreen-banner-card">
             <div class="ios-fullscreen-banner-text">
-                O Safari no iOS não permite Fullscreen nativo fora do PWA — você pode tentar uma "tela cheia visual".
+                Safari on iOS does not allow native fullscreen outside of PWAs — try the visual "fullscreen" option.
             </div>
             <div class="ios-fullscreen-banner-actions">
-                <button id="ios-fullscreen-try" class="ios-btn ios-btn-primary">Tentar Tela Cheia</button>
-                <button id="ios-fullscreen-dismiss" class="ios-btn ios-btn-secondary">Fechar</button>
+                <button id="ios-fullscreen-try" class="ios-btn ios-btn-primary">Try Fullscreen</button>
+                <button id="ios-fullscreen-dismiss" class="ios-btn ios-btn-secondary">Dismiss</button>
             </div>
         </div>
     </div>
