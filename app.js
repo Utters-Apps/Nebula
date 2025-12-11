@@ -2269,6 +2269,31 @@ function playGame(id) {
                     setGameFrameSrcSafe('https://cdn.mergecakegame.com/html5/hg/index.html');
                 }
             }
+
+            // Apply special layout for pieceofcake:
+            // - wrap the frame wrapper and add a class so CSS forces a 16:9 look
+            gameFrame.classList.add('custom-render-pieceofcake-frame');
+            if (gameFrameWrapper) gameFrameWrapper.classList.add('custom-render-pieceofcake-wrapper');
+
+            // If running on iOS, apply a minimal toolbar mode and forced visual fullscreen so
+            // the iframe keeps PC-like proportion and the heavy UI is hidden.
+            try {
+                if (isIos()) {
+                    // add a root-level marker so CSS hides heavy navbars
+                    document.documentElement.classList.add('ios-minimal-toolbar');
+                    // apply visual fullscreen to maximize usable area on iOS Safari
+                    document.documentElement.classList.add('forced-fullscreen');
+                    // keep a tiny in-game toolbar visible (handled by CSS). Hide the standard toolbar programmatically too.
+                    try {
+                        if (gameLayerToolbar) gameLayerToolbar.classList.add('hidden');
+                    } catch (e) {}
+                    // reduce bottom cut mask so more vertical space is available
+                    try { document.documentElement.style.setProperty('--nexus-bottom-cut', '6vh'); } catch (e) {}
+                } else {
+                    // ensure normal desktop/mobile behavior for non-iOS devices
+                    document.documentElement.classList.remove('ios-minimal-toolbar');
+                }
+            } catch (e) {}
         } catch (err) {
             console.warn('Failed to load Piece of Cake srcdoc for game', err);
             setGameFrameSrcSafe('https://cdn.mergecakegame.com/html5/hg/index.html');
