@@ -10,7 +10,7 @@ const DB = [
     { id: 'ev', title: 'Ev.io', cat: 'FPS', img: 'https://ev.io/themes/ev/images/ev-io-og-image.png', banner: 'https://ev.io/themes/ev/images/ev-io-og-image.png', url: 'https://ev.io/', desc: 'FPS futurista inspirado em Halo e Destiny. Use jetpacks, saltos duplos e armas de energia em combates rápidos.', controls: 'WASD: Mover | Q: Teleporte | G: Granada', feat: false, color: 'yellow-500' },
     { id: 'minecraft', title: 'Minecraft Web', cat: 'Simulação', img: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', url: 'https://eaglercraft.com/play/?version=1.12.2-wasm', desc: 'A experiência clássica de sobrevivência e construção no seu navegador. Crie, explore e sobreviva.', controls: 'WASD: Mover | Mouse: Interagir', feat: true, color: 'green-500' },
     { id: 'fnaf1', title: 'FNAF 1', cat: 'Terror', img: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', banner: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', url: 'https://lagged.com/games/fnaf/', desc: 'O clássico do terror. Sobreviva 5 noites vigiando animatrônicos assustadores com recursos limitados.', controls: 'Mouse: Câmeras e Luzes', feat: false, color: 'red-800' },
-    { id: 'fnaf2', title: 'FNAF 2', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%20Nights%20at%20Freddy%27s%202', desc: 'Sem portas para te proteger. Use apenas uma máscara e dê corda na caixa de música para sobreviver.', controls: 'Mouse: Interagir | Espaço: Pausar', feat: false, color: 'red-700' },
+    { id: 'fnaf2', title: 'FNAF 2', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%20Nights%22at%20Freddy%27s%202', desc: 'Sem portas para te proteger. Use apenas uma máscara e dê corda na caixa de música para sobreviver.', controls: 'Mouse: Interagir | Espaço: Pausar', feat: false, color: 'red-700' },
     { id: 'fnaf3', title: 'FNAF 3', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%20Nights%20at%20Freddy%27s%203', desc: '30 anos depois, apenas um animatrônico resta. Use o áudio para atraí-lo para longe de você.', controls: 'Mouse: Painéis', feat: false, color: 'red-600' },
     { id: 'fnaf4', title: 'FNAF 4', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf4.html', desc: 'O terror te seguiu até em casa. Ouça a respiração deles antes de acender a luz.', controls: 'Mouse: Interagir', feat: false, color: 'red-500' },
     { id: 'fnafsl', title: 'Sister Location', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnafsl.html', desc: 'Mergulhe nas profundezas do Circus Baby\'s Pizza World. Não segure a respiração.', controls: 'Mouse: Interagir', feat: false, color: 'red-400' },
@@ -218,6 +218,141 @@ const DB = [
     }
 })();
 
+/* --- Disable right-click (contextmenu) site-wide and best-effort for iframes ---
+   Strategy:
+   - Block contextmenu on the top-level document in capture phase, stopping propagation and default.
+   - Attempt to inject the same handler into any same-origin iframes on load.
+   - Observe DOM for dynamically added iframes and apply injection when possible.
+   This is defensive / best-effort: cross-origin iframe content cannot be modified from here, but
+   same-origin frames will get the handler so right-click is effectively disabled inside them too.
+*/
+(function disableContextMenus() {
+    try {
+        function blockCtx(e) {
+            try {
+                // stopImmediatePropagation to prevent other listeners from re-enabling or showing menus
+                if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+                if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+                if (e && typeof e.preventDefault === 'function') e.preventDefault();
+                return false;
+            } catch (err) { /* swallow */ }
+        }
+
+        // Capture-phase listener on top-level document for maximum coverage
+        document.addEventListener('contextmenu', blockCtx, true);
+
+        // Also block common alternate gestures that may show menu UI (pointerpress with secondary button)
+        document.addEventListener('pointerdown', function (ev) {
+            try {
+                if (ev && ev.button === 2) {
+                    ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+                    ev.stopPropagation && ev.stopPropagation();
+                    ev.preventDefault && ev.preventDefault();
+                }
+            } catch (e) {}
+        }, true);
+
+        // Helper to inject contextmenu blocker into same-origin iframe
+        function injectIntoIframe(iframeEl) {
+            try {
+                if (!iframeEl || !iframeEl.contentWindow) return false;
+                const win = iframeEl.contentWindow;
+                const doc = win.document;
+                if (!doc) return false;
+                // avoid re-injecting
+                if (iframeEl.__nexus_ctx_injected) return true;
+                // attach via the iframe's document in capture phase
+                doc.addEventListener('contextmenu', function(e){
+                    try {
+                        e.stopImmediatePropagation && e.stopImmediatePropagation();
+                        e.stopPropagation && e.stopPropagation();
+                        e.preventDefault && e.preventDefault();
+                    } catch (err) {}
+                }, true);
+                // also block pointerdown secondary button inside iframe
+                doc.addEventListener('pointerdown', function(ev){
+                    try {
+                        if (ev && ev.button === 2) {
+                            ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+                            ev.stopPropagation && ev.stopPropagation();
+                            ev.preventDefault && ev.preventDefault();
+                        }
+                    } catch (err) {}
+                }, true);
+                iframeEl.__nexus_ctx_injected = true;
+                return true;
+            } catch (err) {
+                // cross-origin frames will throw on contentWindow.document access; ignore
+                return false;
+            }
+        }
+
+        // Attempt to inject into existing iframes (best-effort)
+        Array.from(document.querySelectorAll('iframe')).forEach(iframe => {
+            try {
+                if (iframe && iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.readyState === 'complete') {
+                    injectIntoIframe(iframe);
+                } else {
+                    // attach load handler to inject once ready
+                    iframe.addEventListener('load', () => injectIntoIframe(iframe), { once: true, passive: true });
+                }
+            } catch (e) {
+                // ignore cross-origin or inaccessible iframes
+            }
+        });
+
+        // Observe DOM for dynamically added iframes to inject the blocker when possible
+        const mo = new MutationObserver(muts => {
+            for (const m of muts) {
+                if (m.addedNodes && m.addedNodes.length) {
+                    m.addedNodes.forEach(node => {
+                        try {
+                            if (node && node.tagName && node.tagName.toLowerCase() === 'iframe') {
+                                const iframe = node;
+                                if (iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.readyState === 'complete') {
+                                    injectIntoIframe(iframe);
+                                } else {
+                                    iframe.addEventListener('load', () => injectIntoIframe(iframe), { once: true, passive: true });
+                                }
+                            } else if (node && node.querySelectorAll) {
+                                // also handle iframes nested inside added subtrees
+                                Array.from(node.querySelectorAll('iframe')).forEach(ifr => {
+                                    if (ifr.contentWindow && ifr.contentWindow.document && ifr.contentWindow.document.readyState === 'complete') {
+                                        injectIntoIframe(ifr);
+                                    } else {
+                                        ifr.addEventListener('load', () => injectIntoIframe(ifr), { once: true, passive: true });
+                                    }
+                                });
+                            }
+                        } catch (err) {
+                            // ignore
+                        }
+                    });
+                }
+            }
+        });
+        mo.observe(document.documentElement || document.body, { childList: true, subtree: true });
+
+        // Expose a no-op restore function for debugging or if you later want to re-enable context menus
+        try {
+            Object.defineProperty(window, '__nexus_allow_contextmenus', {
+                configurable: true,
+                enumerable: false,
+                value: function restore() {
+                    try {
+                        document.removeEventListener('contextmenu', blockCtx, true);
+                        document.removeEventListener('pointerdown', blockCtx, true);
+                        mo.disconnect();
+                    } catch (e) {}
+                }
+            });
+        } catch (e) {}
+    } catch (err) {
+        // ensure non-fatal
+        console.warn('disableContextMenus init failed', err);
+    }
+})();
+
 /* Safety: ensure applyVolumeToGame exists at global scope before any enhancers run.
    Some enhancers (enhanceVolumeHandling) execute immediately and expect this function to exist.
    Provide a minimal, safe implementation that persists volume and posts a message if possible.
@@ -297,17 +432,38 @@ const globalLoaderHint = document.getElementById('global-loader-hint');
 function showGlobalLoader({ title = 'Carregando...', sub = 'Aguarde enquanto preparamos a sessão.', hint = '', progress = 0 } = {}) {
     try {
         if (!globalLoader) return;
+        // Lock background scroll and gestures for mobile while loader is visible
+        try { document.documentElement.classList.add('no-game-scroll'); } catch (e) {}
+
+        // Update texts
         globalLoaderTitle.textContent = title;
         globalLoaderSub.textContent = sub;
         globalLoaderHint.textContent = hint;
+
+        // Ensure visual structure: inject small helper wrapper for clearer layout (if not already present)
+        if (!globalLoader.querySelector('.loader-card')) {
+            // nothing to do, card exists in DOM; fallback handled by styles
+        }
+
+        // Make loader visible
         globalLoader.classList.remove('hidden');
         globalLoader.style.display = 'flex';
+        globalLoader.style.opacity = '1';
+
         // animate a gentle indeterminate progress if zero
         if (progress === 0) {
-            // warm up to 36% then slowly progress to 65% until updated by load events
             globalLoaderBar.style.width = '36%';
-            setTimeout(() => { if (globalLoaderBar) globalLoaderBar.style.width = '65%'; }, 800);
+            // gentle step to signify activity on slow connections
+            setTimeout(() => { if (globalLoaderBar) globalLoaderBar.style.width = '65%'; }, 700);
+        } else {
+            updateGlobalLoaderProgress(progress);
         }
+
+        // For accessibility, ensure focus is moved into loader so screen readers announce it
+        try {
+            const firstFocusable = globalLoader.querySelector('button, [tabindex], a');
+            if (firstFocusable) firstFocusable.focus();
+        } catch (e) {}
     } catch (e) { console.warn('showGlobalLoader failed', e); }
 }
 
@@ -322,12 +478,16 @@ function updateGlobalLoaderProgress(pct, text) {
 function hideGlobalLoader(force = false) {
     try {
         if (!globalLoader) return;
-        // finish progress animation
-        globalLoaderBar.style.width = '100%';
+        // finish progress animation visibly
+        try { globalLoaderBar.style.width = '100%'; } catch (e) {}
+
         // short delay so user can perceive completion
         setTimeout(() => {
+            // hide and restore background gestures
             globalLoader.classList.add('hidden');
             globalLoader.style.display = 'none';
+            try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+
             // reset bar gently for next time
             setTimeout(() => { if (globalLoaderBar) globalLoaderBar.style.width = '0%'; }, 160);
         }, 260);
@@ -882,13 +1042,30 @@ function updateCardFavoriteState(id) {
     const isFav = myList.includes(id);
     const iconClass = isFav ? 'fas fa-check text-green-400' : 'far fa-heart'; // Base class
 
-    // 1. Update all instances of the card in dynamic rows/search grid
+    // 1. Update all instances of the classic card heart icons (rows)
     document.querySelectorAll(`[data-card-game-id="${id}"] .card-fav i`).forEach(icon => {
         // Card icons use text-xs size
         icon.className = `${iconClass} text-xs`;
+        // update parent button aria state for accessibility
+        const btn = icon.closest('.card-fav');
+        if (btn) btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
     });
 
-    // 2. Update the Hero button state if this is the active hero game
+    // 1b. Update compact-style heart icons (used in search / favorites compact cards)
+    document.querySelectorAll(`[data-card-game-id="${id}"] .compact-fav i`).forEach(icon => {
+        // compact icons may be larger; keep class but ensure consistent color/state
+        const sizeClass = icon.className.includes('text-') ? icon.className.split(' ').find(c => c.startsWith('text-')) : 'text-xs';
+        icon.className = `${iconClass} ${sizeClass || 'text-xs'}`;
+        const btn = icon.closest('.compact-fav');
+        if (btn) btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+    });
+
+    // 2. Update any standalone compact-card instance (for safety, update button visuals)
+    document.querySelectorAll(`[data-card-game-id="${id}"] .compact-fav`).forEach(btn => {
+        btn.classList.toggle('is-favorited', isFav);
+    });
+
+    // 3. Update the Hero button state if this is the active hero game
     const heroGameId = heroSection.querySelector('.hero-play')?.getAttribute('data-game-id');
     if (heroGameId === id) {
         const heroIcon = document.getElementById('hero-list-icon');
@@ -949,8 +1126,8 @@ function renderHero() {
 
 function createCard(game, isGrid = false) {
     const baseClasses = isGrid
-        ? 'game-card h-36 sm:h-40 rounded-xl overflow-hidden relative cursor-pointer group bg-gray-800/90 border border-gray-800 hover:border-purple-500/60 shadow-lg transition-all flex'
-        : 'game-card flex-none w-[220px] sm:w-[260px] lg:w-[300px] aspect-video rounded-xl overflow-hidden relative cursor-pointer group bg-gray-800/90 border border-gray-800 hover:border-purple-500/60 shadow-lg';
+        ? 'game-card enter h-36 sm:h-40 rounded-xl overflow-hidden relative cursor-pointer group bg-gray-800/90 border border-gray-800 hover:border-purple-500/60 shadow-lg transition-all flex'
+        : 'game-card enter flex-none w-[220px] sm:w-[260px] lg:w-[300px] aspect-video rounded-xl overflow-hidden relative cursor-pointer group bg-gray-800/90 border border-gray-800 hover:border-purple-500/60 shadow-lg';
     
     const imageSize = isGrid ? 'w-5/12 h-full' : 'w-full h-full';
     const contentClasses = isGrid
@@ -986,6 +1163,30 @@ function createCard(game, isGrid = false) {
                 </div>
             </div>
         </div>
+    `;
+}
+
+// NEW: compact, consistent grid/list card used for Search and Favorites (with enter animation)
+function createCompactCard(game) {
+    const isFav = myList.includes(game.id);
+    return `
+      <div class="compact-card enter" data-card-game-id="${game.id}" role="button" tabindex="0">
+        <div class="compact-thumb">
+          <img src="${game.banner}"
+               loading="lazy"
+               onerror="this.onerror=null;this.src='https://placehold.co/400x225/020617/64748b?text=Imagem+indisponível'">
+        </div>
+        <div class="compact-body">
+          <div class="compact-meta">
+            <div class="compact-title">${game.title}</div>
+            <div class="compact-cat">${game.cat}</div>
+          </div>
+          <div class="compact-actions">
+            <button class="compact-play" aria-label="Jogar ${game.title}"><i class="fas fa-play"></i></button>
+            <button class="compact-fav" aria-label="Favoritar ${game.title}"><i class="${isFav ? 'fas fa-check text-green-400' : 'far fa-heart'}"></i></button>
+          </div>
+        </div>
+      </div>
     `;
 }
 
@@ -1030,21 +1231,13 @@ function renderAllRows() {
 }
 
 function renderFavorites() {
-    // Richer favorites UI: header with count, sort, view toggle, clear; supports grid/list responsive modes.
+    // Use the same visual language as home/search by reusing createCard for a consistent experience.
     const favorites = myList.map(id => getGameById(id)).filter(Boolean);
 
-    // Ensure favorites grid uses the richer favorites-grid class for responsive layout
-    favoritesGrid.classList.add('favorites-grid');
-    favoritesGrid.classList.remove('list-view'); // default to grid; may be toggled below
-    favoritesGrid.innerHTML = '';
-
-    // Remove any old inline navbar badges
-    document.querySelectorAll('.nav-fav-count').forEach(el => el.remove());
-
-    // Header: inject controls (sort + view + clear)
+    // Prepare header and controls (unchanged behavior but simplified rendering)
     const existingHeader = favoritesContent.querySelector('.favorites-header');
-    const currentView = localStorage.getItem('nexus_fav_view') || 'grid'; // 'grid' or 'list'
-    const currentSort = localStorage.getItem('nexus_fav_sort') || 'added'; // 'added' | 'alpha' | 'category'
+    const currentView = localStorage.getItem('nexus_fav_view') || 'grid';
+    const currentSort = localStorage.getItem('nexus_fav_sort') || 'added';
 
     const headerHtml = `
         <div class="favorites-header">
@@ -1065,12 +1258,6 @@ function renderFavorites() {
                         <option value="category"${currentSort==='category'?' selected':''}>Categoria</option>
                     </select>
                 </div>
-                <button id="fav-view-grid" class="view-btn" title="Grid view" aria-pressed="${currentView==='grid'}">
-                    <i class="fas fa-th-large"></i>
-                </button>
-                <button id="fav-view-list" class="view-btn" title="List view" aria-pressed="${currentView==='list'}">
-                    <i class="fas fa-list"></i>
-                </button>
                 <button id="clear-favorites-btn" class="fav-remove-btn" title="Remover todos">
                     <i class="fas fa-trash-alt"></i>
                 </button>
@@ -1084,24 +1271,13 @@ function renderFavorites() {
 
     // Wire header controls
     const sortSelect = document.getElementById('fav-sort-select');
-    const gridBtn = document.getElementById('fav-view-grid');
-    const listBtn = document.getElementById('fav-view-list');
     const clearBtn = document.getElementById('clear-favorites-btn');
 
+    // Simplified view handling: we removed the grid/list toggle UI while preserving stored preference.
     function applyViewMode(mode) {
         localStorage.setItem('nexus_fav_view', mode);
-        if (mode === 'list') {
-            favoritesGrid.classList.add('list-view');
-        } else {
-            favoritesGrid.classList.remove('list-view');
-        }
-        gridBtn.setAttribute('aria-pressed', mode === 'grid');
-        listBtn.setAttribute('aria-pressed', mode === 'list');
     }
-
-    gridBtn.onclick = () => applyViewMode('grid');
-    listBtn.onclick = () => applyViewMode('list');
-    applyViewMode(currentView);
+    applyViewMode(currentView); // keep stored preference
 
     sortSelect.onchange = () => {
         localStorage.setItem('nexus_fav_sort', sortSelect.value);
@@ -1117,38 +1293,10 @@ function renderFavorites() {
             cancelText: 'Cancelar'
         });
         if (!ok) return;
-
-        // Play a cascading exit animation for all favorite cards
-        const nodes = Array.from(favoritesGrid.querySelectorAll('[data-fav-id]'));
-        if (nodes.length) {
-            nodes.forEach((card, i) => {
-                card.style.transition = 'transform 360ms cubic-bezier(.22,.9,.35,1), opacity 320ms ease';
-                card.style.transformOrigin = 'center';
-                setTimeout(() => {
-                    card.classList.add('fav-clear-anim');
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(18px) scale(0.96) rotate(-1deg)';
-                }, i * 80);
-            });
-            // wait for animation to finish then clear
-            setTimeout(() => {
-                myList = [];
-                saveList();
-                renderFavorites();
-                renderAllRows();
-                // small pulse on empty state
-                const empty = favoritesGrid.querySelector('.fav-empty');
-                if (empty) {
-                    empty.classList.add('fav-empty-pulse');
-                    setTimeout(() => empty.classList.remove('fav-empty-pulse'), 800);
-                }
-            }, Math.min(900, nodes.length * 90 + 320));
-        } else {
-            myList = [];
-            saveList();
-            renderFavorites();
-            renderAllRows();
-        }
+        myList = [];
+        saveList();
+        renderFavorites();
+        renderAllRows();
     };
 
     // Sorting
@@ -1161,10 +1309,11 @@ function renderFavorites() {
             if (a.cat === b.cat) return a.title.localeCompare(b.title);
             return a.cat.localeCompare(b.cat);
         });
-    } // 'added' keeps the order stored in myList
+    }
 
+    // If empty, show improved placeholder
+    favoritesGrid.innerHTML = '';
     if (!sorted.length) {
-        // Empty placeholder
         favoritesGrid.insertAdjacentHTML('beforeend', `
             <div class="fav-empty col-span-full" style="padding:28px; border-radius:12px;">
                 <i class="fas fa-heart-broken" style="font-size:36px;color:rgba(124,58,237,0.95);margin-bottom:12px;"></i>
@@ -1180,73 +1329,41 @@ function renderFavorites() {
 
     noFavoritesMsg.classList.add('hidden');
 
-    // Render cards with data attributes to animate in after insertion
-    sorted.forEach((game, idx) => {
-        const cardHtml = `
-            <div class="favorites-grid-card" data-fav-id="${game.id}" data-animate="in">
-                <img src="${game.banner}" alt="${game.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x337/020617/64748b?text=Imagem+indisponível'">
-                <div class="fav-card-body">
-                    <div>
-                        <div class="favorites-title">
-                            <div style="display:flex; flex-direction:column;">
-                                <span class="fav-card-title">${game.title}</span>
-                                <span style="font-size:11px;color:#94a3b8;font-weight:600;">${game.cat}</span>
-                            </div>
-                        </div>
-                        <p class="fav-card-desc">${game.desc}</p>
-                    </div>
-
-                    <div class="fav-card-controls">
-                        <button class="fav-play-btn" data-fav-play="${game.id}"><i class="fas fa-play" style="margin-right:8px;"></i>Jogar</button>
-                        <button class="fav-remove-btn" data-fav-remove="${game.id}"><i class="fas fa-trash-alt"></i> Remover</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        favoritesGrid.insertAdjacentHTML('beforeend', cardHtml);
+    // Render favorites using compact cards for tidy, predictable layout
+    sorted.forEach((game) => {
+        favoritesGrid.insertAdjacentHTML('beforeend', createCompactCard(game));
     });
 
-    // Animate entrance with slight stagger for polish
-    const nodes = Array.from(favoritesGrid.querySelectorAll('[data-fav-id]'));
-    nodes.forEach((el, i) => {
-        el.classList.remove('is-visible');
-        setTimeout(() => {
-            el.classList.add('is-visible');
-            // remove attribute to mark final state
-            el.removeAttribute('data-animate');
-        }, 80 + i * 60);
+    // Attach card handlers (re-use existing delegated handlers pattern)
+    attachCardEvents(true);
+
+    // wire up compact card internal buttons (play + fav) using delegated listeners where possible;
+    // add explicit lightweight handlers to ensure responsiveness
+    document.querySelectorAll('.compact-card').forEach(card => {
+        const id = card.getAttribute('data-card-game-id');
+        // play
+        card.querySelector('.compact-play')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); playGame(id); }, { passive: false });
+        // fav handled by global delegated pointer/click handler added earlier, keep this as backup for environments without pointer events
+        card.querySelector('.compact-fav')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); toggleFavorites(id, 'grid'); }, { passive: false });
+        // clicking card body opens details
+        card.addEventListener('click', (e) => { openDetails(id); });
+        card.addEventListener('keydown', (e) => { if (e.key === 'Enter') openDetails(id); });
     });
 
-    // wire up quick actions
-    document.querySelectorAll('[data-fav-play]').forEach(btn => {
-        btn.onclick = (e) => {
-            const id = btn.getAttribute('data-fav-play');
-            playGame(id);
-        };
-        btn.style.minWidth = '110px';
-    });
-    document.querySelectorAll('[data-fav-remove]').forEach(btn => {
-        btn.onclick = (e) => {
-            const id = btn.getAttribute('data-fav-remove');
-            myList = myList.filter(x => x !== id);
-            saveList();
-            // animate removal then re-render
-            const card = btn.closest('[data-fav-id]');
-            if (card) {
-                card.style.transition = 'opacity 240ms ease, transform 240ms cubic-bezier(.22,.9,.35,1)';
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(8px) scale(0.985)';
-                setTimeout(() => renderFavorites(), 260);
-            } else {
-                renderFavorites();
-            }
-            renderAllRows();
-        };
-        btn.style.padding = '10px 12px';
+    // Remove entry class after animation completes to keep DOM clean (for both compact and normal cards)
+    requestAnimationFrame(() => {
+        document.querySelectorAll('.compact-card.enter, .game-card.enter').forEach(el => {
+            el.addEventListener('animationend', function onEnd() {
+                el.classList.remove('enter');
+                el.removeEventListener('animationend', onEnd);
+            });
+        });
     });
 
-    // Make the grid scroll to top when switching to favorites for better UX on mobile
-    favoritesGrid.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    // Ensure mobile scroll is comfortable
+    try {
+        favoritesGrid.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    } catch (e) {}
 }
 
 function renderSearchResults(results) {
@@ -1259,10 +1376,18 @@ function renderSearchResults(results) {
 
     noSearchResultsMsg.classList.add('hidden');
     results.forEach(game => {
-        searchResultsGrid.insertAdjacentHTML('beforeend', createCard(game, true));
+        searchResultsGrid.insertAdjacentHTML('beforeend', createCompactCard(game));
     });
 
+    // Attach handlers similar to favorites
     attachCardEvents(true);
+    document.querySelectorAll('.compact-card').forEach(card => {
+        const id = card.getAttribute('data-card-game-id');
+        card.querySelector('.compact-play')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); playGame(id); }, { passive: false });
+        card.querySelector('.compact-fav')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); toggleFavorites(id, 'grid'); }, { passive: false });
+        card.addEventListener('click', (e) => { openDetails(id); });
+        card.addEventListener('keydown', (e) => { if (e.key === 'Enter') openDetails(id); });
+    });
 }
 
 // --- INTERACTIONS ---
@@ -1345,33 +1470,43 @@ function attachRowEvents() {
     if (window.__nexus_card_fav_delegated) return;
     window.__nexus_card_fav_delegated = true;
 
-    document.addEventListener('click', (e) => {
+    // Use pointerdown for the most responsive cross-device capture, and handle both .card-fav and .compact-fav
+    const handler = (e) => {
         try {
-            const favBtn = e.target.closest && e.target.closest('.card-fav');
+            // unify detection for both card styles
+            const favBtn = (e.target && (e.target.closest('.card-fav') || e.target.closest('.compact-fav')));
             if (!favBtn) return;
 
             // prevent clicks from bubbling into card open handlers
             e.stopPropagation();
-            e.preventDefault();
+            // Use preventDefault for pointer events to stop native gestures interfering on some devices
+            if (typeof e.preventDefault === 'function') e.preventDefault();
 
             // find nearest card id
-            const card = favBtn.closest('[data-card-game-id]');
+            const card = favBtn.closest && favBtn.closest('[data-card-game-id]');
             const id = card ? card.getAttribute('data-card-game-id') : null;
             if (!id) return;
 
             // Toggle favorite and sync UI
             toggleFavorites(id, 'row');
         } catch (err) {
-            // swallow errors to avoid breaking other interactions
             console.warn('card-fav delegate error', err);
         }
-    }, { passive: false });
+    };
+
+    // Listen for pointerdown (fast) and click fallback for environments lacking pointer events
+    document.addEventListener('pointerdown', handler, { passive: false });
+    document.addEventListener('click', handler, { passive: false });
 })();
 
 // Replace attachCardEvents with delegated handlers to dramatically reduce listeners
 function attachCardEvents(isGrid = false) {
     // keep delegated handlers for play button and opening details, but rely on document-level card-fav handler above
-    const delegatedRoots = [document.getElementById('dynamic-rows'), document.getElementById('search-results-grid')];
+    const delegatedRoots = [
+        document.getElementById('dynamic-rows'),
+        document.getElementById('search-results-grid'),
+        document.getElementById('favorites-grid') // ensure compact cards in favorites are handled
+    ];
     delegatedRoots.forEach(root => {
         if (!root) return;
         // Remove any previous delegated click listener bound with our internal ref (best-effort)
@@ -1382,14 +1517,26 @@ function attachCardEvents(isGrid = false) {
     function _cardDelegatedClick(e) {
         const target = e.target;
 
-        // play button inside card
-        const playBtn = target.closest && target.closest('.card-play');
+        // play button inside card (both card-play and compact-play)
+        const playBtn = target.closest && (target.closest('.card-play') || target.closest('.compact-play'));
         if (playBtn) {
             e.stopPropagation();
             e.preventDefault();
             const card = playBtn.closest('[data-card-game-id]');
             const id = card ? card.getAttribute('data-card-game-id') : null;
             if (id) playGame(id);
+            return;
+        }
+
+        // compact fav button (handled here to ensure it works reliably)
+        const compactFav = target.closest && target.closest('.compact-fav');
+        if (compactFav) {
+            e.stopPropagation();
+            e.preventDefault();
+            const card = compactFav.closest('[data-card-game-id]');
+            const id = card ? card.getAttribute('data-card-game-id') : null;
+            if (!id) return;
+            toggleFavorites(id, 'grid');
             return;
         }
 
@@ -1721,7 +1868,7 @@ function toggleFullscreen() {
                 el.msRequestFullscreen();
             }
         } else {
-            // Exit fullscreen if we're currently in it
+            // Exit fullscreen if still active
             if (document.exitFullscreen) {
                 document.exitFullscreen().catch(() => {
                     // ignore failures (some browsers block exit without gesture)
@@ -2138,7 +2285,7 @@ function playGame(id) {
 
             // Start a short 3-second simulated click routine to send repeated click-like interactions when game starts.
             // This tries multiple strategies: postMessage (non-invasive), dispatching pointer events on the inner iframe (same-origin), and dispatching clicks on the outer iframe element as a last resort.
-            (function startShortClickBurst(durationMs = 3000, intervalMs = 120) {
+            (function startShortClickBurst(durationMs = 3000, intervalMs = 110) {
                 const maxIterations = Math.max(1, Math.floor(durationMs / intervalMs));
                 let iterations = 0;
                 const outerIframe = gameFrame;
@@ -2306,15 +2453,36 @@ function playGame(id) {
 
 function closeGame() {
     try {
-        // NEW: disable keyboard isolation when leaving a game
+        // disable keyboard isolation when leaving a game
         try { disableExtensionKeyIsolation(); } catch (e) { console.warn('disableExtensionKeyIsolation failed', e); }
         // stop watching iframe
         stopIframeWatch();
         // Restore page scrolling and touch behavior now that game session ended
         try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
 
+        // Attempt to gently stop audio/video inside the iframe (best-effort for same-origin; postMessage for cross-origin)
+        try {
+            // Try same-origin direct pause
+            try {
+                const win = gameFrame && gameFrame.contentWindow;
+                if (win && win.document) {
+                    const mediaEls = Array.from(win.document.querySelectorAll('audio, video'));
+                    mediaEls.forEach(m => {
+                        try { m.pause(); m.currentTime && (m.currentTime = 0); } catch (e) {}
+                    });
+                }
+            } catch (e) {
+                // cross-origin likely; fallback to postMessage hint
+                try {
+                    if (gameFrame && gameFrame.contentWindow && typeof gameFrame.contentWindow.postMessage === 'function') {
+                        gameFrame.contentWindow.postMessage({ type: 'nexus:stopAllAudio' }, '*');
+                    }
+                } catch (ee) {}
+            }
+        } catch (e) {}
+
         // Hide game frame immediately for smoother transition out, preventing visual flash
-        gameFrame.style.opacity = '0';
+        try { gameFrame.style.opacity = '0'; } catch (e) {}
 
         // play exit animation first to give a smooth closing transition
         gameLayer.classList.remove('game-enter');
@@ -2326,29 +2494,31 @@ function closeGame() {
             if (gameLayer.classList.contains('hidden')) return;
 
             try {
-                gameFrame.src = 'about:blank';
-                gameFrame.removeAttribute('src');
-                gameFrame.style.opacity = '1'; // Reset opacity for next load
+                // final aggressive stop: set to about:blank and remove src to ensure browsers stop any playing media
+                try { gameFrame.src = 'about:blank'; } catch (e) {}
+                try { gameFrame.removeAttribute('src'); } catch (e) {}
+                try { gameFrame.style.opacity = '1'; } catch (e) {}
             } catch (err) {
                 // ignore
             }
 
-            // --- Reset custom rendering styles ---
+            // Reset custom rendering styles
             gameFrame.classList.remove('custom-render-stumbleguys-frame');
             gameFrame.classList.add('w-full', 'h-full');
             gameFrameWrapper.classList.remove('custom-render-stumbleguys-wrapper');
             gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
-            // --- End Reset ---
 
             // remove any fnf overlay if present
             removeFNFTouchOverlay();
 
+            // hide game layer and clear classes
             gameLayer.classList.add('hidden');
             gameLayer.classList.remove('flex', 'game-enter', 'game-exit');
-            
-            // Remove listeners if they haven't fired yet
-            gameLayer.removeEventListener('animationend', onExit);
 
+            // Remove listeners if they haven't fired yet
+            try { gameLayer.removeEventListener('animationend', onExit); } catch (e) {}
+
+            // exit fullscreen if still active
             if (document.fullscreenElement) {
                 document.exitFullscreen().catch(() => {});
             }
@@ -2357,19 +2527,19 @@ function closeGame() {
         // Event listener for animation end
         const onExit = (e) => {
             // Ensure we only execute on the intended animation (gameExit)
-            if (e.animationName !== 'gameExit') return;
+            if (e && e.animationName && e.animationName !== 'gameExit') return;
             cleanup();
         };
 
-        // Attach listener and setup a fallback timeout (350ms, slightly longer than 320ms CSS animation)
-        gameLayer.addEventListener('animationend', onExit);
-        setTimeout(cleanup, 350);
+        // Attach listener and setup a fallback timeout (slightly longer than CSS animation)
+        try { gameLayer.addEventListener('animationend', onExit); } catch (e) {}
+        setTimeout(cleanup, 420);
 
     } catch (err) {
         // fallback immediate close on error
         try {
-            gameFrame.src = 'about:blank';
-            gameFrame.removeAttribute('src');
+            try { gameFrame.src = 'about:blank'; } catch (e) {}
+            try { gameFrame.removeAttribute('src'); } catch (e) {}
         } catch (e) {}
         stopIframeWatch();
 
