@@ -61,6 +61,12 @@ const DB = [
 
     // Added Among Us (Jogo de Festa)
     { id: 'amongus', title: 'Among Us', cat: 'Party Royale', type: 'Jogo de Festa', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', url: 'https://stgames.top/unity/amongus/', desc: 'Jogo social de dedução e traição: trabalhe em equipe para completar tarefas ou descubra o impostor antes que seja tarde.', controls: 'Mouse / Toque: Navegação e Interação | Teclado: Chat', feat: false, color: 'rose-500' },
+
+    // Added: Temple Run 2 (Endless runner)
+    { id: 'templerun2', title: 'Temple Run 2', cat: 'Corrida', type: 'Endless Runner', img: 'https://cdn.aptoide.com/imgs/7/4/8/748a24b37754e55d3a08829d0056ce68_fgraphic.png', banner: 'https://cdn.aptoide.com/imgs/7/4/8/748a24b37754e55d3a08829d0056ce68_fgraphic.png', url: 'https://games.engineering.com/temple-run-2/index.html', desc: 'Endless runner clássico — corra, deslize e desvie de obstáculos enquanto coleta moedas e upgrades.', controls: 'Toque / Mouse: Mover e deslizar', feat: false, color: 'amber-500' },
+
+    // Added: Block Blast (Puzzle)
+    { id: 'blockblast', title: 'Block Blast', cat: 'Puzzle', type: 'Puzzle', img: 'https://res.ldrescdn.com/rms/ldplayer/process/img/5cd9e962fc364121b3a781cd928a41b61735491234.png', banner: 'https://res.ldrescdn.com/rms/ldplayer/process/img/5cd9e962fc364121b3a781cd928a41b61735491234.png', url: 'https://playgama.com/export/game/block-blast-master', desc: 'Quebra‑blocos viciante — combine e estoure blocos para limpar o tabuleiro e superar desafios.', controls: 'Mouse / Toque: Mirar e soltar', feat: false, color: 'emerald-400' },
 ];
 
 // Make the database harder to inspect directly in devtools: keep an internal frozen copy and replace the global `DB` reference
