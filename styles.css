@@ -766,7 +766,7 @@ input, textarea, select, button {
     box-shadow:
         0 22px 42px -12px rgba(0, 0, 0, 0.75),
         0 10px 30px rgba(88,28,135,0.08);
-    border-color: rgba(129, 140, 248, 0.95);
+    border-color: rgba(124,58,237,0.35);
     z-index: 20;
 }
 
@@ -888,7 +888,7 @@ input, textarea, select, button {
 
 /* Slightly different layout for list view entries */
 .favorites-grid.list-view .favorites-grid-card {
-    grid-template-columns: 140px 1fr;
+    grid-template-columns: 120px 1fr;
     align-items: center;
 }
 
@@ -994,7 +994,8 @@ input, textarea, select, button {
 }
 @media (max-width: 420px) {
     .favorites-grid {
-        grid-template-columns: 1fr;
+        display:flex;
+        flex-direction:column;
         gap:12px;
         max-height: calc(100vh - 220px);
     }
@@ -1445,9 +1446,9 @@ body::after {
 /* Use the same game-card markup for favorites entries so UI is consistent between Home, Search and Library */
 #favorites-grid .game-card {
     /* align favorites card sizing with search/home cards and cap width for readability */
-    width: min(92vw, 520px);
+    width: min(92%, 720px);
     min-width: calc(60vw);
-    max-width: 520px;
+    max-width: 720px;
     margin: 10px auto;
     border-radius: 12px;
     height: auto;
@@ -1629,7 +1630,23 @@ body::after {
    compact-only rendering and broke list/grid sizing. */
 
 /* keep space and scroll behavior tidy for favorites/search containers */
-#search-results-grid, #favorites-grid {
+/* Search results use a responsive grid so cards can size naturally and avoid being squashed.
+   Favorites keep the vertical stacked flow for the library view. */
+#search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    align-items: start;
+    padding-bottom: 20px;
+    /* Make the search results grid non-scrollable so it expands with content.
+       Remove explicit overflow and max-height so parent page scroll handles overflow. */
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Keep favorites grid behavior as a stacked list for library UX */
+#favorites-grid {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -1638,6 +1655,20 @@ body::after {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     max-height: calc(100vh - 160px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure compact and regular cards inside search results wrap text and use full column width
+   to avoid the "amassado" (squeezed) appearance when many cards are present. */
+#search-results-grid .compact-card,
+#search-results-grid .game-card,
+#search-results-grid .compact-card .compact-meta,
+#search-results-grid .compact-body {
+    white-space: normal;
+    width: 100%;
+    max-width: 720px;
+    box-sizing: border-box;
 }
 
 /* Added safeguard so .game-card used in favorites/search retains sensible max-width
