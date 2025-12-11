@@ -1505,7 +1505,7 @@ body::after {
     #favorites-content { padding-top: 8px; }
 }
 
-/* ===== Prevent page scrolling while a game is active =====
+/* ===== Prevent page scrolling while a game is active and maximize viewport (Cloud Gaming Improvement) =====
    Add a class to documentElement to lock background scroll and touch gestures, while allowing the game-layer itself to remain interactive.
 */
 .no-game-scroll, .no-game-scroll body, .no-game-scroll #app-container {
@@ -1513,6 +1513,11 @@ body::after {
     touch-action: none !important; /* reduce accidental gestures behind iframe */
     height: 100% !important;
     -webkit-overflow-scrolling: auto !important;
+}
+
+/* Hide main navbar when game is active to maximize screen space */
+.no-game-scroll #navbar {
+    display: none !important;
 }
 
 /* Ensure game-layer remains scroll-free and fills viewport */
@@ -1614,6 +1619,17 @@ body::after {
     box-shadow: 0 12px 28px rgba(2,6,23,0.55);
 }
 .compact-fav i.fas { color: #34d399; } /* green for added state */
+
+/* Improvement: distinguish favorited compact card visually using CSS :has() */
+.compact-card:has(.compact-fav i.fas) {
+    border-color: rgba(52, 211, 153, 0.4) !important; /* subtle green border */
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.04), rgba(52, 211, 153, 0.01));
+}
+
+.compact-card:hover:has(.compact-fav i.fas) {
+    border-color: rgba(52, 211, 153, 0.6) !important;
+}
+
 .compact-card { transition: transform 220ms cubic-bezier(.22,.9,.35,1), box-shadow 220ms ease; }
 .compact-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(2,6,23,0.6); }
 
