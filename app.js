@@ -39,6 +39,9 @@ const DB = [
     // Added Cut The Rope Magic (Puzzle)
     { id: 'cuttheropemagic', title: 'Cut The Rope Magic', cat: 'Puzzle', img: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', banner: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', url: 'https://play.famobi.com/cut-the-rope-magic/A-MINIJUEGOS', desc: 'Ajude Om Nom a recuperar as mágica e resolver puzzles cortando cordas e usando itens especiais para alimentar o doce.', controls: 'Mouse / Toque: Cortar cordas e interagir', feat: false, color: 'emerald-400' },
 
+    // Added Vectaria (Simulação)
+    { id: 'vectaria', title: 'Vectaria', cat: 'Simulação', type: 'Simulação', img: 'https://vectaria.io/preview-og.webp', banner: 'https://vectaria.io/preview-og.webp', url: 'https://vectaria.io/home', desc: 'Simulação web: explore ambientes e recursos com mecânicas de simulação ricas.', controls: 'Mouse / Toque: Navegar e interagir', feat: false, color: 'sky-400' },
+    
     // Added Om Nom: Run (Corrida)
     { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Corrida', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%2F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'Um endless runner protagonizado por Om Nom — salte, deslize e colete doces enquanto corre por cenários coloridos.', controls: 'Setas / Toque: Mover e Pular', feat: false, color: 'lime-400' },
 
