@@ -2359,6 +2359,7 @@ function playGame(id) {
         // For simple embed cases (like CrazyGames), inject an iframe via srcdoc and crop the bottom area using CSS overflow/transform.
         try {
             // create a small embedded page that fills iframe while hiding bottom 12% to "cut" lower UI
+            // Use the actual game.url so each embed loads its intended target (avoid hardcoded FNF)
             const embedHtml = `<!doctype html>
 <html>
   <head>
@@ -2366,81 +2367,91 @@ function playGame(id) {
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <style>
       html,body{height:100%;margin:0;background:#000;overflow:hidden;}
-      .wrap{position:relative;width:100%;height:100%;overflow:hidden;}
-      /* scale iframe up slightly and shift up to hide bottom area */
-      /* Increased the upward translate to crop more of the bottom UI for a "cut" effect */
-      iframe{position:absolute;left:50%;top:50%;width:100vw;height:100vh;transform:translate(-50%,-64%) scale(1.02);border:0;margin:0;padding:0;display:block;pointer-events:auto;}
-      /* adjust the translateY to crop bottom region (tweak as needed) */
-      @media(min-width:800px){ iframe{transform:translate(-50%,-60%) scale(1.04);} }
+      .wrap{position:relative;width:100%;height:100%;overflow:hidden;background:#000;}
+      /* Make inner iframe cover the container cleanly and preserve aspect/scale via object-fit */
+      #inner-embed{
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        border:0;
+        margin:0;
+        padding:0;
+        display:block;
+        -webkit-transform:none;
+        transform:none;
+        object-fit:cover; /* helps keep embedded content centered and prevents off-canvas layout */
+        pointer-events:auto;
+        background: #000;
+      }
 
-      /* bottom black bar to mask lower UI elements (covers ~14% of viewport) */
-      /* IMPORTANT: pointer-events:auto so this element captures clicks and prevents them reaching the iframe beneath */
-      .bottom-cut{position:absolute;left:0;right:0;bottom:0;height:var(--nexus-bottom-cut,14vh);background:#000;z-index:9999;pointer-events:auto;}
+      /* bottom mask to hide intrusive UI at the bottom of some embeds; keep pointer-events on the mask
+         but avoid pushing the iframe layout (mask overlays the iframe via z-index) */
+      .bottom-cut{
+        position:absolute;
+        left:0;
+        right:0;
+        bottom:0;
+        height:var(--nexus-bottom-cut,14vh);
+        background:#000;
+        z-index:9999;
+        pointer-events:auto;
+      }
+
+      /* small responsive tweak: reduce mask on larger screens where it's not needed */
+      @media(min-width:900px){
+        .bottom-cut{ height:var(--nexus-bottom-cut,10vh); }
+      }
     </style>
     <script>
-      // Block context menu inside the embedded page (best-effort for same-origin and to instruct friendly embeds)
       try {
         window.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
-        // Also expose a gentle stub for postMessage-based embeds that might honor it
         window.addEventListener('message', function(evt){
-          // ignore specifics, but keep listener minimal
+          // keep listener minimal for compatibility
         });
       } catch (e){}
     </script>
   </head>
   <body>
     <div class="wrap">
-      <!--
-        IMPORTANT: Remove the restrictive sandbox on the inner iframe so cross-origin embeds like
-        CrazyGames can initialize correctly. The outer iframe (gameFrame) already provides an isolation
-        boundary; restricting the inner frame here caused many embeds to fail and produce about:srcdoc/about:blank views.
-      -->
+      <!-- Inner iframe uses the game's URL dynamically and has id="inner-embed" for focus/postMessage handling -->
       <iframe 
-        src="https://raw.githack.com/genizy/fridayfunk/master/index.html"
-        style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          border: none;
-        "
+        id="inner-embed"
+        src="${game.url}"
         allow="fullscreen; autoplay; gamepad *"
         loading="lazy"
       ></iframe>
       <div class="bottom-cut" aria-hidden="true"></div>
     </div>
     <script>
-      // Ensure bottom-cut captures input and prevents clicks from reaching the covered iframe area,
-      // while providing a safe handler that focuses or forwards a simple message to the inner iframe.
       (function(){
         var inner = document.getElementById('inner-embed');
         var cut = document.querySelector('.bottom-cut');
 
-        // prevent pointer events reaching the iframe where the black bar covers it
+        // keep the mask from letting clicks pass through into obscured UI below
         cut.addEventListener('pointerdown', function(e){ e.stopPropagation(); e.preventDefault(); }, { passive: false });
         cut.addEventListener('click', function(e){
           try {
             e.stopPropagation();
             e.preventDefault();
-            // try to focus inner iframe so subsequent interactions go to it
             try { inner.focus(); } catch (err) {}
-            // best-effort: notify inner iframe via postMessage (many embeds ignore, but some may accept)
             try { inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:bottomCutClick' }, '*'); } catch(err){}
           } catch (err) {}
         }, { passive: false });
 
         // If inner iframe is same-origin, prevent contextmenu inside it as well
-        inner.addEventListener('load', function(){
-          try {
-            var w = inner.contentWindow;
-            if (w && w.document) {
-              w.document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+        if (inner) {
+          inner.addEventListener('load', function(){
+            try {
+              var w = inner.contentWindow;
+              if (w && w.document) {
+                w.document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+              }
+            } catch (e) {
+              // cross-origin - nothing to do
             }
-          } catch (e) {
-            // cross-origin - nothing to do
-          }
-        }, { passive: true });
+          }, { passive: true });
+        }
       })();
     </script>
   </body>
