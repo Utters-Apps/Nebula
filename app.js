@@ -249,7 +249,7 @@ const DB = [
                     ev.stopPropagation && ev.stopPropagation();
                     ev.preventDefault && ev.preventDefault();
                 }
-            } catch (e) {}
+            } catch (err) {}
         }, true);
 
         // Helper to inject contextmenu blocker into same-origin iframe
@@ -1870,9 +1870,7 @@ function toggleFullscreen() {
         } else {
             // Exit fullscreen if still active
             if (document.exitFullscreen) {
-                document.exitFullscreen().catch(() => {
-                    // ignore failures (some browsers block exit without gesture)
-                });
+                document.exitFullscreen().catch(() => {});
             } else if (document.webkitExitFullscreen) {
                 document.webkitExitFullscreen();
             } else if (document.msExitFullscreen) {
@@ -2051,18 +2049,6 @@ function setGameFrameSrcSafe(url, timeout = 9000) {
 
         gameFrame.addEventListener('load', onLoadOrError, { once: true });
         gameFrame.addEventListener('error', onLoadOrError, { once: true });
-
-        try {
-            gameFrame.src = url;
-        } catch (err) {
-            try {
-                if (gameFrame.contentWindow && gameFrame.contentWindow.location) {
-                    gameFrame.contentWindow.location.href = url;
-                }
-            } catch (e) {
-                try { gameFrame.setAttribute('src', url); } catch (ee) { console.warn('Final fallback failed setting src attribute', ee); }
-            }
-        }
 
         // progress nudges: small updates to global loader while waiting
         updateGlobalLoaderProgress(28, 'Estabelecendo conexão...');
@@ -2863,6 +2849,16 @@ function showToast(message, { icon = 'fas fa-check-circle' } = {}) {
                     const hasActiveSession = !!(window.activeGame || (gameFrame && gameFrame.dataset && gameFrame.dataset.intendedSrc && gameFrame.dataset.intendedSrc !== '' && gameFrame.dataset.intendedSrc !== 'about:blank'));
                     if (!hasActiveSession || isMobile) {
                         consecutiveHits = 0;
+                        if (detected && Date.now() - lastStateChangeAt > RESTORE_COOLDOWN) {
+                            restoreSession();
+                        }
+                        return;
+                    }
+
+                    // NEW: do not run detector while user is in fullscreen mode to avoid false positives
+                    if (document.fullscreenElement) {
+                        consecutiveHits = 0;
+                        // if previously detected and fullscreen entered, attempt restore gracefully
                         if (detected && Date.now() - lastStateChangeAt > RESTORE_COOLDOWN) {
                             restoreSession();
                         }
