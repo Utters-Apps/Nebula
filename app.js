@@ -630,7 +630,8 @@ function resetGameFrame() {
         const fresh = document.createElement('iframe');
         fresh.id = 'game-frame';
         fresh.className = 'w-full h-full border-none z-10';
-        fresh.setAttribute('allow', 'fullscreen; autoplay; clipboard-read; clipboard-write; gamepad');
+        // expanded allow list for richer embedded experiences (camera/microphone/gyroscope if the embed requests)
+        fresh.setAttribute('allow', 'autoplay; fullscreen; gamepad; gyroscope; microphone; camera; clipboard-read; clipboard-write');
         fresh.setAttribute('allowfullscreen', '');
         // sandbox kept minimal to avoid breaking embeds (matches initial markup)
         fresh.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-pointer-lock allow-forms');
@@ -1299,13 +1300,9 @@ function renderFavorites() {
     const headerHtml = `
         <div class="favorites-header">
             <div class="favorites-title" style="gap:10px; align-items:center;">
-                <div style="display:flex; flex-direction:column;">
-                    <div style="font-weight:800; font-size:1.05rem; color:#fff;">Minha Biblioteca</div>
-                    <div style="font-size:12px; color:#9ca3af;">Seus jogos salvos para acesso rápido</div>
-                </div>
-                <div class="fav-badge" style="margin-left:8px;">${favorites.length}</div>
+                <div style="font-weight:800; font-size:1.05rem; color:#fff;">Minha Biblioteca</div>
+                <div style="font-size:12px; color:#9ca3af;">Seus jogos salvos para acesso rápido</div>
             </div>
-
             <div class="favorites-controls">
                 <div class="select" id="fav-sort">
                     <i class="fas fa-sort text-xs"></i>
@@ -1829,12 +1826,6 @@ function wireGameControls() {
                 } catch (e) {
                     // cross-origin likely; ignore
                 }
-                // Best-effort postMessage that includes explicit muted flag for cross-origin embeds
-                try {
-                    if (gameFrame && gameFrame.contentWindow && typeof gameFrame.contentWindow.postMessage === 'function') {
-                        gameFrame.contentWindow.postMessage({ type: 'nexus:setVolume', volume: vol / 100, muted: vol === 0 }, '*');
-                    }
-                } catch (e) {}
             } catch (err) {
                 // fallback to original (best-effort)
                 try { originalApplyVolumeToGame(v); } catch (e) {}
@@ -1909,39 +1900,53 @@ function wireGameControls() {
 }
 
 // --- Fullscreen helper (added) ---
+/* goFullscreen: tries standard fullscreen APIs then falls back to a visual forced-fullscreen for iOS */
+async function goFullscreen(elem) {
+    try {
+        if (!elem) elem = gameLayer || document.documentElement;
+        // ensure we apply any scale vars before requesting
+        try {
+            const currentScale = getComputedStyle(gameLayer).getPropertyValue('--stumble-scale') || '1.8';
+            elem.style.setProperty('--stumble-scale', currentScale.trim());
+        } catch (e) {}
+
+        if (elem.requestFullscreen) {
+            try {
+                await elem.requestFullscreen();
+                return;
+            } catch (e) {
+                // continue to fallback
+            }
+        }
+        // webkit prefixed (older iOS) will usually fail for cross-origin content; attempt if available
+        if (elem.webkitRequestFullscreen) {
+            try { elem.webkitRequestFullscreen(); return; } catch (e) {}
+        }
+    } catch (err) {
+        console.warn('goFullscreen attempt failed', err);
+    }
+
+    // Fallback visual fullscreen for environments that block native fullscreen (esp. iOS Safari)
+    document.documentElement.classList.add('forced-fullscreen');
+}
+
+/* toggleFullscreen kept for backwards compatibility; prefer goFullscreen for fallback handling */
 function toggleFullscreen() {
     try {
-        // If currently not fullscreen, request fullscreen on the game layer (preferred target)
-        if (!document.fullscreenElement) {
-            // Prefer using the element that houses the game for a consistent UX
-            const el = gameLayer || document.documentElement;
-
-            // When requesting fullscreen ensure the same Stumble Guys scale variable is applied to the fullscreen element
-            // so the zoom level remains identical inside fullscreen.
-            const currentScale = getComputedStyle(gameLayer).getPropertyValue('--stumble-scale') || '1.8';
-            try { el.style.setProperty('--stumble-scale', currentScale.trim()); } catch (e) {}
-
-            if (el.requestFullscreen) {
-                el.requestFullscreen().catch(() => {
-                    // ignore failures (some iframes / browsers block fullscreen without gesture)
-                });
-            } else if (el.webkitRequestFullscreen) {
-                el.webkitRequestFullscreen();
-            } else if (el.msRequestFullscreen) {
-                el.msRequestFullscreen();
-            }
+        if (!document.fullscreenElement && !document.documentElement.classList.contains('forced-fullscreen')) {
+            goFullscreen(gameLayer).catch(()=>{});
         } else {
-            // Exit fullscreen if still active
+            // If visual forced-fullscreen was applied, remove it; otherwise exit native fullscreen
+            if (document.documentElement.classList.contains('forced-fullscreen')) {
+                document.documentElement.classList.remove('forced-fullscreen');
+            }
             if (document.exitFullscreen) {
                 document.exitFullscreen().catch(() => {});
             } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
+                try { document.webkitExitFullscreen(); } catch (e) {}
             }
         }
     } catch (err) {
-        // swallow any unexpected errors to prevent uncaught exceptions
         console.warn('toggleFullscreen failed', err);
     }
 }
@@ -2209,7 +2214,66 @@ function playGame(id) {
     // use safe loader function to reduce mobile crash cases
     // Special-case: Unity-based embeds (like Baldi) are loaded via srcdoc to preserve the provided Module HTML.
     // If the DB entry uses custom_render === 'unity' we inject the supplied HTML snippet into the iframe srcdoc.
-    if (game.custom_render === 'unity' || game.id === 'baldi') {
+    // Special-case: Piece of Cake — inject exact overlay + inner iframe markup per request
+    if (game.id === 'pieceofcake') {
+        try {
+            const pieceHtml = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>html,body{height:100%;margin:0;background:#000;overflow:hidden;} .wrap{position:relative;width:100%;height:100%;}</style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 65px; /* altura exata da barra MS Store */
+        background: #000; /* pode trocar por transparente */
+        z-index: 9999;
+        pointer-events: none;
+      "></div>
+
+      <iframe 
+        src="https://cdn.mergecakegame.com/html5/hg/index.html"
+        style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+        "
+        allow="fullscreen; autoplay; gamepad *"
+        loading="lazy"
+      ></iframe>
+    </div>
+    <script>
+      // minimal postMessage listener stub to remain compatible with host handlers
+      try { window.addEventListener('message', function(){}, { passive: true }); } catch (e) {}
+    </script>
+  </body>
+</html>`;
+            try {
+                gameFrame.removeAttribute && gameFrame.removeAttribute('src');
+                gameFrame.srcdoc = pieceHtml;
+            } catch (e) {
+                try {
+                    const w = gameFrame.contentWindow;
+                    const d = w && w.document;
+                    if (d) { d.open(); d.write(pieceHtml); d.close(); }
+                } catch (ee) {
+                    setGameFrameSrcSafe('https://cdn.mergecakegame.com/html5/hg/index.html');
+                }
+            }
+        } catch (err) {
+            console.warn('Failed to load Piece of Cake srcdoc for game', err);
+            setGameFrameSrcSafe('https://cdn.mergecakegame.com/html5/hg/index.html');
+        }
+    } else if (game.custom_render === 'unity' || game.id === 'baldi') {
         try {
             // The following HTML is intentionally inlined exactly as provided to match the user's module.
             // Keep it minimal and self-contained; external Unity assets/scripts referenced by the HTML will still load from their hosts.
@@ -2244,15 +2308,16 @@ function playGame(id) {
     </div>
   </body>
 </html>`;
-            // set srcdoc so the iframe renders the Unity loader HTML
-            try { gameFrame.srcdoc = baldiHtml; } catch (e) {
-                // fallback: write into iframe document if same-origin allows
+            try {
+                gameFrame.removeAttribute && gameFrame.removeAttribute('src');
+                gameFrame.srcdoc = baldiHtml;
+            } catch (e) {
                 try {
                     const w = gameFrame.contentWindow;
                     const d = w && w.document;
                     if (d) { d.open(); d.write(baldiHtml); d.close(); }
                 } catch (ee) {
-                    gameFrame.src = 'about:blank';
+                    setGameFrameSrcSafe(game.url);
                 }
             }
         } catch (err) {
@@ -2299,7 +2364,19 @@ function playGame(id) {
         CrazyGames can initialize correctly. The outer iframe (gameFrame) already provides an isolation
         boundary; restricting the inner frame here caused many embeds to fail and produce about:srcdoc/about:blank views.
       -->
-      <iframe id="inner-embed" src="${game.url}" allow="fullscreen autoplay gamepad" style="border:0;" loading="lazy"></iframe>
+      <iframe 
+        src="https://raw.githack.com/genizy/fridayfunk/master/index.html"
+        style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+        "
+        allow="fullscreen; autoplay; gamepad *"
+        loading="lazy"
+      ></iframe>
       <div class="bottom-cut" aria-hidden="true"></div>
     </div>
     <script>
@@ -2338,8 +2415,7 @@ function playGame(id) {
   </body>
 </html>`;
             try {
-                // Clear any existing src that could override srcdoc behavior, then assign srcdoc.
-                try { gameFrame.removeAttribute('src'); } catch (e) {}
+                gameFrame.removeAttribute && gameFrame.removeAttribute('src');
                 gameFrame.srcdoc = embedHtml;
             } catch (e) {
                 try {
@@ -2350,98 +2426,6 @@ function playGame(id) {
                     setGameFrameSrcSafe(game.url);
                 }
             }
-
-            // Start a short 3-second simulated click routine to send repeated click-like interactions when game starts.
-            // This tries multiple strategies: postMessage (non-invasive), dispatching pointer events on the inner iframe (same-origin), and dispatching clicks on the outer iframe element as a last resort.
-            (function startShortClickBurst(durationMs = 3000, intervalMs = 110) {
-                const maxIterations = Math.max(1, Math.floor(durationMs / intervalMs));
-                let iterations = 0;
-                const outerIframe = gameFrame;
-
-                function tryContentClick() {
-                    try {
-                        const win = outerIframe.contentWindow;
-                        // 1) If iframe exposes a DOM (same-origin), try to find center and click an element there
-                        if (win && win.document) {
-                            const doc = win.document;
-                            const cx = Math.round(doc.documentElement.clientWidth / 2);
-                            const cy = Math.round(doc.documentElement.clientHeight / 2);
-                            const el = doc.elementFromPoint(cx, cy);
-                            if (el && typeof el.click === 'function') {
-                                el.click();
-                                return true;
-                            }
-                            // fallback: synthesize PointerEvent at center
-                            try {
-                                const ev = new win.MouseEvent('click', { bubbles: true, cancelable: true, view: win, clientX: cx, clientY: cy, button: 0 });
-                                (el || doc.body).dispatchEvent(ev);
-                                return true;
-                            } catch (e) {}
-                        }
-                    } catch (e) {
-                        // cross-origin or unavailable
-                    }
-                    return false;
-                }
-
-                function tryPostMessage() {
-                    try {
-                        const win = outerIframe.contentWindow;
-                        if (win && typeof win.postMessage === 'function') {
-                            // a gentle, best-effort message that some embeds may optionally handle
-                            win.postMessage({ type: 'nexus:simulateClick' }, '*');
-                            return true;
-                        }
-                    } catch (e) {}
-                    return false;
-                }
-
-                function tryOuterClick() {
-                    try {
-                        // dispatch explicit left-button MouseEvents at the center of the outer iframe so cross-origin embeds get a synthetic click focus
-                        const rect = outerIframe.getBoundingClientRect();
-                        const cx = Math.round(rect.left + rect.width / 2);
-                        const cy = Math.round(rect.top + rect.height / 2);
-
-                        // Create a sequence that most frames will interpret as a user click (mousedown -> mouseup -> click)
-                        try {
-                            const down = new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, clientX: cx, clientY: cy, button: 0 });
-                            const up = new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, clientX: cx, clientY: cy, button: 0 });
-                            const click = new MouseEvent('click', { bubbles: true, cancelable: true, view: window, clientX: cx, clientY: cy, button: 0 });
-                            outerIframe.dispatchEvent(down);
-                            outerIframe.dispatchEvent(up);
-                            outerIframe.dispatchEvent(click);
-                            return true;
-                        } catch (err) {
-                            // Fallback to pointer events if MouseEvent construction fails in some environments
-                            ['pointerdown','pointerup','click'].forEach((t) => {
-                                const ev = new PointerEvent(t, { bubbles: true, cancelable: true, pointerType: 'mouse', clientX: cx, clientY: cy });
-                                outerIframe.dispatchEvent(ev);
-                            });
-                            return true;
-                        }
-                    } catch (e) {}
-                    return false;
-                }
-
-                // perform attempts at the specified interval; stop after duration elapsed
-                const tick = () => {
-                    if (iterations++ >= maxIterations) {
-                        clearInterval(timer);
-                        return;
-                    }
-                    // Prefer content click, then postMessage, then outer click
-                    if (tryContentClick()) return;
-                    if (tryPostMessage()) return;
-                    tryOuterClick();
-                };
-
-                // delay a small amount to allow the srcdoc/inner iframe to initialize
-                const timer = setInterval(tick, intervalMs);
-                // ensure we stop after durationMs
-                setTimeout(() => { clearInterval(timer); }, durationMs + 80);
-            })(3000, 110);
-
         } catch (err) {
             console.warn('Failed to load embed srcdoc for game', err);
             setGameFrameSrcSafe(game.url);
@@ -2881,6 +2865,49 @@ function closeDetails() {
 // --- EVENTS BINDING ---
 loginForm.addEventListener('submit', handleLoginSubmit);
 loginSubmit.addEventListener('click', handleLoginSubmit);
+
+/* --- iOS 100vh fix (sets --vh) and iOS guidance UI wiring --- */
+function setViewportHeightVar(){
+    // keeps a CSS var representing 1vh to work around iOS Safari UI chrome resizing
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+}
+window.addEventListener('resize', setViewportHeightVar);
+window.addEventListener('orientationchange', setViewportHeightVar);
+setViewportHeightVar();
+
+// Detect iOS to show a gentle banner recommending the visual fullscreen fallback
+function isIos() {
+    return /iP(ad|hone|od)/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function showIosFullscreenBanner() {
+    try {
+        const b = document.getElementById('ios-fullscreen-banner');
+        if (!b) return;
+        // only show briefly on iOS and keep small
+        b.classList.remove('hidden');
+        b.setAttribute('aria-hidden','false');
+        // wire buttons
+        const tryBtn = document.getElementById('ios-fullscreen-try');
+        const dismissBtn = document.getElementById('ios-fullscreen-dismiss');
+        if (tryBtn) {
+            tryBtn.onclick = () => {
+                goFullscreen(document.documentElement);
+                // keep banner but hide after a short delay
+                setTimeout(() => { b.classList.add('hidden'); b.setAttribute('aria-hidden','true'); }, 800);
+            };
+        }
+        if (dismissBtn) {
+            dismissBtn.onclick = () => { b.classList.add('hidden'); b.setAttribute('aria-hidden','true'); };
+        }
+    } catch (e) {}
+}
+
+// show the banner on iOS after load (non-blocking)
+if (isIos()) {
+    // small delay so the UI doesn't pop instantly, and only show when the app is interactive
+    window.addEventListener('load', () => { setTimeout(showIosFullscreenBanner, 800); });
+}
 
 // Kick off
 window.addEventListener('load', checkSession);
