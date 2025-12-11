@@ -10,8 +10,8 @@ const DB = [
     { id: 'ev', title: 'Ev.io', cat: 'FPS', img: 'https://ev.io/themes/ev/images/ev-io-og-image.png', banner: 'https://ev.io/themes/ev/images/ev-io-og-image.png', url: 'https://ev.io/', desc: 'FPS futurista inspirado em Halo e Destiny. Use jetpacks, saltos duplos e armas de energia em combates rápidos.', controls: 'WASD: Mover | Q: Teleporte | G: Granada', feat: false, color: 'yellow-500' },
     { id: 'minecraft', title: 'Minecraft Web', cat: 'Simulação', img: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', url: 'https://eaglercraft.com/play/?version=1.12.2-wasm', desc: 'A experiência clássica de sobrevivência e construção no seu navegador. Crie, explore e sobreviva.', controls: 'WASD: Mover | Mouse: Interagir', feat: true, color: 'green-500' },
     { id: 'fnaf1', title: 'FNAF 1', cat: 'Terror', img: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', banner: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', url: 'https://lagged.com/games/fnaf/', desc: 'O clássico do terror. Sobreviva 5 noites vigiando animatrônicos assustadores com recursos limitados.', controls: 'Mouse: Câmeras e Luzes', feat: false, color: 'red-800' },
-    { id: 'fnaf2', title: 'FNAF 2', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%20Nights%22at%20Freddy%27s%202', desc: 'Sem portas para te proteger. Use apenas uma máscara e dê corda na caixa de música para sobreviver.', controls: 'Mouse: Interagir | Espaço: Pausar', feat: false, color: 'red-700' },
-    { id: 'fnaf3', title: 'FNAF 3', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%20Nights%20at%20Freddy%27s%203', desc: '30 anos depois, apenas um animatrônico resta. Use o áudio para atraí-lo para longe de você.', controls: 'Mouse: Painéis', feat: false, color: 'red-600' },
+    { id: 'fnaf2', title: 'FNAF 2', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%22Nights%22at%22Freddy%27s%202', desc: 'Sem portas para te proteger. Use apenas uma máscara e dê corda na caixa de música para sobreviver.', controls: 'Mouse: Interagir | Espaço: Pausar', feat: false, color: 'red-700' },
+    { id: 'fnaf3', title: 'FNAF 3', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%22Nights%22at%22Freddy%27s%203', desc: '30 anos depois, apenas um animatrônico resta. Use o áudio para atraí-lo para longe de você.', controls: 'Mouse: Painéis', feat: false, color: 'red-600' },
     { id: 'fnaf4', title: 'FNAF 4', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf4.html', desc: 'O terror te seguiu até em casa. Ouça a respiração deles antes de acender a luz.', controls: 'Mouse: Interagir', feat: false, color: 'red-500' },
     { id: 'fnafsl', title: 'Sister Location', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnafsl.html', desc: 'Mergulhe nas profundezas do Circus Baby\'s Pizza World. Não segure a respiração.', controls: 'Mouse: Interagir', feat: false, color: 'red-400' },
 
@@ -43,7 +43,7 @@ const DB = [
     { id: 'vectaria', title: 'Vectaria', cat: 'Simulação', type: 'Simulação', img: 'https://vectaria.io/preview-og.webp', banner: 'https://vectaria.io/preview-og.webp', url: 'https://vectaria.io/home', desc: 'Simulação web: explore ambientes e recursos com mecânicas de simulação ricas.', controls: 'Mouse / Toque: Navegar e interagir', feat: false, color: 'sky-400' },
     
     // Added Om Nom: Run (Corrida)
-    { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Corrida', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%2F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'Um endless runner protagonizado por Om Nom — salte, deslize e colete doces enquanto corre por cenários coloridos.', controls: 'Setas / Toque: Mover e Pular', feat: false, color: 'lime-400' },
+    { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Corrida', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%22F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'Um endless runner protagonizado por Om Nom — salte, deslize e colete doces enquanto corre por cenários coloridos.', controls: 'Setas / Toque: Mover e Pular', feat: false, color: 'lime-400' },
 
     // Added Cut the Rope: Experiments (Puzzle)
     { id: 'cuttheropexp', title: 'Cut the Rope: Experiments', cat: 'Puzzle', img: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', banner: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%2F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'Corte cordas com precisão e resolva experimentos criativos para alimentar Om Nom neste clássico puzzle.', controls: 'Mouse / Toque: Cortar cordas e interagir', feat: false, color: 'emerald-400' },
@@ -600,13 +600,70 @@ const navbarFavButtons = document.querySelectorAll('[data-tab="favorites"]');
 
 // Game layer
 const gameLayer = document.getElementById('game-layer');
-const gameFrame = document.getElementById('game-frame');
+ // CHANGED: allow reassigning gameFrame to replace it cleanly on close to avoid stale/cross-origin inner-iframes causing black screens
+let gameFrame = document.getElementById('game-frame');
 const gameLoader = document.getElementById('loader');
 const playingTitle = document.getElementById('playing-title');
 const btnCloseGame = document.getElementById('btn-close-game');
 const btnFullscreen = document.getElementById('btn-fullscreen');
 const loadingStatus = document.getElementById('loading-status');
 const gameFrameWrapper = document.getElementById('game-frame-wrapper'); // ADDED ELEMENT REFERENCE
+
+// Helper: replace the iframe element with a fresh one and rebind the global reference.
+// This avoids keeping references to old cross-origin documents which can lead to black screens or media continuing to play.
+// It preserves essential attributes and event plumbing used elsewhere.
+function resetGameFrame() {
+    try {
+        // Remove any existing iframe element safely
+        const old = document.getElementById('game-frame');
+        if (old && old.parentNode) {
+            try {
+                // remove listeners and stop media where possible before removing
+                try { old.src = 'about:blank'; } catch (e) {}
+                try { old.removeAttribute('src'); } catch (e) {}
+                try { old.srcdoc = ''; } catch (e) {}
+            } catch (e) {}
+            old.parentNode.removeChild(old);
+        }
+
+        // Create a fresh iframe with the same attributes as the original expected markup
+        const fresh = document.createElement('iframe');
+        fresh.id = 'game-frame';
+        fresh.className = 'w-full h-full border-none z-10';
+        fresh.setAttribute('allow', 'fullscreen; autoplay; clipboard-read; clipboard-write; gamepad');
+        fresh.setAttribute('allowfullscreen', '');
+        // sandbox kept minimal to avoid breaking embeds (matches initial markup)
+        fresh.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-pointer-lock allow-forms');
+
+        // ensure it fills the wrapper
+        fresh.style.width = '100%';
+        fresh.style.height = '100%';
+        fresh.style.border = 'none';
+        fresh.loading = 'lazy';
+
+        // append to wrapper
+        if (gameFrameWrapper) {
+            gameFrameWrapper.appendChild(fresh);
+        } else {
+            // fallback: append to body
+            document.body.appendChild(fresh);
+        }
+
+        // rebind references used across the app
+        gameFrame = fresh;
+        window.gameFrame = fresh;
+
+        // Re-apply lightweight contextmenu blocking on the outer iframe element itself
+        try {
+            fresh.addEventListener('contextmenu', function(ev){ try{ ev.preventDefault(); }catch(e){} }, { passive: false });
+        } catch (e) {}
+
+        return fresh;
+    } catch (err) {
+        console.warn('resetGameFrame failed', err);
+        return document.getElementById('game-frame');
+    }
+}
 
 // NEW: hide-toolbar button ref
 const btnHideToolbar = document.getElementById('btn-hide-toolbar');
@@ -1343,7 +1400,7 @@ function renderFavorites() {
         const id = card.getAttribute('data-card-game-id');
         // play
         card.querySelector('.compact-play')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); playGame(id); }, { passive: false });
-        // fav handled by global delegated pointer/click handler added earlier, keep this as backup for environments without pointer events
+        // fav handled by global delegated pointer events handler added earlier, keep this as backup for environments without pointer events
         card.querySelector('.compact-fav')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); toggleFavorites(id, 'grid'); }, { passive: false });
         // clicking card body opens details
         card.addEventListener('click', (e) => { openDetails(id); });
@@ -1766,12 +1823,18 @@ function wireGameControls() {
                         const mediaEls = Array.from(doc.querySelectorAll('audio, video'));
                         mediaEls.forEach(m => {
                             try { m.volume = Math.max(0, Math.min(1, vol / 100)); } catch (e) {}
-                            try { if (vol > 0) m.muted = false; } catch (e) {}
+                            try { m.muted = vol === 0; } catch (e) {}
                         });
                     }
                 } catch (e) {
                     // cross-origin likely; ignore
                 }
+                // Best-effort postMessage that includes explicit muted flag for cross-origin embeds
+                try {
+                    if (gameFrame && gameFrame.contentWindow && typeof gameFrame.contentWindow.postMessage === 'function') {
+                        gameFrame.contentWindow.postMessage({ type: 'nexus:setVolume', volume: vol / 100, muted: vol === 0 }, '*');
+                    }
+                } catch (e) {}
             } catch (err) {
                 // fallback to original (best-effort)
                 try { originalApplyVolumeToGame(v); } catch (e) {}
@@ -2064,6 +2127,16 @@ function setGameFrameSrcSafe(url, timeout = 9000) {
                 hideGlobalLoader();
             }
         }, timeout);
+
+        // --- IMPORTANT: actually set the iframe src so navigation happens ---
+        try {
+            // prefer assigning srcdoc when caller provided srcdoc via dataset (handled elsewhere)
+            // set the src only after listeners and timer are attached to reduce race conditions
+            gameFrame.src = url;
+        } catch (e) {
+            try { gameFrame.setAttribute('src', url); } catch (ee) { console.warn('Failed to set iframe src', ee); }
+        }
+
     } catch (err) {
         console.warn('setGameFrameSrcSafe unexpected error', err);
         try { gameFrame.src = url; } catch {}
@@ -2221,7 +2294,12 @@ function playGame(id) {
   </head>
   <body>
     <div class="wrap">
-      <iframe id="inner-embed" src="${game.url}" allow="gamepad *; fullscreen; autoplay" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"></iframe>
+      <!--
+        IMPORTANT: Remove the restrictive sandbox on the inner iframe so cross-origin embeds like
+        CrazyGames can initialize correctly. The outer iframe (gameFrame) already provides an isolation
+        boundary; restricting the inner frame here caused many embeds to fail and produce about:srcdoc/about:blank views.
+      -->
+      <iframe id="inner-embed" src="${game.url}" allow="fullscreen autoplay gamepad" style="border:0;" loading="lazy"></iframe>
       <div class="bottom-cut" aria-hidden="true"></div>
     </div>
     <script>
@@ -2259,7 +2337,11 @@ function playGame(id) {
     </script>
   </body>
 </html>`;
-            try { gameFrame.srcdoc = embedHtml; } catch (e) {
+            try {
+                // Clear any existing src that could override srcdoc behavior, then assign srcdoc.
+                try { gameFrame.removeAttribute('src'); } catch (e) {}
+                gameFrame.srcdoc = embedHtml;
+            } catch (e) {
                 try {
                     const w = gameFrame.contentWindow;
                     const d = w && w.document;
@@ -2291,7 +2373,7 @@ function playGame(id) {
                             }
                             // fallback: synthesize PointerEvent at center
                             try {
-                                const ev = new win.MouseEvent('click', { bubbles: true, cancelable: true, view: win, clientX: cx, clientY: cy });
+                                const ev = new win.MouseEvent('click', { bubbles: true, cancelable: true, view: win, clientX: cx, clientY: cy, button: 0 });
                                 (el || doc.body).dispatchEvent(ev);
                                 return true;
                             } catch (e) {}
@@ -2357,7 +2439,7 @@ function playGame(id) {
                 // delay a small amount to allow the srcdoc/inner iframe to initialize
                 const timer = setInterval(tick, intervalMs);
                 // ensure we stop after durationMs
-                setTimeout(() => clearInterval(timer), durationMs + 80);
+                setTimeout(() => { clearInterval(timer); }, durationMs + 80);
             })(3000, 110);
 
         } catch (err) {
@@ -2387,11 +2469,13 @@ function playGame(id) {
         try {
             gameFrame.style.visibility = 'visible';
         } catch (e) {}
+
         gameLoader.style.display = 'none';
         gameLoader.style.opacity = '0';
         if (loadingStatus) {
-             loadingStatus.textContent = 'Conectado. Carregando recursos do jogo...';
-             loadingStatus.style.opacity = '1';
+             // removed the "Conectado. Carregando recursos do jogo..." message per request
+             loadingStatus.textContent = '';
+             loadingStatus.style.opacity = '0';
              setTimeout(() => { loadingStatus.style.opacity = '0'; }, 3000);
         }
         // update global loader progress to near completion then hide
@@ -2439,6 +2523,9 @@ function playGame(id) {
 
 function closeGame() {
     try {
+        // determine if we should refresh the page after closing (special-case for some embeds)
+        const shouldReloadAfterClose = activeGame && (activeGame.id === 'duo' || activeGame.id === 'starstuff');
+
         // disable keyboard isolation when leaving a game
         try { disableExtensionKeyIsolation(); } catch (e) { console.warn('disableExtensionKeyIsolation failed', e); }
         // stop watching iframe
@@ -2465,6 +2552,34 @@ function closeGame() {
                     }
                 } catch (ee) {}
             }
+
+            // NEW: extra best-effort: if the iframe uses an inner embed (srcdoc -> inner iframe like in embedHtml), 
+            // try to reach inside via contentWindow to stop or unload that inner iframe (same-origin only).
+            try {
+                const win = gameFrame && gameFrame.contentWindow;
+                if (win && win.document) {
+                    const inner = win.document.querySelector('iframe, webview');
+                    if (inner) {
+                        try { inner.src = 'about:blank'; } catch (e) {}
+                        try { inner.remove(); } catch (e) {}
+                    }
+                    // also attempt to clear any nodes that may keep loading (images, scripts)
+                    try {
+                        const wrappers = win.document.querySelectorAll('iframe, webview, embed, object');
+                        wrappers.forEach(w => {
+                            try { w.src = 'about:blank'; } catch (ee){}
+                            try { w.remove(); } catch (ee){}
+                        });
+                    } catch (ee) {}
+                } else {
+                    // If cross-origin, still send a second gentle message asking inner embeds to mute/stop (some embeds honor it)
+                    try {
+                        gameFrame.contentWindow.postMessage({ type: 'nexus:stopAllAudio' }, '*');
+                    } catch (e) {}
+                }
+            } catch (e) {
+                // ignore cross-origin/access errors
+            }
         } catch (e) {}
 
         // Hide game frame immediately for smoother transition out, preventing visual flash
@@ -2480,19 +2595,40 @@ function closeGame() {
             if (gameLayer.classList.contains('hidden')) return;
 
             try {
-                // final aggressive stop: set to about:blank and remove src to ensure browsers stop any playing media
+                // final aggressive stop: set to about:blank and remove src/srcdoc to ensure browsers stop any playing media
                 try { gameFrame.src = 'about:blank'; } catch (e) {}
                 try { gameFrame.removeAttribute('src'); } catch (e) {}
+                try { gameFrame.srcdoc = ''; } catch (e) {}
+                try { delete gameFrame.dataset.intendedSrc; } catch (e) {}
                 try { gameFrame.style.opacity = '1'; } catch (e) {}
             } catch (err) {
                 // ignore
             }
 
-            // Reset custom rendering styles
-            gameFrame.classList.remove('custom-render-stumbleguys-frame');
-            gameFrame.classList.add('w-full', 'h-full');
-            gameFrameWrapper.classList.remove('custom-render-stumbleguys-wrapper');
-            gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
+            // Reset custom rendering styles and replace the iframe element to avoid stale/cross-origin references
+            try {
+                gameFrame.classList.remove('custom-render-stumbleguys-frame');
+                gameFrame.classList.add('w-full', 'h-full');
+            } catch (e) {}
+            try {
+                // attempt to clear inner embeds if same-origin
+                try {
+                    const win = gameFrame && gameFrame.contentWindow;
+                    if (win && win.document) {
+                        const inner = win.document.querySelectorAll('iframe, webview, embed, object');
+                        inner.forEach(n => { try { n.src = 'about:blank'; } catch (e){}; try { n.remove(); } catch (e){}; });
+                    }
+                } catch (e) {}
+            } catch (e) {}
+            try {
+                resetGameFrame();
+            } catch (e) {
+                console.warn('Failed to reset iframe during cleanup', e);
+            }
+            try {
+                gameFrameWrapper.classList.remove('custom-render-stumbleguys-wrapper');
+                gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
+            } catch (e) {}
 
             // remove any fnf overlay if present
             removeFNFTouchOverlay();
@@ -2507,6 +2643,15 @@ function closeGame() {
             // exit fullscreen if still active
             if (document.fullscreenElement) {
                 document.exitFullscreen().catch(() => {});
+            }
+
+            // If the closed game requires a full page reload (embed quirks), reload now
+            try {
+                if (activeGame && (activeGame.id === 'duo' || activeGame.id === 'starstuff')) {
+                    setTimeout(() => { location.reload(); }, 120);
+                }
+            } catch (e) {
+                // ignore reload errors
             }
         };
 
@@ -2526,6 +2671,7 @@ function closeGame() {
         try {
             try { gameFrame.src = 'about:blank'; } catch (e) {}
             try { gameFrame.removeAttribute('src'); } catch (e) {}
+            try { gameFrame.srcdoc = ''; } catch (e) {}
         } catch (e) {}
         stopIframeWatch();
 
@@ -2537,6 +2683,13 @@ function closeGame() {
         if (document.fullscreenElement) {
             document.exitFullscreen().catch(() => {});
         }
+
+        // If error path and special-case game was active, still attempt reload
+        try {
+            if (activeGame && (activeGame.id === 'duo' || activeGame.id === 'starstuff')) {
+                setTimeout(() => { location.reload(); }, 120);
+            }
+        } catch (e) {}
     }
 }
 
@@ -2622,7 +2775,7 @@ function openDetails(id) {
         modalCard.classList.add('modal-enter');
     }
 
-    // Only animation cleanup needed (removes modal-enter class and inline styles set by keyframes on some browsers)
+    // Only animation/transition cleanup needed (removes modal-enter class and inline styles set by keyframes on some browsers)
     if (!isMobile) {
         const onEnterAnim = function _onEnterAnim(e) {
             if (e.animationName === 'modalEnter') {
@@ -2664,7 +2817,7 @@ function closeDetails() {
     isModalOpen = false;
     allowBackdropClose = false;
 
-    // play exit transition/animation then hide modal
+    // Play exit transition/animation then hide modal
     modalCard.classList.remove('modal-enter');
     
     const isMobile = window.innerWidth < 640;
@@ -2731,6 +2884,68 @@ loginSubmit.addEventListener('click', handleLoginSubmit);
 
 // Kick off
 window.addEventListener('load', checkSession);
+
+// Volume fix: ensure slider change applies immediately and reliably to the game iframe
+(function ensureVolumeWiring(){
+    try {
+        const slider = document.getElementById('volume-slider');
+        const toggle = document.getElementById('btn-volume-toggle');
+
+        if (!slider) return;
+
+        // ensure icon matches initial value
+        try {
+            const initial = Number(localStorage.getItem('nexus_game_volume'));
+            if (!isNaN(initial) && initial >= 0) {
+                slider.value = initial;
+                try { updateVolumeIcon(initial); } catch (e) {}
+            } else {
+                try { updateVolumeIcon(Number(slider.value)); } catch (e) {}
+            }
+        } catch (e) { try { updateVolumeIcon(Number(slider.value)); } catch (ee) {} }
+
+        // Input handler: immediate icon update and optimistic apply so volume reacts quickly
+        slider.addEventListener('input', (e) => {
+            try {
+                const v = Number(e.target.value);
+                updateVolumeIcon(v);
+                // optimistic immediate postMessage so volume reacts quickly
+                try { applyVolumeToGame(v); } catch (err) {}
+            } catch (err) {}
+        }, { passive: true });
+
+        // also bind change event to guarantee final value persisted/applied when user finishes sliding
+        slider.addEventListener('change', (e) => {
+            try {
+                const v = Number(e.target.value);
+                try { applyVolumeToGame(v); } catch (err) {}
+            } catch (err) {}
+        }, { passive: true });
+
+        // Toggle ensures mute/unmute behavior is consistent even if other handlers exist
+        if (toggle) {
+            toggle.addEventListener('click', (e) => {
+                try {
+                    e.preventDefault();
+                    const cur = Number(slider.value || 0);
+                    if (cur === 0) {
+                        const stored = parseInt(localStorage.getItem('nexus_game_volume'), 10);
+                        const restore = (!isNaN(stored) && stored > 0) ? Math.max(30, Math.min(100, stored)) : 60;
+                        slider.value = restore;
+                        updateVolumeIcon(restore);
+                        applyVolumeToGame(restore);
+                    } else {
+                        slider.value = 0;
+                        updateVolumeIcon(0);
+                        applyVolumeToGame(0);
+                    }
+                } catch (err) {}
+            }, { passive: false });
+        }
+    } catch (e) {
+        console.warn('ensureVolumeWiring failed', e);
+    }
+})();
 
 // --- Toast helper (non-bloqueante, independente de ambiente) ---
 let toastTimeoutId = null;
@@ -2808,150 +3023,17 @@ function showToast(message, { icon = 'fas fa-check-circle' } = {}) {
             }
         }, { passive: false });
     })();
-// --- DevTools detection (reliable, conservative, single-method) ---
-    (function devtoolsReliableDetect() {
-        // Remove older complex/buggy detectors and use a single precise size-difference heuristic.
-        // This detector cannot fully prevent a determined attacker, but will proactively unload iframe and show an overlay on detection.
-        // It uses a single heuristic: difference between outer/inner size, slower interval and debounce to avoid false positives
-        // and requires multiple confirming samples spaced by 800ms before taking action.
+ // --- DevTools detection (disabled) ---
+    (function devtoolsReliableDetectNoop() {
+        // Devtools auto-unload/protection disabled to avoid interrupting gameplay and iframe loading.
+        // Provide a lightweight no-op restore for compatibility with any code that may call it.
         try {
-            // Skip devtools overlay/detection entirely on mobile to avoid false positives and improve UX.
-            const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-            if (isMobileDevice) {
-                // expose a no-op restore for consistency and exit early
-                window.__nexus_restore_iframe = function() { /* no-op on mobile */ };
-                return;
-            }
-
-            const overlay = document.createElement('div');
-            overlay.className = 'devtools-overlay hidden';
-            overlay.innerHTML = `<div class="msg"><strong>Proteção ativa</strong><div style="height:8px"></div>Por motivos de segurança a sessão foi temporariamente suspensa enquanto ferramentas de desenvolvimento estão abertas.</div>`;
-            const attachTarget = document.getElementById('game-frame-wrapper') || document.body;
-            attachTarget.style.position = attachTarget.style.position || 'relative';
-            attachTarget.appendChild(overlay);
-
-            let consecutiveHits = 0;
-            let detected = false;
-            let lastStateChangeAt = 0;
-
-            const REQUIRED_HITS = 6;      // increased confirmations to avoid false positives
-            const SAMPLE_INTERVAL = 800;  // ms between checks (slower sampling)
-            const RESTORE_COOLDOWN = 1200; // ms after last negative sample before restore
-            // conservative threshold to avoid mobile/OS false positives
-            const THRESHOLD_PX = 220;
-
-            // helper: skip detection on mobile devices (outer/inner differences are unreliable)
-            const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-            function sampleDevtools() {
-                try {
-                    // Only probe when a game session is active and not on mobile.
-                    const hasActiveSession = !!(window.activeGame || (gameFrame && gameFrame.dataset && gameFrame.dataset.intendedSrc && gameFrame.dataset.intendedSrc !== '' && gameFrame.dataset.intendedSrc !== 'about:blank'));
-                    if (!hasActiveSession || isMobile) {
-                        consecutiveHits = 0;
-                        if (detected && Date.now() - lastStateChangeAt > RESTORE_COOLDOWN) {
-                            restoreSession();
-                        }
-                        return;
-                    }
-
-                    // NEW: do not run detector while user is in fullscreen mode to avoid false positives
-                    if (document.fullscreenElement) {
-                        consecutiveHits = 0;
-                        // if previously detected and fullscreen entered, attempt restore gracefully
-                        if (detected && Date.now() - lastStateChangeAt > RESTORE_COOLDOWN) {
-                            restoreSession();
-                        }
-                        return;
-                    }
-
-                    // outer/inner may be undefined in some embed contexts; bail if unavailable
-                    if (typeof window.outerWidth !== 'number' || typeof window.innerWidth !== 'number' || typeof window.outerHeight !== 'number' || typeof window.innerHeight !== 'number') {
-                        consecutiveHits = 0;
-                        return;
-                    }
-
-                    const widthDiff = Math.abs(window.outerWidth - window.innerWidth);
-                    const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
-
-                    const isLargeDiff = widthDiff > THRESHOLD_PX || heightDiff > THRESHOLD_PX;
-
-                    if (isLargeDiff) {
-                        consecutiveHits++;
-                    } else {
-                        consecutiveHits = Math.max(0, consecutiveHits - 1);
-                    }
-
-                    // Only trigger after REQUIRED_HITS consecutive confirmations
-                    if (!detected && consecutiveHits >= REQUIRED_HITS) {
-                        engageProtection('size-delta-confirmed');
-                    }
-
-                    // If previously detected, check for stable recovery before restoring
-                    if (detected && !isLargeDiff && Date.now() - lastStateChangeAt > RESTORE_COOLDOWN) {
-                        restoreSession();
-                    }
-                } catch (e) {
-                    // swallow errors to avoid impacting app
-                    consecutiveHits = 0;
-                }
-            }
-
-            function engageProtection(reason) {
-                try {
-                    if (detected) return;
-                    detected = true;
-                    lastStateChangeAt = Date.now();
-                    console.warn('DevTools detector engaged:', reason);
-
-                    // unload iframe safely and back it up
-                    try {
-                        if (gameFrame) {
-                            gameFrame.dataset._nexus_backup_src = gameFrame.dataset.intendedSrc || gameFrame.src || '';
-                            try { gameFrame.src = 'about:blank'; } catch (e) { gameFrame.setAttribute('src', 'about:blank'); }
-                        }
-                    } catch (e) {}
-
-                    // show overlay, but do not block other UI scripts
-                    overlay.classList.remove('hidden');
-                    hideGlobalLoader(); // hide if loader was visible to avoid UI stuck states
-                } catch (e) {}
-            }
-
-            function restoreSession() {
-                try {
-                    if (!detected) return;
-                    detected = false;
-                    lastStateChangeAt = Date.now();
-                    consecutiveHits = 0;
-                    overlay.classList.add('hidden');
-
-                    // restore iframe if we have a valid backup
-                    try {
-                        const backup = gameFrame && (gameFrame.dataset._nexus_backup_src || '');
-                        if (backup && backup !== '' && backup !== 'about:blank') {
-                            // restore after a short delay so UI settles
-                            setTimeout(() => {
-                                setGameFrameSrcSafe(backup);
-                                delete gameFrame.dataset._nexus_backup_src;
-                            }, 240);
-                        }
-                    } catch (e) {}
-                } catch (e) {}
-            }
-
-            // conservative sampling loop; non-blocking and low-frequency
-            setInterval(sampleDevtools, SAMPLE_INTERVAL);
-
-            // expose manual restore for debugging if required (kept intentionally simple)
             window.__nexus_restore_iframe = function() {
-                try {
-                    restoreSession();
-                } catch (e) {}
+                // intentionally no-op; kept for compatibility
+                console.debug('nexus: devtools detector is disabled');
             };
         } catch (e) {
-            // ensure we never break app flow if detector setup fails
-            console.warn('devtoolsReliableDetect init failed', e);
+            // swallow errors to ensure app stability
         }
     })();
 
@@ -3052,7 +3134,7 @@ function showToast(message, { icon = 'fas fa-check-circle' } = {}) {
                     const mediaEls = Array.from(doc.querySelectorAll('audio, video'));
                     mediaEls.forEach(m => {
                         try { m.volume = Math.max(0, Math.min(1, vol / 100)); } catch (e) {}
-                        try { if (vol > 0) m.muted = false; } catch (e) {}
+                        try { m.muted = vol === 0; } catch (e) {}
                     });
                 }
             } catch (e) {
