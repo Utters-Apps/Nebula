@@ -625,7 +625,7 @@ function resetGameFrame() {
         if (old && old.parentNode) {
             try {
                 // remove listeners and stop media where possible before removing
-                try { old.src = 'about:blank'; } catch (e) {}
+                try { old.src = 'about:blank'; } catch (e){} // stop playback
                 try { old.removeAttribute('src'); } catch (e) {}
                 try { old.srcdoc = ''; } catch (e) {}
             } catch (e) {}
@@ -980,7 +980,11 @@ function refreshTrendingRow() {
                     node.style.transition = 'opacity 240ms ease, transform 240ms ease';
                     node.style.opacity = '0';
                     node.style.transform = 'translateY(10px)';
-                    setTimeout(() => { if (node.parentNode) node.parentNode.removeChild(node); }, 260);
+                    setTimeout(() => {
+                        if (node.parentNode) node.parentNode.removeChild(node);
+                        // ensure rows/cards elsewhere are updated to reflect the change
+                        updateCardFavoriteState(id);
+                    }, 300);
                 }
             }
         });
@@ -1103,38 +1107,47 @@ function getGameById(id) {
 }
 
 function updateCardFavoriteState(id) {
+    // Keep visual state consistent immediately across all card types
     const isFav = myList.includes(id);
-    const iconClass = isFav ? 'fas fa-check text-green-400' : 'far fa-heart'; // Base class
+    const classicIconClass = isFav ? 'fas fa-check text-green-400' : 'far fa-heart';
+    const compactIconClass = isFav ? 'fas fa-check text-green-400' : 'far fa-heart';
 
-    // 1. Update all instances of the classic card heart icons (rows)
-    document.querySelectorAll(`[data-card-game-id="${id}"] .card-fav i`).forEach(icon => {
-        // Card icons use text-xs size
-        icon.className = `${iconClass} text-xs`;
-        // update parent button aria state for accessibility
-        const btn = icon.closest('.card-fav');
-        if (btn) btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+    // Update classic row card hearts
+    document.querySelectorAll(`[data-card-game-id="${id}"] .card-fav`).forEach(btn => {
+        btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+        const icon = btn.querySelector('i');
+        if (icon) {
+            // animate heart fill/unfill for immediate feedback
+            icon.className = classicIconClass + ' text-xs';
+            icon.animate([
+                { transform: 'scale(0.88)', opacity: 0.6 },
+                { transform: 'scale(1.12)', opacity: 1 },
+                { transform: 'scale(1)' }
+            ], { duration: 260, easing: 'cubic-bezier(.22,.9,.35,1)' });
+        }
     });
 
-    // 1b. Update compact-style heart icons (used in search / favorites compact cards)
-    document.querySelectorAll(`[data-card-game-id="${id}"] .compact-fav i`).forEach(icon => {
-        // compact icons may be larger; keep class but ensure consistent color/state
-        const sizeClass = icon.className.includes('text-') ? icon.className.split(' ').find(c => c.startsWith('text-')) : 'text-xs';
-        icon.className = `${iconClass} ${sizeClass || 'text-xs'}`;
-        const btn = icon.closest('.compact-fav');
-        if (btn) btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
-    });
-
-    // 2. Update any standalone compact-card instance (for safety, update button visuals)
+    // Update compact hearts used in search/favorites
     document.querySelectorAll(`[data-card-game-id="${id}"] .compact-fav`).forEach(btn => {
+        btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+        const icon = btn.querySelector('i');
+        if (icon) {
+            icon.className = compactIconClass;
+            icon.animate([
+                { transform: 'translateY(2px) scale(0.9)', opacity: 0.7 },
+                { transform: 'translateY(-2px) scale(1.08)', opacity: 1 },
+                { transform: 'translateY(0) scale(1)' }
+            ], { duration: 260, easing: 'cubic-bezier(.22,.9,.35,1)' });
+        }
         btn.classList.toggle('is-favorited', isFav);
     });
 
-    // 3. Update the Hero button state if this is the active hero game
+    // Update any hero area state if present
     const heroGameId = heroSection.querySelector('.hero-play')?.getAttribute('data-game-id');
     if (heroGameId === id) {
         const heroIcon = document.getElementById('hero-list-icon');
-        const heroText = heroIcon?.nextElementSibling; // span with text
-        if (heroIcon) heroIcon.className = iconClass; // Hero icon uses default size (larger)
+        const heroText = heroIcon?.nextElementSibling;
+        if (heroIcon) heroIcon.className = isFav ? 'fas fa-check text-green-400' : 'far fa-heart';
         if (heroText) heroText.textContent = isFav ? 'Adicionado' : 'Favoritos';
     }
 }
@@ -1394,18 +1407,12 @@ function renderFavorites() {
         favoritesGrid.insertAdjacentHTML('beforeend', createCompactCard(game));
     });
 
-    // Attach card handlers (re-use existing delegated handlers pattern)
+    // Attach card handlers (delegated handlers provide play/fav functionality to avoid duplicate toggles)
     attachCardEvents(true);
 
-    // wire up compact card internal buttons (play + fav) using delegated listeners where possible;
-    // add explicit lightweight handlers to ensure responsiveness
+    // Provide only click & keyboard access for opening details to preserve accessibility without duplicating favorites logic
     document.querySelectorAll('.compact-card').forEach(card => {
         const id = card.getAttribute('data-card-game-id');
-        // play
-        card.querySelector('.compact-play')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); playGame(id); }, { passive: false });
-        // fav handled by global delegated pointer events handler added earlier, keep this as backup for environments without pointer events
-        card.querySelector('.compact-fav')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); toggleFavorites(id, 'grid'); }, { passive: false });
-        // clicking card body opens details
         card.addEventListener('click', (e) => { openDetails(id); });
         card.addEventListener('keydown', (e) => { if (e.key === 'Enter') openDetails(id); });
     });
@@ -1426,6 +1433,30 @@ function renderFavorites() {
     } catch (e) {}
 }
 
+/* Compact card variant used specifically for search results that intentionally omits the favorite button.
+   Keeps the same visual language and play button while removing any favorite control so search cards cannot be favorited directly. */
+function createCompactCardNoFav(game) {
+    return `
+      <div class="compact-card enter" data-card-game-id="${game.id}" role="button" tabindex="0">
+        <div class="compact-thumb">
+          <img src="${game.banner}"
+               loading="lazy"
+               onerror="this.onerror=null;this.src='https://placehold.co/400x225/020617/64748b?text=Imagem+indisponível'">
+        </div>
+        <div class="compact-body">
+          <div class="compact-meta">
+            <div class="compact-title">${game.title}</div>
+            <div class="compact-cat">${game.cat}</div>
+          </div>
+          <div class="compact-actions">
+            <button class="compact-play" aria-label="Jogar ${game.title}"><i class="fas fa-play"></i></button>
+            <!-- favorite button intentionally omitted for search results -->
+          </div>
+        </div>
+      </div>
+    `;
+}
+
 function renderSearchResults(results) {
     searchResultsGrid.innerHTML = '';
 
@@ -1436,15 +1467,17 @@ function renderSearchResults(results) {
 
     noSearchResultsMsg.classList.add('hidden');
     results.forEach(game => {
-        searchResultsGrid.insertAdjacentHTML('beforeend', createCompactCard(game));
+        // use the no-fav compact card for search results
+        searchResultsGrid.insertAdjacentHTML('beforeend', createCompactCardNoFav(game));
     });
 
-    // Attach handlers similar to favorites
+    // Attach handlers: play actions and card open handlers only (no favorite actions present in these cards).
     attachCardEvents(true);
+
+    // Keep per-card keyboard & click accessibility for opening details only
     document.querySelectorAll('.compact-card').forEach(card => {
         const id = card.getAttribute('data-card-game-id');
-        card.querySelector('.compact-play')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); playGame(id); }, { passive: false });
-        card.querySelector('.compact-fav')?.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); toggleFavorites(id, 'grid'); }, { passive: false });
+        // clicking the card opens details; play button handled by delegated attachCardEvents
         card.addEventListener('click', (e) => { openDetails(id); });
         card.addEventListener('keydown', (e) => { if (e.key === 'Enter') openDetails(id); });
     });
@@ -1523,23 +1556,22 @@ function attachRowEvents() {
     });
 }
 
-// --- GLOBAL CLICK DELEGATE FIX FOR CARD FAVORITES (reliable single handler) ---
-// Add a single delegated listener on document to reliably capture clicks on '.card-fav' hearts
+ // --- GLOBAL CLICK DELEGATE FIX FOR CARD FAVORITES (reliable single handler) ---
 (function ensureSingleCardFavDelegate() {
     // avoid adding multiple times
     if (window.__nexus_card_fav_delegated) return;
     window.__nexus_card_fav_delegated = true;
 
-    // Use pointerdown for the most responsive cross-device capture, and handle both .card-fav and .compact-fav
+    // Single delegated click handler for both .card-fav and .compact-fav to avoid duplicate toggles.
     const handler = (e) => {
         try {
             // unify detection for both card styles
-            const favBtn = (e.target && (e.target.closest('.card-fav') || e.target.closest('.compact-fav')));
+            const favBtn = e.target && (e.target.closest('.card-fav') || e.target.closest('.compact-fav'));
             if (!favBtn) return;
 
             // prevent clicks from bubbling into card open handlers
             e.stopPropagation();
-            // Use preventDefault for pointer events to stop native gestures interfering on some devices
+            // prevent default to avoid native gestures interfering on some devices
             if (typeof e.preventDefault === 'function') e.preventDefault();
 
             // find nearest card id
@@ -1554,87 +1586,150 @@ function attachRowEvents() {
         }
     };
 
-    // Listen for pointerdown (fast) and click fallback for environments lacking pointer events
-    document.addEventListener('pointerdown', handler, { passive: false });
-    document.addEventListener('click', handler, { passive: false });
+    // Use a single 'click' listener only (pointerdown listeners are also attached elsewhere for compact-fav;
+    // having both caused duplicate toggles). 'click' is reliable and prevents double-toggle races.
+    document.addEventListener('click', handler, { passive: false, capture: true });
 })();
 
-// Replace attachCardEvents with delegated handlers to dramatically reduce listeners
+/* Delegated card event wiring (robust, idempotent, and includes a pointerdown fallback for compact favs) */
 function attachCardEvents(isGrid = false) {
-    // keep delegated handlers for play button and opening details, but rely on document-level card-fav handler above
     const delegatedRoots = [
         document.getElementById('dynamic-rows'),
         document.getElementById('search-results-grid'),
-        document.getElementById('favorites-grid') // ensure compact cards in favorites are handled
+        document.getElementById('favorites-grid')
     ];
-    delegatedRoots.forEach(root => {
-        if (!root) return;
-        // Remove any previous delegated click listener bound with our internal ref (best-effort)
-        root.removeEventListener('click', _cardDelegatedClick, true);
-        root.addEventListener('click', _cardDelegatedClick, true);
-    });
 
+    // named delegated click handler to open details / handle play & compact-play
     function _cardDelegatedClick(e) {
-        const target = e.target;
+        try {
+            const target = e.target;
+            // play (classic or compact)
+            const playBtn = target.closest && (target.closest('.card-play') || target.closest('.compact-play'));
+            if (playBtn) {
+                e.stopPropagation();
+                e.preventDefault();
+                const card = playBtn.closest('[data-card-game-id]');
+                const id = card ? card.getAttribute('data-card-game-id') : null;
+                if (id) playGame(id);
+                return;
+            }
 
-        // play button inside card (both card-play and compact-play)
-        const playBtn = target.closest && (target.closest('.card-play') || target.closest('.compact-play'));
-        if (playBtn) {
-            e.stopPropagation();
-            e.preventDefault();
-            const card = playBtn.closest('[data-card-game-id]');
-            const id = card ? card.getAttribute('data-card-game-id') : null;
-            if (id) playGame(id);
-            return;
-        }
+            // compact fav (click path) — keep as a fallback for environments that don't support pointer events
+            const compactFav = target.closest && target.closest('.compact-fav');
+            if (compactFav) {
+                e.stopPropagation();
+                e.preventDefault();
+                const card = compactFav.closest('[data-card-game-id]');
+                const id = card ? card.getAttribute('data-card-game-id') : null;
+                if (id) toggleFavorites(id, 'grid');
+                return;
+            }
 
-        // compact fav button (handled here to ensure it works reliably)
-        const compactFav = target.closest && target.closest('.compact-fav');
-        if (compactFav) {
-            e.stopPropagation();
-            e.preventDefault();
-            const card = compactFav.closest('[data-card-game-id]');
-            const id = card ? card.getAttribute('data-card-game-id') : null;
-            if (!id) return;
-            toggleFavorites(id, 'grid');
-            return;
-        }
-
-        // NOTE: .card-fav handled globally above to avoid listener duplication and missed events.
-
-        // card body click -> open details (ignore clicks on any button)
-        const cardEl = target.closest && target.closest('[data-card-game-id]');
-        if (cardEl && !target.closest('button')) {
-            const id = cardEl.getAttribute('data-card-game-id');
-            if (id) openDetails(id);
+            // card body click -> open details (ignore clicks on buttons)
+            const cardEl = target.closest && target.closest('[data-card-game-id]');
+            if (cardEl && !target.closest('button')) {
+                const id = cardEl.getAttribute('data-card-game-id');
+                if (id) openDetails(id);
+            }
+        } catch (err) {
+            console.warn('card delegated click error', err);
         }
     }
+
+    // pointerdown delegated handler (more reliable & snappy on touch devices) for compact favs specifically
+    function _compactFavPointerHandler(e) {
+        try {
+            // ensure we only handle primary pointer to avoid multi-touch surprises
+            if (e && e.isPrimary === false) return;
+            const fav = e.target && e.target.closest && e.target.closest('.compact-fav');
+            if (!fav) return;
+            e.stopPropagation();
+            e.preventDefault();
+            const card = fav.closest('[data-card-game-id]');
+            const id = card ? card.getAttribute('data-card-game-id') : null;
+            if (id) toggleFavorites(id, 'grid');
+        } catch (err) {
+            console.warn('compact fav pointer handler error', err);
+        }
+    }
+
+    delegatedRoots.forEach(root => {
+        if (!root) return;
+        // attach click delegated handler once (idempotent by using stored ref)
+        if (!root.__nexus_card_click_bound) {
+            root.addEventListener('click', _cardDelegatedClick, true);
+            root.__nexus_card_click_bound = true;
+        }
+        // attach pointerdown compact-fav handler for snappy touch response; bind only once
+        if (!root.__nexus_compact_fav_bound) {
+            root.addEventListener('pointerdown', _compactFavPointerHandler, { passive: false, capture: true });
+            // keep a click fallback too (some old browsers)
+            root.addEventListener('click', function(e){
+                // click fallback will be handled by _cardDelegatedClick above; nothing else needed here
+            }, true);
+            root.__nexus_compact_fav_bound = true;
+        }
+    });
 }
 
 function toggleFavorites(id, source = 'row') {
-    if (myList.includes(id)) {
-        myList = myList.filter(x => x !== id);
-    } else {
-        myList.push(id);
-    }
-    saveList();
+    try {
+        const wasFav = myList.includes(id);
+        if (wasFav) {
+            myList = myList.filter(x => x !== id);
+        } else {
+            myList.push(id);
+        }
+        saveList();
 
-    // 1. Update the Hero section if the change originated there (it needs a full render to reflect status/potentially change game)
-    if (source === 'hero') {
-        renderHero();
-    }
-    
-    // 2. Update all card states across rows and search results instantly
-    updateCardFavoriteState(id); 
+        // Immediate UI sync for any visible representations
+        updateCardFavoriteState(id);
+        updateModalFavButton && updateModalFavButton(id);
 
-    // 3. If on Favorites tab or source was from favorites UI (grid/modal), re-render the favorites view
-    if (currentTab === 'favorites' || source === 'grid' || source === 'modal') {
-        renderFavorites();
-    }
+        // If user favorited from search or rows, ensure library updates (add to top)
+        if (!wasFav && (currentTab === 'favorites' || source === 'grid' || source === 'modal')) {
+            // re-render so new item appears
+            renderFavorites();
+        } else if (!wasFav && currentTab !== 'favorites') {
+            // don't re-render whole favorites view, but ensure favorites count and any open favorites grid will reflect change when opened
+            // (we still update any favorite placeholders)
+            renderFavorites(); // safe quick update since renderFavorites is optimized for empty vs items
+        }
 
-    // 4. Update the modal button state if the modal is currently open for this game
-    if (detailsModal && !detailsModal.classList.contains('hidden')) {
-        updateModalFavButton(id);
+        // If the user removed a favorite while viewing the Favorites tab, animate removal smoothly
+        if (wasFav && (currentTab === 'favorites' || source === 'grid' || source === 'modal')) {
+            // Find existing compact card(s) in favorites grid and animate removal
+            const favCards = Array.from(document.querySelectorAll(`#favorites-grid [data-card-game-id="${id}"]`));
+            if (favCards.length) {
+                favCards.forEach(card => {
+                    card.style.transition = 'opacity 260ms ease, transform 260ms cubic-bezier(.22,.9,.35,1), height 260ms ease, margin 260ms ease';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(12px) scale(0.98)';
+                    // shrink height to avoid sudden layout jump
+                    const rect = card.getBoundingClientRect();
+                    card.style.height = rect.height + 'px';
+                    // force reflow then set to zero
+                    requestAnimationFrame(() => {
+                        card.style.height = '0px';
+                        card.style.margin = '0';
+                        setTimeout(() => {
+                            if (card.parentNode) card.parentNode.removeChild(card);
+                            // ensure rows/cards elsewhere are updated to reflect the change
+                            updateCardFavoriteState(id);
+                        }, 300);
+                    });
+                });
+            } else {
+                // fallback: if card not found, just re-render favorites
+                renderFavorites();
+            }
+        }
+
+        // For other cases (favoriting), ensure search results or home also show the new state
+        updateCardFavoriteState(id);
+
+    } catch (err) {
+        console.warn('toggleFavorites error', err);
     }
 }
 
@@ -2593,7 +2688,7 @@ function closeGame() {
                     try {
                         const wrappers = win.document.querySelectorAll('iframe, webview, embed, object');
                         wrappers.forEach(w => {
-                            try { w.src = 'about:blank'; } catch (ee){}
+                            try { w.src = 'about:blank'; } catch (ee){};
                             try { w.remove(); } catch (ee){}
                         });
                     } catch (ee) {}
@@ -2731,6 +2826,195 @@ function removeFNFTouchOverlay() {
     return;
 }
 
+/* --- Generic iframe element remover: robustly attempts to remove specific elements inside
+   an iframe document using:
+    - immediate try (when same-origin)
+    - load event
+    - MutationObserver on the iframe document
+   It's safe (wrapped in try/catch) and non-destructive (only removes matched nodes).
+   The registry below maps game ids to an array of matcher functions so you can add more rules later.
+*/
+(function iframeElementCleanerModule() {
+    // registry: map gameId => [matcherFn(document) => NodeList/Element(s) to remove]
+    const CLEAN_REGISTRY = {
+        // For CrazyGames embeds that may inject an anchor+button linking to the CrazyGames page.
+        // Matcher should return an array-like of nodes to remove (or empty if none).
+        'starstuff': [matchCrazyGamesPlayButton],
+        'duo': [matchCrazyGamesPlayButton],
+        // Add other game ids here later, e.g. 'othergame': [otherMatcher]
+    };
+
+    // matcher implementation: looks for <a href*="crazygames.com" ...><button class="css-vuljoq"...>...</button></a>
+    function matchCrazyGamesPlayButton(doc) {
+        try {
+            if (!doc || !doc.querySelectorAll) return [];
+            // look for anchor containing crazygames link and a button with class pattern
+            const anchors = Array.from(doc.querySelectorAll('a[href*="crazygames.com"]'));
+            const toRemove = [];
+            anchors.forEach(a => {
+                const btn = a.querySelector('button.css-vuljoq') || Array.from(a.querySelectorAll('button')).find(b => /Play on CrazyGames/i.test(b.textContent || ''));
+                if (btn) toRemove.push(a);
+            });
+            return toRemove;
+        } catch (e) { return []; }
+    }
+
+    // Core worker that tries to remove matches from an accessible document
+    function tryRemoveInDocument(doc, matchers) {
+        try {
+            if (!doc) return false;
+            let removedAny = false;
+            matchers.forEach(matcher => {
+                try {
+                    const nodes = matcher(doc) || [];
+                    Array.from(nodes).forEach(n => {
+                        try {
+                            // remove node but keep context: only remove if still attached
+                            if (n && n.parentNode) {
+                                n.parentNode.removeChild(n);
+                                removedAny = true;
+                            }
+                        } catch (e) {}
+                    });
+                } catch (e) {}
+            });
+            return removedAny;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    // Public: observe an iframe and attempt to remove matching nodes when they appear.
+    // frameEl: iframe DOM element (outer iframe element)
+    // matchers: array of matcher functions to run against frameEl.contentDocument
+    // options: {timeoutMs} optional timeout to stop observing after some time
+    function observeAndRemoveInIframe(frameEl, matchers = [], options = {}) {
+        try {
+            if (!frameEl || !matchers || !matchers.length) return;
+            const timeoutMs = (typeof options.timeoutMs === 'number') ? options.timeoutMs : 10000;
+
+            // helper to attempt immediate removal if same-origin
+            const attemptImmediate = () => {
+                try {
+                    const doc = frameEl.contentDocument || (frameEl.contentWindow && frameEl.contentWindow.document);
+                    if (doc) {
+                        const removed = tryRemoveInDocument(doc, matchers);
+                        if (removed) return true;
+                    }
+                } catch (e) {
+                    // cross-origin or inaccessible
+                }
+                return false;
+            };
+
+            if (attemptImmediate()) return; // already removed
+
+            // Try hooking load event (fires when iframe final document is ready)
+            const onLoad = () => {
+                try {
+                    // small deferred attempt to allow scripts in iframe to finish DOM changes
+                    setTimeout(() => {
+                        try {
+                            const doc = frameEl.contentDocument || (frameEl.contentWindow && frameEl.contentWindow.document);
+                            if (doc) {
+                                tryRemoveInDocument(doc, matchers);
+                            }
+                        } catch (e) {}
+                    }, 160);
+                } catch (e) {}
+            };
+            frameEl.addEventListener('load', onLoad, { once: true, passive: true });
+
+            // If same-origin becomes available, attach a MutationObserver to the iframe document to remove nodes as they appear
+            // We also observe the iframe element itself for srcdoc changes (some code paths inject srcdoc).
+            let moDoc = null;
+            let moEl = null;
+            const tryAttachDocObserver = () => {
+                try {
+                    const doc = frameEl.contentDocument || (frameEl.contentWindow && frameEl.contentWindow.document);
+                    if (!doc || moDoc) return;
+                    // Run an initial removal attempt
+                    tryRemoveInDocument(doc, matchers);
+
+                    // Observe body (or documentElement) for added nodes
+                    const root = doc.body || doc.documentElement;
+                    if (!root) return;
+                    moDoc = new doc.defaultView.MutationObserver((mutations) => {
+                        try {
+                            for (const m of mutations) {
+                                if (m.addedNodes && m.addedNodes.length) {
+                                    // quick attempt each mutation batch
+                                    tryRemoveInDocument(doc, matchers);
+                                }
+                            }
+                        } catch (e) {}
+                    });
+                    moDoc.observe(root, { childList: true, subtree: true });
+                } catch (e) {
+                    // cross-origin or other error; leave fallback
+                }
+            };
+
+            // Observe the iframe element for changes that may make it same-origin (e.g., srcdoc set)
+            moEl = new MutationObserver((mutations) => {
+                try {
+                    for (const m of mutations) {
+                        if (m.type === 'attributes' && (m.attributeName === 'srcdoc' || m.attributeName === 'src' || m.attributeName === 'data-intended-src')) {
+                            tryAttachDocObserver();
+                        }
+                        if (m.addedNodes && m.addedNodes.length) {
+                            tryAttachDocObserver();
+                        }
+                    }
+                } catch (e) {}
+            });
+            moEl.observe(frameEl, { attributes: true, attributeFilter: ['srcdoc','src','data-intended-src'], childList: false, subtree: false });
+
+            // Try to attach now in case the frame is same-origin later
+            tryAttachDocObserver();
+
+            // Stop observers after timeout to avoid leaks
+            const stopAll = () => {
+                try { frameEl.removeEventListener('load', onLoad); } catch (e) {}
+                try { if (moDoc) moDoc.disconnect(); } catch (e) {}
+                try { if (moEl) moEl.disconnect(); } catch (e) {}
+            };
+            const t = setTimeout(() => {
+                stopAll();
+            }, timeoutMs);
+
+            // return a cleanup handle
+            return {
+                stop: () => {
+                    clearTimeout(t);
+                    stopAll();
+                }
+            };
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // Lightweight helper used by playGame: given a game id, attach cleaners if a registry entry exists
+    function attachCleanerForGameId(gameId, frameEl) {
+        try {
+            const matchers = CLEAN_REGISTRY[gameId];
+            if (!matchers || !matchers.length) return;
+            // call observer; returns handle if needed
+            observeAndRemoveInIframe(frameEl, matchers, { timeoutMs: 15000 });
+        } catch (e) {}
+    }
+
+    // expose to global scope for calls from playGame or debug
+    try {
+        window.__nexus_iframeCleaner = {
+            observeAndRemoveInIframe,
+            attachCleanerForGameId,
+            _matchCrazyGamesPlayButton: matchCrazyGamesPlayButton // exported for testing if needed
+        };
+    } catch (e) {}
+})();
+
 // --- MODAL ---
 function wireModal() {
     detailsModal.addEventListener('click', e => {
@@ -2814,7 +3098,7 @@ function openDetails(id) {
         modalCard.addEventListener('animationend', onEnterAnim);
     }
 
-    // Allow backdrop close after animation/transition stabilizes (400ms, slightly longer than 320ms CSS animation)
+    // Fallback timer (in case transition/animation events fail to fire)
     setTimeout(() => {
         allowBackdropClose = true;
     }, 400);
