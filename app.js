@@ -1,0 +1,2937 @@
+// --- DATABASE ---
+const DB = [
+    { id: 'subway', title: 'Subway Surfers', cat: 'Arcade', img: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', banner: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', url: 'https://g.igroutka.ru/games/164/Xm2W5MIcPqrF1Y90/12/subway_surfers_easter_edinburgh/', desc: 'O clássico Endless Runner. Corra pelos trilhos, desvie dos trens e fuja do inspetor rabugento neste fenômeno global de reflexos rápidos.', controls: 'Setas: Mover/Pular/Rolar | Espaço: Skate', feat: true, color: 'blue-500' },
+    { id: 'fnf', title: 'Friday Night Funkin\'', cat: 'Ritmo', img: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', banner: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', url: 'https://raw.githack.com/genizy/fridayfunk/master/index.html', desc: 'Sinta o ritmo neste jogo indie de sucesso. Acompanhe as setas, marque as notas musicais no tempo certo e vença batalhas de rap intensas.', controls: 'Setas / Teclas: Ritmo | Espaço: Pausar', feat: true, color: 'purple-500' },
+    { id: 'krunker', title: 'Krunker.io', cat: 'FPS', img: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://krunker.io/?game=PARK_0', desc: 'FPS frenético com visual voxel. Movimente-se em alta velocidade usando técnicas de bunny hop e slide jump para dominar a arena.', controls: 'WASD: Mover | Mouse: Mirar/Atirar', feat: true, color: 'cyan-500' },
+    { id: 'venge', title: 'Venge.io', cat: 'FPS', img: 'https://venge.io/thumbnail.jpg', banner: 'https://venge.io/thumbnail.jpg', url: 'https://venge.io/', desc: 'Shooter tático multijogador. Escolha seu herói, domine pontos de controle e use habilidades especiais baseadas em cartas.', controls: 'WASD: Mover | Mouse: Granadas', feat: false, color: 'red-500' },
+    { id: 'shellshockers', title: 'Shell Shockers', cat: 'FPS', img: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', banner: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', url: 'https://shellshock.io', desc: 'Multiplayer FPS online onde você é um ovo armado — atire, esquive e domine o ovoverso em partidas frenéticas.', controls: 'WASD: Mover | Mouse: Mirar/Atirar | Espaço: Pular', feat: false, color: 'lime-400' },
+    { id: 'smash', title: 'Smash Karts', cat: 'Arcade', img: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', banner: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', url: 'https://smashkarts.io/', desc: 'Batalha de karts 3D caótica. Pegue caixas surpresa, obtenha armas malucas e destrua seus oponentes na arena.', controls: 'WASD: Dirigir | Espaço: Usar Item', feat: true, color: 'pink-500' },
+    { id: 'tomb', title: 'Tomb of the Mask', cat: 'Arcade', img: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', banner: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', url: 'https://kdata1.com/2023/10/tomb-of-the-mask/', desc: 'Um arcade vertical viciante. Escale paredes, desvie de armadilhas mortais e colete moedas em alta velocidade.', controls: 'Setas: Mover', feat: false, color: 'orange-500' },
+    { id: 'ev', title: 'Ev.io', cat: 'FPS', img: 'https://ev.io/themes/ev/images/ev-io-og-image.png', banner: 'https://ev.io/themes/ev/images/ev-io-og-image.png', url: 'https://ev.io/', desc: 'FPS futurista inspirado em Halo e Destiny. Use jetpacks, saltos duplos e armas de energia em combates rápidos.', controls: 'WASD: Mover | Q: Teleporte | G: Granada', feat: false, color: 'yellow-500' },
+    { id: 'minecraft', title: 'Minecraft Web', cat: 'Simulação', img: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', url: 'https://eaglercraft.com/play/?version=1.12.2-wasm', desc: 'A experiência clássica de sobrevivência e construção no seu navegador. Crie, explore e sobreviva.', controls: 'WASD: Mover | Mouse: Interagir', feat: true, color: 'green-500' },
+    { id: 'fnaf1', title: 'FNAF 1', cat: 'Terror', img: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', banner: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', url: 'https://lagged.com/games/fnaf/', desc: 'O clássico do terror. Sobreviva 5 noites vigiando animatrônicos assustadores com recursos limitados.', controls: 'Mouse: Câmeras e Luzes', feat: false, color: 'red-800' },
+    { id: 'fnaf2', title: 'FNAF 2', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%20Nights%20at%20Freddy%27s%202', desc: 'Sem portas para te proteger. Use apenas uma máscara e dê corda na caixa de música para sobreviver.', controls: 'Mouse: Interagir | Espaço: Pausar', feat: false, color: 'red-700' },
+    { id: 'fnaf3', title: 'FNAF 3', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', url: 'https://html5.gdata1.com/Five%20Nights%20at%20Freddy%27s%203', desc: '30 anos depois, apenas um animatrônico resta. Use o áudio para atraí-lo para longe de você.', controls: 'Mouse: Painéis', feat: false, color: 'red-600' },
+    { id: 'fnaf4', title: 'FNAF 4', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf4.html', desc: 'O terror te seguiu até em casa. Ouça a respiração deles antes de acender a luz.', controls: 'Mouse: Interagir', feat: false, color: 'red-500' },
+    { id: 'fnafsl', title: 'Sister Location', cat: 'Terror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnafsl.html', desc: 'Mergulhe nas profundezas do Circus Baby\'s Pizza World. Não segure a respiração.', controls: 'Mouse: Interagir', feat: false, color: 'red-400' },
+
+    // Added Baldi's Basics in Education and Learning (Unity embed via srcdoc)
+    { id: 'baldi', title: "Baldi's Basics in Education and Learning", cat: 'Terror', img: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1712830/header.jpg', banner: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1712830/header.jpg', url: '<unity-srcdoc-placeholder>', desc: "Aborde a escola do jeito mais estranho — memorize regras, explore e tente sobreviver ao professor mais peculiar.", controls: 'WASD / Mouse: Mover e olhar | Espaço: Interagir', feat: false, color: 'yellow-300', custom_render: 'unity' },
+
+    // Added: Imagine Island (Social / Party)
+    { id: 'imagineisland', title: 'Imagine Island', cat: 'Social', type: 'Party', img: 'https://imagineisland.game/wp-content/uploads/2025/10/imagine-island-social-share-1.jpg', banner: 'https://imagineisland.game/wp-content/uploads/2025/10/imagine-island-social-share-1.jpg', url: 'https://play.imagineisland.game/play/index.html', desc: 'Junte-se a outros jogadores em ilhas sociais para eventos, minijogos e festas — socialize, customize e celebre.', controls: 'Mouse / Toque: Navegar e interagir', feat: false, color: 'pink-500' },
+
+    // Added Rumble Rush (Party Royale)
+    { id: 'rumblerush', title: 'Rumble Rush', cat: 'FPS', type: 'Party Royale', img: 'https://rumblerush.io/og-image.jpg', banner: 'https://rumblerush.io/og-image.jpg', url: 'https://rumblerush.io', desc: 'Uma experiência Party Royale caótica — lute, survive e divirta-se em arenas rápidas e imprevisíveis.', controls: 'WASD: Mover | Mouse: Mirar/Atacar', feat: false, color: 'pink-500' },
+
+    // New: Star Stuff (Puzzle) - embedded via controlled srcdoc iframe with crop to hide bottom area
+    { id: 'starstuff', title: 'Star Stuff', cat: 'Puzzle', type: 'Puzzle', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', url: 'https://www.crazygames.com/embed/star-stuff', desc: 'Puzzle casual espacial — conecte estrelas e resolva desafios gravitacionais.', controls: 'Mouse / Toque: Interagir', feat: false, color: 'indigo-400', custom_render: 'embed' },
+
+    // New: Duo (Co-op) - CrazyGames embed with bottom black bar cut (same method as Star Stuff)
+    { id: 'duo', title: 'Duo', cat: 'Co-op', type: 'Co-op game', img: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', banner: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', url: 'https://www.crazygames.com/embed/duo-kjn', desc: 'Jogo cooperativo: trabalhe com um parceiro para resolver desafios e avançar pelos níveis.', controls: 'Mouse / Toque: Navegar e interagir', feat: false, color: 'teal-400', custom_render: 'embed' },
+
+    // New: Stumble Guys (Custom WebGL Scaling)
+    { id: 'stumbleguys', title: 'Stumble Guys', cat: 'Party Royale', img: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', banner: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', url: 'https://www.stumbleguys.com/pt-BR/play', desc: 'Um jogo multijogador massivo de eliminação de festa. Corra, tropece e caia até a linha de chegada!', controls: 'WASD: Mover | Mouse: Olhar | Espaço: Pular/Mergulhar', feat: true, color: 'yellow-300', custom_render: 'stumbleguys' },
+
+    // New: Piece of Cake - Merge & Bake (Puzzle)
+    { id: 'pieceofcake', title: 'Piece of Cake: Merge & Bake', cat: 'Puzzle', cat: 'Puzzle', img: 'https://scontent.fsdu33-1.fna.fbcdn.net/v/t39.30808-6/363395669_114027728444964_8304462635450706306_n.png?stp=dst-png_s960x960&_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=8TiMwMjCIZkQ7kNvwFdBbne&_nc_oc=Adm3raJ6hA4aagoifp86skzPR0TT4sq5hJzq_AFkwKpSsGPPnCkr7W43AqOgVL7sAT8&_nc_zt=23&_nc_ht=scontent.fsdu33-1.fna&_nc_gid=i5DBUHLjkcAYc7MpAMUcWQ&oh=00_AfnYw1tLTECjVvRCtERl6cC5FNAvAP3MYY-9LFdSy8W0lg&oe=693E3C11', banner: 'https://scontent.fsdu33-1.fna.fbcdn.net/v/t39.30808-6/363395669_114027728444964_8304462635450706306_n.png?stp=dst-png_s960x960&_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=8TiMwMjCIZkQ7kNvwFdBbne&_nc_oc=Adm3raJ6hA4aagoifp86skzPR0TT4sq5hJzq_AFkwKpSsGPPnCkr7W43AqOgVL7sAT8&_nc_zt=23&_nc_ht=scontent.fsdu33-1.fna&_nc_gid=i5DBUHLjkcAYc7MpAMUcWQ&oh=00_AfnYw1tLTECjVvRCtERl6cC5FNAvAP3MYY-9LFdSy8W0lg&oe=693E3C11', url: 'https://cdn.mergecakegame.com/html5/cg/index.html', desc: 'Um puzzle casual e viciante onde você combina peças para criar bolos e avançar em níveis deliciosos.', controls: 'Toque / Mouse: Interagir | Arrastar: Combinar', feat: false, color: 'amber-400' },
+
+    // Added Cut The Rope Magic (Puzzle)
+    { id: 'cuttheropemagic', title: 'Cut The Rope Magic', cat: 'Puzzle', img: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', banner: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', url: 'https://play.famobi.com/cut-the-rope-magic/A-MINIJUEGOS', desc: 'Ajude Om Nom a recuperar as mágica e resolver puzzles cortando cordas e usando itens especiais para alimentar o doce.', controls: 'Mouse / Toque: Cortar cordas e interagir', feat: false, color: 'emerald-400' },
+
+    // Added Om Nom: Run (Corrida)
+    { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Corrida', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%2F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'Um endless runner protagonizado por Om Nom — salte, deslize e colete doces enquanto corre por cenários coloridos.', controls: 'Setas / Toque: Mover e Pular', feat: false, color: 'lime-400' },
+
+    // Added Cut the Rope: Experiments (Puzzle)
+    { id: 'cuttheropexp', title: 'Cut the Rope: Experiments', cat: 'Puzzle', img: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', banner: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%2F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'Corte cordas com precisão e resolva experimentos criativos para alimentar Om Nom neste clássico puzzle.', controls: 'Mouse / Toque: Cortar cordas e interagir', feat: false, color: 'emerald-400' },
+
+    { id: 'bitlife', title: 'BitLife', cat: 'Simulação', img: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', banner: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', url: 'https://ubg365.github.io/bitlife-life-simulator/play.html', desc: 'Tome decisões, cometa erros e viva uma vida inteira virtual neste simulador de texto viciante.', controls: 'Mouse: Escolhas', feat: false, color: 'indigo-500' },
+
+    // Added Brain Test 2: Tricky Stories (Puzzle)
+    { id: 'braintest2', title: 'Brain Test 2: Tricky Stories', cat: 'Puzzle', img: 'https://i.ytimg.com/vi/1pRyM2v9uN0/maxresdefault.jpg', banner: 'https://i.ytimg.com/vi/1pRyM2v9uN0/maxresdefault.jpg', url: 'https://23azostore.github.io/s2/brain-test-2-tricky-stories/', desc: 'Desafios inteligentes e histórias enganadoras — resolva quebra-cabeças criativos e surpreendentes para avançar.', controls: 'Toque / Mouse: Selecionar e arrastar', feat: false, color: 'amber-400' },
+
+    // Added Ludo King (Board / Puzzle)
+    { id: 'ludoking', title: 'Ludo King', cat: 'Puzzle', type: 'Tabuleiro', img: 'https://s2-techtudo.glbimg.com/4m6NJj1sWnVJ33uhdd3z-HahpDA=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/M/x/Voj7c4ScCB8fUcWfhigw/ludo-king.jpg', banner: 'https://s2-techtudo.glbimg.com/4m6NJj1sWnVJ33uhdd3z-HahpDA=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/M/x/Voj7c4ScCB8fUcWfhigw/ludo-king.jpg', url: 'https://ludoking.com/play/', desc: 'Versão web do clássico Ludo — jogue partidas rápidas com amigos ou IA, role os dados e leve suas peças até o lar.', controls: 'Toque / Mouse: Selecionar peça e rolar dados', feat: false, color: 'emerald-500' },
+
+    // Added Candy Crush Saga (Puzzle)
+    { id: 'candycrush', title: 'Candy Crush Saga', cat: 'Puzzle', type: 'Puzzle', img: 'https://files.tecnoblog.net/wp-content/uploads/2021/08/candy-crush-saga-1060x596.jpeg', banner: 'https://files.tecnoblog.net/wp-content/uploads/2021/08/candy-crush-saga-1060x596.jpeg', url: 'https://html5.gamemonetize.co/ushitaltif0ig5by3w54p4cy9sd3yptt/', desc: 'Combine doces, complete objetivos e avance por níveis viciantes nesta versão web do clássico match‑3.', controls: 'Toque / Mouse: Selecionar e combinar', feat: false, color: 'pink-400' },
+
+    // Added Among Us (Jogo de Festa)
+    { id: 'amongus', title: 'Among Us', cat: 'Party Royale', type: 'Jogo de Festa', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', url: 'https://stgames.top/unity/amongus/', desc: 'Jogo social de dedução e traição: trabalhe em equipe para completar tarefas ou descubra o impostor antes que seja tarde.', controls: 'Mouse / Toque: Navegação e Interação | Teclado: Chat', feat: false, color: 'rose-500' },
+];
+
+// Make the database harder to inspect directly in devtools: keep an internal frozen copy and replace the global `DB` reference
+// with a non-enumerable accessor that returns a read-only Proxy with minimal surface. This reduces accidental scraping
+// while keeping the platform functionality intact.
+(function hardenDB() {
+    try {
+        // create a true internal copy and freeze it deeply where possible
+        const _internal = JSON.parse(JSON.stringify(DB));
+        // shallow freeze items and the array
+        _internal.forEach(item => {
+            try {
+                Object.freeze(item);
+            } catch (e) {}
+        });
+        try { Object.freeze(_internal); } catch (e) {}
+
+        // --- NEW: deepFreeze helper to attempt stronger immutability ---
+        function deepFreeze(obj, seen=new WeakSet()) {
+            try {
+                if (!obj || typeof obj !== 'object' || seen.has(obj)) return obj;
+                seen.add(obj);
+                Object.getOwnPropertyNames(obj).forEach((name) => {
+                    const prop = obj[name];
+                    if (prop && typeof prop === 'object') deepFreeze(prop, seen);
+                });
+                try { Object.freeze(obj); } catch (e) {}
+            } catch (e) {}
+            return obj;
+        }
+        try { deepFreeze(_internal); } catch (e) {}
+
+        // --- NEW: lightweight field encoding/decoding convention ---
+        // We expect some fields (url, banner, img) may be sensitive; encode them in base64 in the source and decode only when read via proxy.
+        // To remain compatible with current DB literals we perform a best-effort detection: if a field looks like a URL we leave it, otherwise if it is already base64-ish we decode it.
+        function isLikelyB64(s) {
+            if (!s || typeof s !== 'string') return false;
+            // short heuristic: mostly base64 chars and length multiple of 4
+            return /^[A-Za-z0-9+\/=]+$/.test(s) && (s.length % 4 === 0);
+        }
+        function tryDecode(field) {
+            try {
+                if (!field || typeof field !== 'string') return field;
+                // if it looks like base64, decode; otherwise return original
+                if (isLikelyB64(field) && (field.includes('http') === false || field.startsWith('aHR0'))) {
+                    // decode safely
+                    try {
+                        return atob(field);
+                    } catch (e) {
+                        return field;
+                    }
+                }
+                return field;
+            } catch (e) { return field; }
+        }
+        function decodedView(item) {
+            if (!item || typeof item !== 'object') return item;
+            // create a shallow copy to avoid leaking internal reference
+            const copy = Object.assign({}, item);
+            // decode common sensitive fields if necessary
+            ['url','banner','img'].forEach(k => {
+                if (k in copy) copy[k] = tryDecode(copy[k]);
+            });
+            return copy;
+        }
+
+        // create a read-only proxy handler that only allows safe reads by index or iteration
+        const handler = {
+            get(target, prop) {
+                // allow usual array behaviors for numeric indices and length
+                if (prop === Symbol.iterator) return function* () { for (let i=0;i<target.length;i++) yield decodedView(target[i]); };
+                if (prop === 'length') return target.length;
+                if (!isNaN(prop)) {
+                    // return a decoded shallow copy rather than the raw internal object
+                    return decodedView(target[prop]);
+                }
+                // expose only a tiny safe API surface; block direct enumeration of raw array content
+                if (prop === 'find') return function(fn){ const res = Array.prototype.find.call(target, fn); return res ? decodedView(res) : res; };
+                if (prop === 'filter') return function(fn){ return Array.prototype.filter.call(target, fn).map(decodedView); };
+                if (prop === 'map') return function(fn){ return Array.prototype.map.call(target, fn).map(decodedView); };
+                if (prop === 'forEach') return function(fn){ return Array.prototype.forEach.call(target, fn); };
+                if (prop === 'slice') return function(){ return Array.prototype.slice.apply(target, arguments).map(decodedView); };
+                // other properties intentionally hidden
+                return undefined;
+            },
+            ownKeys() {
+                // hide keys to make console listing less useful
+                return ['length'];
+            },
+            getOwnPropertyDescriptor(target, prop) {
+                if (prop === 'length') {
+                    return { configurable: false, enumerable: false, value: target.length, writable: false };
+                }
+                return undefined;
+            },
+            set() { return false; },
+            defineProperty() { return false; },
+            deleteProperty() { return false; }
+        };
+
+        const proxy = new Proxy(_internal, handler);
+
+        // Replace the global DB with a non-enumerable accessor to make it less visible in console enumerations
+        try {
+            Object.defineProperty(window, 'DB', {
+                configurable: false,
+                enumerable: false, // hide from plain object enumeration
+                get() { return proxy; }
+            });
+        } catch (e) {
+            // fallback: if defineProperty fails (rare), overwrite variable with proxy
+            window.DB = proxy;
+        }
+
+        // also expose a safe internal getter for code paths that need the actual raw array (internal use only)
+        // This remains non-enumerable and named so it's not obvious at a glance.
+        Object.defineProperty(window, '__nexus_internal_db', {
+            configurable: false,
+            enumerable: false,
+            value: _internal
+        });
+
+        // --- NEW: reduce accidental sensitive output by redacting DB in console methods ---
+        (function redactConsoleForDB() {
+            try {
+                const origLog = console.log;
+                const origInfo = console.info;
+                const origWarn = console.warn;
+                const isObjDB = (v) => {
+                    if (!v) return false;
+                    if (Array.isArray(v) && v.length > 0 && v[0] && v[0].id) return true;
+                    if (v && v.id && v.url) return true;
+                    return false;
+                };
+                function safeArgs(args){
+                    try {
+                        return Array.from(args).map(a => {
+                            try {
+                                if (a === window.DB || a === window.__nexus_internal_db) return '[REDACTED:DB]';
+                                if (isObjDB(a)) return '[REDACTED:DB_OBJECT]';
+                                return a;
+                            } catch (e) { return '[REDACTED]'; }
+                        });
+                    } catch (e) { return ['[REDACTED_CONSOLE_ERROR]']; }
+                }
+                console.log = function(){ return origLog.apply(console, safeArgs(arguments)); };
+                console.info = function(){ return origInfo.apply(console, safeArgs(arguments)); };
+                console.warn = function(){ return origWarn.apply(console, safeArgs(arguments)); };
+                // do not override console.error to preserve important error visibility
+            } catch (e) {}
+        })();
+    } catch (err) {
+        // if anything goes wrong, leave DB as-is to avoid breaking app
+        console.warn('hardenDB failed', err);
+    }
+})();
+
+/* Safety: ensure applyVolumeToGame exists at global scope before any enhancers run.
+   Some enhancers (enhanceVolumeHandling) execute immediately and expect this function to exist.
+   Provide a minimal, safe implementation that persists volume and posts a message if possible.
+*/
+function applyVolumeToGame(v){
+    try{
+        const vol = Math.max(0, Math.min(100, Number(v) || 0));
+        try{ localStorage.setItem('nexus_game_volume', String(vol)); }catch(e){}
+        // update icon if helper exists
+        try{ if (typeof updateVolumeIcon === 'function') updateVolumeIcon(vol); }catch(e){}
+        // best-effort postMessage to iframe
+        try{
+            if (window.gameFrame && window.gameFrame.contentWindow && typeof window.gameFrame.contentWindow.postMessage === 'function'){
+                window.gameFrame.contentWindow.postMessage({ type: 'nexus:setVolume', volume: vol/100 }, '*');
+            }
+        }catch(e){}
+    }catch(e){ console.warn('applyVolumeToGame fallback failed', e); }
+}
+
+// ===== Add updateVolumeIcon helper so volume UI updates reliably =====
+function updateVolumeIcon(vol){
+    try {
+        const v = Math.max(0, Math.min(100, Number(vol) || 0));
+        const iconEl = document.getElementById('volume-icon');
+        if (!iconEl) return;
+        // Determine icon state
+        if (v === 0) {
+            iconEl.className = 'fas fa-volume-mute text-sm sm:text-lg';
+        } else if (v > 0 && v <= 30) {
+            iconEl.className = 'fas fa-volume-down text-sm sm:text-lg';
+        } else {
+            iconEl.className = 'fas fa-volume-up text-sm sm:text-lg';
+        }
+        // Update aria-label for accessibility
+        const slider = document.getElementById('volume-slider');
+        if (slider) slider.setAttribute('aria-valuenow', String(v));
+    } catch (e) {
+        // non-fatal
+    }
+}
+
+// Categories for rows
+const CATEGORIES = [
+    { title: 'Tendências do Momento', id: 'trending-container', filter: g => g.feat, color: 'blue-500' },
+    { title: 'FPS e Competições', id: 'fps-container', filter: g => (g.cat === 'FPS' || g.id === 'stumbleguys'), color: 'purple-500' },
+    // Modified Arcade row: exclude specific IDs and always include Om Nom Run and Imagine Island
+    { title: 'Arcade e Casual', id: 'arcade-container', filter: g => (
+            // base categories
+            (['Arcade', 'Ritmo', 'Simulação', 'Puzzle', 'Party Royale'].includes(g.cat)
+                // exclude these specific games from this row
+                && !['braintest2', 'ludoking', 'candycrush', 'rumblerush', 'stumbleguys', 'cuttheropemagic', 'cuttheropexp'].includes(g.id)
+            )
+            // always include these two games regardless of category
+            || ['omnomrun', 'imagineisland'].includes(g.id)
+        ), color: 'cyan-500' },
+    { title: 'Sessão Terror', id: 'horror-container', filter: g => g.cat === 'Terror', color: 'red-500' },
+    // Added: Puzzle row shown after horror
+    { title: 'Quebra‑cabeças & Puzzle', id: 'puzzle-container', filter: g => g.cat === 'Puzzle', color: 'amber-400' }
+];
+
+// --- STATE ---
+let myList = [];
+let activeGame = null;
+let currentUser = null;
+let currentTab = 'home';
+let searchTimeout = null;
+let isModalOpen = false; // State flag to track if modal is logically open
+let allowBackdropClose = false; // Safety flag to prevent immediate closing on initial click
+
+// --- GLOBAL LOADER REFERENCE & HELPERS (new) ---
+const globalLoader = document.getElementById('global-loader');
+const globalLoaderTitle = document.getElementById('global-loader-title');
+const globalLoaderSub = document.getElementById('global-loader-sub');
+const globalLoaderBar = document.getElementById('global-loader-bar');
+const globalLoaderHint = document.getElementById('global-loader-hint');
+
+function showGlobalLoader({ title = 'Carregando...', sub = 'Aguarde enquanto preparamos a sessão.', hint = '', progress = 0 } = {}) {
+    try {
+        if (!globalLoader) return;
+        globalLoaderTitle.textContent = title;
+        globalLoaderSub.textContent = sub;
+        globalLoaderHint.textContent = hint;
+        globalLoader.classList.remove('hidden');
+        globalLoader.style.display = 'flex';
+        // animate a gentle indeterminate progress if zero
+        if (progress === 0) {
+            // warm up to 36% then slowly progress to 65% until updated by load events
+            globalLoaderBar.style.width = '36%';
+            setTimeout(() => { if (globalLoaderBar) globalLoaderBar.style.width = '65%'; }, 800);
+        }
+    } catch (e) { console.warn('showGlobalLoader failed', e); }
+}
+
+function updateGlobalLoaderProgress(pct, text) {
+    try {
+        if (!globalLoader) return;
+        globalLoaderBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+        if (text) globalLoaderSub.textContent = text;
+    } catch (e) {}
+}
+
+function hideGlobalLoader(force = false) {
+    try {
+        if (!globalLoader) return;
+        // finish progress animation
+        globalLoaderBar.style.width = '100%';
+        // short delay so user can perceive completion
+        setTimeout(() => {
+            globalLoader.classList.add('hidden');
+            globalLoader.style.display = 'none';
+            // reset bar gently for next time
+            setTimeout(() => { if (globalLoaderBar) globalLoaderBar.style.width = '0%'; }, 160);
+        }, 260);
+    } catch (e) { console.warn('hideGlobalLoader failed', e); }
+}
+
+/* --- In-app confirmation dialog helper (Promise-based) --- */
+function showConfirm({ title = 'Confirmar', message = 'Tem certeza?', okText = 'Confirmar', cancelText = 'Cancelar' } = {}) {
+    return new Promise((resolve) => {
+        try {
+            const modal = document.getElementById('confirm-modal');
+            if (!modal) {
+                // fallback to native confirm when modal is missing
+                const res = window.confirm(message);
+                resolve(res);
+                return;
+            }
+            const titleEl = modal.querySelector('#confirm-title');
+            const msgEl = modal.querySelector('#confirm-message');
+            const okBtn = modal.querySelector('#confirm-ok');
+            const cancelBtn = modal.querySelector('#confirm-cancel');
+
+            titleEl && (titleEl.textContent = title);
+            msgEl && (msgEl.textContent = message);
+            okBtn && (okBtn.textContent = okText);
+            cancelBtn && (cancelBtn.textContent = cancelText);
+
+            function cleanup(immediate = false) {
+                // play closing animation then hide
+                modal.classList.remove('confirm-show');
+                modal.classList.add('confirm-hide');
+                modal.setAttribute('aria-hidden', 'true');
+                okBtn.removeEventListener('click', onOk);
+                cancelBtn.removeEventListener('click', onCancel);
+                document.removeEventListener('keydown', onKey);
+                if (immediate) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('confirm-hide');
+                } else {
+                    // allow animation to complete
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('confirm-hide');
+                    }, 300);
+                }
+            }
+
+            function onOk(e) {
+                e && e.preventDefault();
+                cleanup();
+                resolve(true);
+            }
+            function onCancel(e) {
+                e && e.preventDefault();
+                cleanup();
+                resolve(false);
+            }
+            function onKey(e) {
+                if (e.key === 'Escape') {
+                    onCancel(e);
+                } else if (e.key === 'Enter') {
+                    onOk(e);
+                }
+            }
+
+            okBtn.addEventListener('click', onOk);
+            cancelBtn.addEventListener('click', onCancel);
+            document.addEventListener('keydown', onKey);
+
+            // show modal with animation
+            modal.classList.remove('hidden', 'confirm-hide');
+            // force reflow to ensure animation triggers
+            void modal.offsetWidth;
+            modal.classList.add('confirm-show');
+            modal.setAttribute('aria-hidden', 'false');
+
+            // focus safe default
+            cancelBtn.focus();
+        } catch (err) {
+            console.warn('showConfirm error', err);
+            const res = window.confirm(message);
+            resolve(res);
+        }
+    });
+}
+
+// --- ELEMENTS ---
+const loginScreen = document.getElementById('login-screen');
+const appContainer = document.getElementById('app-container');
+const usernameInput = document.getElementById('username-input');
+const loginForm = document.getElementById('login-form');
+const loginSubmit = document.getElementById('login-submit');
+
+const userDisplayName = document.getElementById('user-display-name');
+const heroSection = document.getElementById('hero-section');
+const dynamicRows = document.getElementById('dynamic-rows');
+const favoritesGrid = document.getElementById('favorites-grid');
+const noFavoritesMsg = document.getElementById('no-favorites-msg');
+const homeContent = document.getElementById('home-content');
+const favoritesContent = document.getElementById('favorites-content');
+const searchResultsContent = document.getElementById('search-results-content');
+const searchResultsGrid = document.getElementById('search-results-grid');
+const noSearchResultsMsg = document.getElementById('no-search-results-msg');
+const searchInput = document.getElementById('search-input');
+const searchQueryDisplay = document.getElementById('search-query-display');
+const navbar = document.getElementById('navbar');
+
+// add a small DOM reference for navbar count
+const navbarFavButtons = document.querySelectorAll('[data-tab="favorites"]');
+
+// Game layer
+const gameLayer = document.getElementById('game-layer');
+const gameFrame = document.getElementById('game-frame');
+const gameLoader = document.getElementById('loader');
+const playingTitle = document.getElementById('playing-title');
+const btnCloseGame = document.getElementById('btn-close-game');
+const btnFullscreen = document.getElementById('btn-fullscreen');
+const loadingStatus = document.getElementById('loading-status');
+const gameFrameWrapper = document.getElementById('game-frame-wrapper'); // ADDED ELEMENT REFERENCE
+
+// NEW: hide-toolbar button ref
+const btnHideToolbar = document.getElementById('btn-hide-toolbar');
+const gameLayerToolbar = document.querySelector('#game-layer > .glass-nav');
+
+// Modal
+const detailsModal = document.getElementById('details-modal');
+const modalCard = document.getElementById('modal-card');
+const modalTitle = document.getElementById('modal-title');
+const modalDesc = document.getElementById('modal-desc');
+const modalCat = document.getElementById('modal-cat');
+const modalControls = document.getElementById('modal-controls');
+const modalBanner = document.getElementById('modal-banner');
+const modalPlayBtn = document.getElementById('modal-play-btn');
+const modalListBtn = document.getElementById('modal-list-btn');
+const modalClose = document.getElementById('modal-close');
+
+// --- INITIALIZATION ---
+function loadState() {
+    try {
+        const storedList = localStorage.getItem('nexus_mylist');
+        if (storedList) myList = JSON.parse(storedList) || [];
+    } catch {
+        myList = [];
+    }
+}
+
+function saveList() {
+    try {
+        localStorage.setItem('nexus_mylist', JSON.stringify(myList));
+    } catch {
+        // ignore quota errors
+    }
+}
+
+function checkSession() {
+    loadState();
+    const savedUser = localStorage.getItem('nexus_user');
+    if (savedUser) {
+        enterApp(savedUser);
+    } else {
+        // keep login visible
+        loginScreen.style.opacity = '1';
+        loginScreen.style.pointerEvents = 'auto';
+    }
+}
+
+function handleLoginSubmit(e) {
+    e.preventDefault();
+    const username = usernameInput.value.trim();
+    if (!username) return;
+    localStorage.setItem('nexus_user', username);
+    enterApp(username);
+}
+
+// --- DEEP LINK / SHARE SYSTEM ---
+// Build a stable share URL that works even when hosted locally or outside Websim.
+// It uses the current location origin and pathname when available, and includes ?game=<id>.
+// If origin isn't available (file://), falls back to pathname only.
+function buildShareUrlForGame(id) {
+    try {
+        // Build from origin + clean pathname so we don't reuse any existing query/hash
+        const base = `${window.location.origin}${window.location.pathname}`;
+        const url = new URL(base);
+        url.searchParams.set('game', id);
+        return url.toString();
+    } catch (e) {
+        // fallback for unusual environments (file:// ou restrito)
+        const path = (location && location.pathname) ? location.pathname : '';
+        return `${path}?game=${encodeURIComponent(id)}`;
+    }
+}
+
+async function shareGameLink(id) {
+    const game = getGameById(id);
+    if (!game) return;
+
+    const shareUrl = buildShareUrlForGame(id);
+    const title = `Jogar ${game.title} no Nexus`;
+    // Removed the direct game.url from the shared/copied text to avoid exposing direct links.
+    const text = `${game.title} — ${game.desc}\n\nAbrir no Nexus: ${shareUrl}`;
+
+    if (navigator.share) {
+        try {
+            await navigator.share({ title, text, url: shareUrl });
+            showToast('Link de compartilhamento aberto pelo navegador.');
+            return true;
+        } catch (err) {
+            // usuário cancelou ou falhou; continua para tentar copiar
+        }
+    }
+
+    try {
+        await navigator.clipboard.writeText(`${title}\n\n${text}`);
+        showToast('Link do Nexus copiado para a área de transferência.');
+        return true;
+    } catch (err) {
+        showToast('Não foi possível copiar. Use o menu de compartilhar do navegador.');
+        return false;
+    }
+}
+
+// When page loads, check URL param ?game=ID and open that game's details (deep-link)
+function handleDeepLinkOnLoad() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const gid = params.get('game');
+        if (gid) {
+            // Wait until app initial UI is ready
+            const attemptOpen = () => {
+                // if DB not ready or init not completed, try again shortly
+                if (typeof DB === 'undefined' || !document.body) {
+                    setTimeout(attemptOpen, 180);
+                    return;
+                }
+                const game = getGameById(gid);
+                if (game) {
+                    // If user not logged in yet, delay until enterApp runs
+                    if (!currentUser) {
+                        // open after enterApp runs
+                        const onEnter = () => {
+                            openDetails(gid);
+                            window.removeEventListener('nexus:entered', onEnter);
+                        };
+                        window.addEventListener('nexus:entered', onEnter);
+                    } else {
+                        openDetails(gid);
+                    }
+                }
+            };
+            attemptOpen();
+        }
+    } catch (err) {
+        // ignore parsing issues
+    }
+}
+
+// modify enterApp to dispatch event so deep-link waiting can open modal after login
+function enterApp(username) {
+    currentUser = username;
+    const shortName = username.length > 12 ? username.slice(0, 12) + '…' : username;
+    userDisplayName.textContent = shortName;
+
+    loginScreen.style.opacity = '0';
+    loginScreen.style.pointerEvents = 'none';
+
+    setTimeout(() => {
+        loginScreen.style.display = 'none';
+        appContainer.style.opacity = '1';
+        appContainer.style.pointerEvents = 'auto';
+        initApp();
+        // notify deep-link that app has entered
+        try { window.dispatchEvent(new Event('nexus:entered')); } catch (e) {}
+    }, 350);
+}
+
+// --- INIT APP (added) ---
+function initApp() {
+    try {
+        // Basic render
+        renderAllRows();
+        renderHero();
+
+        // Wire interactions
+        wireTabs();
+        wireSearch();
+        wireNavbarScroll();
+        wireModal();
+        wireGameControls();
+
+        // Start trending auto-refresh with conservative interval
+        startTrendingAutoRefresh(12000);
+
+        // Process deep link if present
+        handleDeepLinkOnLoad();
+
+        // Ensure favorites state is reflected
+        renderFavorites();
+
+        // Improve accessibility: focus main content area if possible
+        try { document.getElementById('hero-section')?.focus(); } catch (e) {}
+
+        // Apply stored volume to UI and game right after controls wired
+        try {
+            const saved = parseInt(localStorage.getItem('nexus_game_volume'), 10);
+            const slider = document.getElementById('volume-slider');
+            if (!isNaN(saved) && slider) {
+                slider.value = Math.min(100, Math.max(0, saved));
+                // ensure icon and game are updated to reflect persisted volume
+                try { updateVolumeIcon(saved); } catch (e) {}
+                try { applyVolumeToGame(saved); } catch (e) {}
+            } else if (slider) {
+                // no saved value: use slider's current value as initial source of truth
+                try { updateVolumeIcon(Number(slider.value)); } catch (e) {}
+                try { applyVolumeToGame(Number(slider.value)); } catch (e) {}
+            }
+        } catch (e) {}
+
+        // Small performance tweak: pause trending when page hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (_trendingInterval) clearInterval(_trendingInterval);
+            } else {
+                startTrendingAutoRefresh(12000);
+            }
+        }, { passive: true });
+    } catch (err) {
+        console.error('initApp failed', err);
+    }
+}
+
+// --- TRENDING AUTO-REFRESH ---
+let _trendingInterval = null;
+function shuffleArray(arr) {
+    // Fisher-Yates shuffle (non-mutating)
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function refreshTrendingRow() {
+    const containerId = 'trending-container';
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Build a dynamic pool:
+    // - always include a core of featured games
+    // - sometimes (25% chance) inject 1-2 non-featured picks to introduce variety/new entries
+    const featured = DB.filter(g => g.feat);
+    if (!featured.length) return;
+
+    // determine new selection size (clamped to available)
+    const visibleCount = Math.max(4, Math.min(8, Math.floor(container.clientWidth / 220) || 5));
+
+    // base pool is featured shuffled
+    let pool = shuffleArray(featured);
+
+    // occasionally add a small number of non-featured items to introduce "new" games
+    if (Math.random() < 0.25) {
+        const nonFeat = DB.filter(g => !g.feat);
+        if (nonFeat.length) {
+            const pick = shuffleArray(nonFeat).slice(0, Math.min(2, nonFeat.length));
+            // interleave picks into pool for visual variety
+            pick.forEach((p, i) => {
+                pool.splice(1 + i * 2, 0, p);
+            });
+        }
+    }
+
+    // final visible slice
+    const newSelection = pool.slice(0, visibleCount);
+
+    // perform a minimal DOM diff update: only replace cards that changed to avoid layout thrash
+    const existingCards = Array.from(container.querySelectorAll('[data-card-game-id]')).map(n => n.getAttribute('data-card-game-id'));
+    const newIds = newSelection.map(g => g.id);
+
+    // If lengths differ dramatically or no existing cards, rebuild for simplicity
+    const shouldRebuild = existingCards.length === 0 || Math.abs(existingCards.length - newIds.length) > 3;
+
+    if (shouldRebuild) {
+        container.innerHTML = newSelection.map(g => createCard(g, false)).join('');
+        // lightweight entrance: fade-in for new content
+        container.querySelectorAll('[data-card-game-id]').forEach((el, idx) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(8px)';
+            requestAnimationFrame(() => {
+                el.style.transition = 'opacity 360ms ease, transform 360ms cubic-bezier(.22,.9,.35,1)';
+                el.style.opacity = '1';
+                el.style.transform = '';
+            });
+        });
+    } else {
+        // patch in-place: update or insert cards to follow new order
+        newSelection.forEach((g, idx) => {
+            const existing = container.querySelector(`[data-card-game-id="${g.id}"]`);
+            if (existing) {
+                // move to correct position if needed
+                const currentNode = container.children[idx];
+                if (currentNode !== existing) {
+                    container.insertBefore(existing, currentNode || null);
+                }
+            } else {
+                // create new node and insert at idx
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = createCard(g, false);
+                const newNode = wrapper.firstElementChild;
+                newNode.style.opacity = '0';
+                newNode.style.transform = 'translateY(8px)';
+                const ref = container.children[idx] || null;
+                container.insertBefore(newNode, ref);
+                requestAnimationFrame(() => {
+                    newNode.style.transition = 'opacity 360ms ease, transform 360ms cubic-bezier(.22,.9,.35,1)';
+                    newNode.style.opacity = '1';
+                    newNode.style.transform = '';
+                });
+            }
+        });
+
+        // remove stray nodes not in newIds
+        existingCards.forEach(id => {
+            if (!newIds.includes(id)) {
+                const node = container.querySelector(`[data-card-game-id="${id}"]`);
+                if (node) {
+                    node.style.transition = 'opacity 240ms ease, transform 240ms ease';
+                    node.style.opacity = '0';
+                    node.style.transform = 'translateY(10px)';
+                    setTimeout(() => { if (node.parentNode) node.parentNode.removeChild(node); }, 260);
+                }
+            }
+        });
+    }
+
+    // reattach delegated handlers (fast and idempotent)
+    attachCardEvents();
+
+    // ensure scroll state buttons update (trigger a single RAF scroll event)
+    requestAnimationFrame(() => container.dispatchEvent(new Event('scroll')));
+}
+
+function startTrendingAutoRefresh(intervalMs = 12000) {
+    // clear any previous interval
+    if (_trendingInterval) clearInterval(_trendingInterval);
+    // initial refresh so user sees variation quickly
+    refreshTrendingRow();
+    // set periodic refresh with modest frequency for performance
+    _trendingInterval = setInterval(() => {
+        try {
+            refreshTrendingRow();
+            // occasionally also refresh hero to match trending vibe (small 8% chance)
+            if (Math.random() < 0.08) renderHero();
+        } catch (err) {
+            console.warn('Trending refresh failed', err);
+        }
+    }, intervalMs);
+}
+
+// Optional: clear on unload to avoid leaks
+window.addEventListener('beforeunload', () => {
+    if (_trendingInterval) clearInterval(_trendingInterval);
+});
+
+// --- TABS ---
+function wireTabs() {
+    // include both desktop and mobile tab elements
+    document.querySelectorAll('.tab-btn, .tab-chip').forEach(btn => {
+        // use pointerdown for snappier touch response and to avoid 300ms delays on some devices
+        btn.addEventListener('pointerdown', (ev) => {
+            // ensure we only handle primary pointers
+            if (ev.isPrimary === false) return;
+            ev.preventDefault(); // immediate visual response; click will be synthesized or ignored
+            const tab = btn.getAttribute('data-tab');
+            // If the tab is already active, do nothing to avoid unnecessary refreshes
+            if (tab === currentTab) return;
+            switchTab(tab);
+        }, { passive: false });
+
+        // also listen for touchend as a fallback on older browsers
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const tab = btn.getAttribute('data-tab');
+            if (tab === currentTab) return;
+            switchTab(tab);
+        }, { passive: false });
+    });
+}
+
+function switchTab(tabName) {
+    currentTab = tabName;
+
+    // Reset search view
+    searchInput.value = '';
+    searchResultsContent.classList.add('hidden');
+
+    // hide all main content panes gracefully with crossfade
+    const panes = [homeContent, favoritesContent, searchResultsContent];
+    panes.forEach(el => {
+        el.classList.remove('animate-fade-in');
+        el.classList.add('page-fade');
+        el.classList.remove('show');
+        // ensure non-active panes are hidden to avoid overlap
+        el.classList.add('hidden');
+    });
+
+    // small helper to show a pane with animation
+    const showPane = (el) => {
+        if (!el) return;
+        el.classList.remove('hidden');
+        // ensure reflow then show
+        void el.offsetWidth;
+        el.classList.add('show');
+        requestAnimationFrame(() => {
+            el.classList.add('animate-fade-in');
+        });
+    };
+
+    if (tabName === 'home') {
+        showPane(homeContent);
+    } else if (tabName === 'favorites') {
+        renderFavorites();
+        showPane(favoritesContent);
+    } else {
+        // fallback: show home
+        showPane(homeContent);
+    }
+
+    // cleanup page-fade classes after transition so reused animations run correctly
+    setTimeout(() => {
+        panes.forEach(el => {
+            el.classList.remove('page-fade');
+        });
+    }, 360);
+
+    // update active states on all tab elements sharing same data-tab
+    document.querySelectorAll('.tab-btn, .tab-chip').forEach(btn => {
+        btn.classList.remove('tab-btn-active');
+        const data = btn.getAttribute('data-tab');
+        if (data === tabName) {
+            btn.classList.add('tab-btn-active');
+        }
+    });
+}
+
+// --- RENDERING ---
+function getGameById(id) {
+    return DB.find(g => g.id === id);
+}
+
+function updateCardFavoriteState(id) {
+    const isFav = myList.includes(id);
+    const iconClass = isFav ? 'fas fa-check text-green-400' : 'far fa-heart'; // Base class
+
+    // 1. Update all instances of the card in dynamic rows/search grid
+    document.querySelectorAll(`[data-card-game-id="${id}"] .card-fav i`).forEach(icon => {
+        // Card icons use text-xs size
+        icon.className = `${iconClass} text-xs`;
+    });
+
+    // 2. Update the Hero button state if this is the active hero game
+    const heroGameId = heroSection.querySelector('.hero-play')?.getAttribute('data-game-id');
+    if (heroGameId === id) {
+        const heroIcon = document.getElementById('hero-list-icon');
+        const heroText = heroIcon?.nextElementSibling; // span with text
+        if (heroIcon) heroIcon.className = iconClass; // Hero icon uses default size (larger)
+        if (heroText) heroText.textContent = isFav ? 'Adicionado' : 'Favoritos';
+    }
+}
+
+function renderHero() {
+    const featured = DB.filter(g => g.feat);
+    if (!featured.length) return;
+
+    const availableGames = featured.filter(g => !myList.includes(g.id));
+    const pool = availableGames.length ? availableGames : featured;
+    const game = pool[Math.floor(Math.random() * pool.length)];
+    if (!game) return;
+
+    heroSection.style.backgroundImage = `url('${game.banner}')`;
+
+    const isFav = myList.includes(game.id);
+
+    heroSection.innerHTML = `
+        <div class="absolute inset-0 hero-gradient-side"></div>
+        <div class="absolute inset-0 hero-gradient-bottom"></div>
+
+        <div class="relative z-10 w-full p-5 sm:p-8 lg:p-10 mb-3 max-w-3xl animate-fade-in">
+            <div class="flex items-center gap-2 mb-3 text-xs">
+                <span class="bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow-md shadow-purple-600/50">Destaque</span>
+                <span class="text-purple-300 font-semibold text-[11px] tracking-wider uppercase">${game.cat}</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white mb-4 leading-tight drop-shadow-2xl text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-300">
+                ${game.title}
+            </h1>
+
+            <p class="text-gray-300 text-xs sm:text-sm lg:text-base mb-5 line-clamp-3 max-w-xl font-light leading-relaxed drop-shadow-md border-l-2 border-purple-500 pl-3">
+                ${game.desc}
+            </p>
+
+            <div class="flex flex-wrap gap-3">
+                <button data-game-id="${game.id}"
+                        class="hero-play bg-white text-black px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-sm flex items-center gap-2 hover:bg-gray-200 transition transform hover:scale-[1.02] active:scale-[0.97] shadow-[0_0_20px_rgba(255,255,255,0.28)]">
+                    <i class="fas fa-play text-xs sm:text-sm"></i> Jogar
+                </button>
+                <button data-game-id="${game.id}"
+                        class="hero-fav bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm flex items-center gap-2 hover:bg-white/18 transition transform hover:scale-[1.02] active:scale-[0.97]">
+                    <i class="${isFav ? 'fas fa-check text-green-400' : 'far fa-heart'}" id="hero-list-icon"></i>
+                    <span class="hidden xs:inline">${isFav ? 'Adicionado' : 'Favoritos'}</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    heroSection.querySelector('.hero-play')?.addEventListener('click', () => playGame(game.id));
+    heroSection.querySelector('.hero-fav')?.addEventListener('click', () => toggleFavorites(game.id, 'hero'));
+}
+
+function createCard(game, isGrid = false) {
+    const baseClasses = isGrid
+        ? 'game-card h-36 sm:h-40 rounded-xl overflow-hidden relative cursor-pointer group bg-gray-800/90 border border-gray-800 hover:border-purple-500/60 shadow-lg transition-all flex'
+        : 'game-card flex-none w-[220px] sm:w-[260px] lg:w-[300px] aspect-video rounded-xl overflow-hidden relative cursor-pointer group bg-gray-800/90 border border-gray-800 hover:border-purple-500/60 shadow-lg';
+    
+    const imageSize = isGrid ? 'w-5/12 h-full' : 'w-full h-full';
+    const contentClasses = isGrid
+        ? 'w-7/12 p-3 sm:p-4 flex flex-col justify-between'
+        : 'absolute inset-0 p-3 sm:p-4 flex flex-col justify-end translate-y-1 group-hover:translate-y-0 transition-transform duration-300';
+
+    const isFav = myList.includes(game.id);
+
+    return `
+        <div class="${baseClasses}" data-card-game-id="${game.id}">
+            <img src="${game.banner}"
+                 class="${imageSize} object-cover transition-transform duration-700 group-hover:scale-110"
+                 loading="lazy"
+                 onerror="this.onerror=null;this.src='https://placehold.co/600x337/020617/64748b?text=Imagem+indisponível'">
+
+            ${!isGrid ? '<div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300"></div>' : ''}
+
+            <div class="${contentClasses}">
+                <div class="space-y-1">
+                    <span class="text-[9px] uppercase font-bold tracking-widest text-gray-300 bg-white/10 px-1.5 py-0.5 rounded hidden sm:inline-block">${game.cat}</span>
+                    <h3 class="text-white font-semibold text-sm sm:text-base leading-tight mb-1 drop-shadow-md group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all line-clamp-2">
+                        ${game.title}
+                    </h3>
+                </div>
+
+                <div class="flex items-center justify-between mt-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
+                    <button class="card-play px-2.5 py-1.5 rounded-full bg-white text-black flex items-center gap-1 font-semibold text-[11px] hover:scale-105 transition active:scale-95">
+                        <i class="fas fa-play text-[10px]"></i> Jogar
+                    </button>
+                    <button class="card-fav w-7 h-7 rounded-full bg-white/20 text-white backdrop-blur-sm flex items-center justify-center hover:bg-white/35 transition active:scale-90">
+                        <i class="${isFav ? 'fas fa-check text-green-400 text-xs' : 'far fa-heart'}"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function createRow(category) {
+    const games = DB.filter(category.filter);
+    if (!games.length) return '';
+
+    return `
+        <section class="animate-fade-in" style="animation-delay:0.15s;">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-base sm:text-lg font-bold text-white tracking-wide border-l-4 border-${category.color} pl-3">
+                    ${category.title}
+                </h2>
+                <div class="row-controls mr-1">
+                    <button type="button" class="row-nav-button" data-target="${category.id}" data-dir="-1" aria-label="Rolar para esquerda" aria-disabled="true">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button type="button" class="row-nav-button" data-target="${category.id}" data-dir="1" aria-label="Rolar para direita" aria-disabled="false">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex overflow-x-auto gap-3 sm:gap-4 hide-scroll pb-6" id="${category.id}">
+                ${games.map(g => createCard(g, false)).join('')}
+            </div>
+        </section>
+    `;
+}
+
+function renderAllRows() {
+    dynamicRows.innerHTML = CATEGORIES.map(createRow).join('');
+    attachRowEvents();
+    attachCardEvents();
+    // ensure nav buttons reflect initial scroll positions
+    CATEGORIES.forEach(cat => {
+        const container = document.getElementById(cat.id);
+        if (container) {
+            const evt = new Event('scroll');
+            container.dispatchEvent(evt);
+        }
+    });
+}
+
+function renderFavorites() {
+    // Richer favorites UI: header with count, sort, view toggle, clear; supports grid/list responsive modes.
+    const favorites = myList.map(id => getGameById(id)).filter(Boolean);
+
+    // Ensure favorites grid uses the richer favorites-grid class for responsive layout
+    favoritesGrid.classList.add('favorites-grid');
+    favoritesGrid.classList.remove('list-view'); // default to grid; may be toggled below
+    favoritesGrid.innerHTML = '';
+
+    // Remove any old inline navbar badges
+    document.querySelectorAll('.nav-fav-count').forEach(el => el.remove());
+
+    // Header: inject controls (sort + view + clear)
+    const existingHeader = favoritesContent.querySelector('.favorites-header');
+    const currentView = localStorage.getItem('nexus_fav_view') || 'grid'; // 'grid' or 'list'
+    const currentSort = localStorage.getItem('nexus_fav_sort') || 'added'; // 'added' | 'alpha' | 'category'
+
+    const headerHtml = `
+        <div class="favorites-header">
+            <div class="favorites-title" style="gap:10px; align-items:center;">
+                <div style="display:flex; flex-direction:column;">
+                    <div style="font-weight:800; font-size:1.05rem; color:#fff;">Minha Biblioteca</div>
+                    <div style="font-size:12px; color:#9ca3af;">Seus jogos salvos para acesso rápido</div>
+                </div>
+                <div class="fav-badge" style="margin-left:8px;">${favorites.length}</div>
+            </div>
+
+            <div class="favorites-controls">
+                <div class="select" id="fav-sort">
+                    <i class="fas fa-sort text-xs"></i>
+                    <select id="fav-sort-select" style="background: transparent; border:0; color:inherit; outline:none;">
+                        <option value="added"${currentSort==='added'?' selected':''}>Recentes</option>
+                        <option value="alpha"${currentSort==='alpha'?' selected':''}>A–Z</option>
+                        <option value="category"${currentSort==='category'?' selected':''}>Categoria</option>
+                    </select>
+                </div>
+                <button id="fav-view-grid" class="view-btn" title="Grid view" aria-pressed="${currentView==='grid'}">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button id="fav-view-list" class="view-btn" title="List view" aria-pressed="${currentView==='list'}">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button id="clear-favorites-btn" class="fav-remove-btn" title="Remover todos">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    if (existingHeader) existingHeader.remove();
+    const sectionTitle = favoritesContent.querySelector('.section-title') || favoritesContent.querySelector('h2');
+    if (sectionTitle) sectionTitle.insertAdjacentHTML('afterend', headerHtml);
+    else favoritesContent.insertAdjacentHTML('afterbegin', headerHtml);
+
+    // Wire header controls
+    const sortSelect = document.getElementById('fav-sort-select');
+    const gridBtn = document.getElementById('fav-view-grid');
+    const listBtn = document.getElementById('fav-view-list');
+    const clearBtn = document.getElementById('clear-favorites-btn');
+
+    function applyViewMode(mode) {
+        localStorage.setItem('nexus_fav_view', mode);
+        if (mode === 'list') {
+            favoritesGrid.classList.add('list-view');
+        } else {
+            favoritesGrid.classList.remove('list-view');
+        }
+        gridBtn.setAttribute('aria-pressed', mode === 'grid');
+        listBtn.setAttribute('aria-pressed', mode === 'list');
+    }
+
+    gridBtn.onclick = () => applyViewMode('grid');
+    listBtn.onclick = () => applyViewMode('list');
+    applyViewMode(currentView);
+
+    sortSelect.onchange = () => {
+        localStorage.setItem('nexus_fav_sort', sortSelect.value);
+        renderFavorites(); // re-render with new order
+    };
+
+    clearBtn.onclick = async () => {
+        if (!favorites.length) return;
+        const ok = await showConfirm({
+            title: 'Remover todos os favoritos',
+            message: 'Isso removerá todos os jogos da sua biblioteca. Deseja continuar?',
+            okText: 'Remover',
+            cancelText: 'Cancelar'
+        });
+        if (!ok) return;
+
+        // Play a cascading exit animation for all favorite cards
+        const nodes = Array.from(favoritesGrid.querySelectorAll('[data-fav-id]'));
+        if (nodes.length) {
+            nodes.forEach((card, i) => {
+                card.style.transition = 'transform 360ms cubic-bezier(.22,.9,.35,1), opacity 320ms ease';
+                card.style.transformOrigin = 'center';
+                setTimeout(() => {
+                    card.classList.add('fav-clear-anim');
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(18px) scale(0.96) rotate(-1deg)';
+                }, i * 80);
+            });
+            // wait for animation to finish then clear
+            setTimeout(() => {
+                myList = [];
+                saveList();
+                renderFavorites();
+                renderAllRows();
+                // small pulse on empty state
+                const empty = favoritesGrid.querySelector('.fav-empty');
+                if (empty) {
+                    empty.classList.add('fav-empty-pulse');
+                    setTimeout(() => empty.classList.remove('fav-empty-pulse'), 800);
+                }
+            }, Math.min(900, nodes.length * 90 + 320));
+        } else {
+            myList = [];
+            saveList();
+            renderFavorites();
+            renderAllRows();
+        }
+    };
+
+    // Sorting
+    let sorted = favorites.slice();
+    const sortMode = localStorage.getItem('nexus_fav_sort') || 'added';
+    if (sortMode === 'alpha') {
+        sorted.sort((a,b) => a.title.localeCompare(b.title));
+    } else if (sortMode === 'category') {
+        sorted.sort((a,b) => {
+            if (a.cat === b.cat) return a.title.localeCompare(b.title);
+            return a.cat.localeCompare(b.cat);
+        });
+    } // 'added' keeps the order stored in myList
+
+    if (!sorted.length) {
+        // Empty placeholder
+        favoritesGrid.insertAdjacentHTML('beforeend', `
+            <div class="fav-empty col-span-full" style="padding:28px; border-radius:12px;">
+                <i class="fas fa-heart-broken" style="font-size:36px;color:rgba(124,58,237,0.95);margin-bottom:12px;"></i>
+                <div style="font-weight:700;color:#fff;margin-bottom:6px;">Você não tem favoritos ainda</div>
+                <div style="max-width:560px;color:#9ca3af;font-size:0.95rem;">
+                    Toque no coração em qualquer jogo para salvá-lo aqui. Use as opções acima para organizar sua biblioteca.
+                </div>
+            </div>
+        `);
+        noFavoritesMsg.classList.add('hidden');
+        return;
+    }
+
+    noFavoritesMsg.classList.add('hidden');
+
+    // Render cards with data attributes to animate in after insertion
+    sorted.forEach((game, idx) => {
+        const cardHtml = `
+            <div class="favorites-grid-card" data-fav-id="${game.id}" data-animate="in">
+                <img src="${game.banner}" alt="${game.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x337/020617/64748b?text=Imagem+indisponível'">
+                <div class="fav-card-body">
+                    <div>
+                        <div class="favorites-title">
+                            <div style="display:flex; flex-direction:column;">
+                                <span class="fav-card-title">${game.title}</span>
+                                <span style="font-size:11px;color:#94a3b8;font-weight:600;">${game.cat}</span>
+                            </div>
+                        </div>
+                        <p class="fav-card-desc">${game.desc}</p>
+                    </div>
+
+                    <div class="fav-card-controls">
+                        <button class="fav-play-btn" data-fav-play="${game.id}"><i class="fas fa-play" style="margin-right:8px;"></i>Jogar</button>
+                        <button class="fav-remove-btn" data-fav-remove="${game.id}"><i class="fas fa-trash-alt"></i> Remover</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        favoritesGrid.insertAdjacentHTML('beforeend', cardHtml);
+    });
+
+    // Animate entrance with slight stagger for polish
+    const nodes = Array.from(favoritesGrid.querySelectorAll('[data-fav-id]'));
+    nodes.forEach((el, i) => {
+        el.classList.remove('is-visible');
+        setTimeout(() => {
+            el.classList.add('is-visible');
+            // remove attribute to mark final state
+            el.removeAttribute('data-animate');
+        }, 80 + i * 60);
+    });
+
+    // wire up quick actions
+    document.querySelectorAll('[data-fav-play]').forEach(btn => {
+        btn.onclick = (e) => {
+            const id = btn.getAttribute('data-fav-play');
+            playGame(id);
+        };
+        btn.style.minWidth = '110px';
+    });
+    document.querySelectorAll('[data-fav-remove]').forEach(btn => {
+        btn.onclick = (e) => {
+            const id = btn.getAttribute('data-fav-remove');
+            myList = myList.filter(x => x !== id);
+            saveList();
+            // animate removal then re-render
+            const card = btn.closest('[data-fav-id]');
+            if (card) {
+                card.style.transition = 'opacity 240ms ease, transform 240ms cubic-bezier(.22,.9,.35,1)';
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(8px) scale(0.985)';
+                setTimeout(() => renderFavorites(), 260);
+            } else {
+                renderFavorites();
+            }
+            renderAllRows();
+        };
+        btn.style.padding = '10px 12px';
+    });
+
+    // Make the grid scroll to top when switching to favorites for better UX on mobile
+    favoritesGrid.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+}
+
+function renderSearchResults(results) {
+    searchResultsGrid.innerHTML = '';
+
+    if (!results.length) {
+        noSearchResultsMsg.classList.remove('hidden');
+        return;
+    }
+
+    noSearchResultsMsg.classList.add('hidden');
+    results.forEach(game => {
+        searchResultsGrid.insertAdjacentHTML('beforeend', createCard(game, true));
+    });
+
+    attachCardEvents(true);
+}
+
+// --- INTERACTIONS ---
+function attachRowEvents() {
+    document.querySelectorAll('.row-nav-button').forEach(btn => {
+        const targetId = btn.getAttribute('data-target');
+        const dir = parseInt(btn.getAttribute('data-dir'), 10) || 1;
+        const container = document.getElementById(targetId);
+        if (!container) return;
+
+        // helper to scroll by a sensible, clamped amount
+        const doScroll = () => {
+            // use card width heuristics if available to provide predictable scroll steps
+            const firstCard = container.querySelector('.game-card');
+            let step = Math.round(container.clientWidth * 0.78);
+            if (firstCard) {
+                const cw = firstCard.getBoundingClientRect().width + 12; // include gap
+                // prefer scrolling by a few cards on wider screens, 1 card on narrow
+                step = (window.innerWidth <= 640) ? Math.round(cw * 1.05) : Math.round(cw * 3);
+            }
+            const amount = dir * step;
+            container.scrollBy({ left: amount, behavior: 'smooth' });
+        };
+
+        // pointerdown for snappy touch response
+        btn.addEventListener('pointerdown', (e) => {
+            if (e.isPrimary === false) return;
+            // allow preventDefault on pointerdown so we can suppress native gestures and ensure the scroll runs immediately
+            e.preventDefault();
+            doScroll();
+        }, { passive: false });
+
+        // click fallback
+        btn.addEventListener('click', (e) => {
+            // Removed e.preventDefault() since passive: true is used, ensuring click works reliably.
+            doScroll();
+        }, { passive: true });
+
+        container.style.webkitOverflowScrolling = 'touch';
+        container.style.overscrollBehaviorX = 'contain';
+
+        const updateState = () => {
+            const maxScrollLeft = container.scrollWidth - container.clientWidth;
+            const atStart = container.scrollLeft <= 8;
+            const atEnd = container.scrollLeft >= (maxScrollLeft - 8);
+            const leftBtn = document.querySelector(`.row-nav-button[data-target="${targetId}"][data-dir="-1"]`);
+            const rightBtn = document.querySelector(`.row-nav-button[data-target="${targetId}"][data-dir="1"]`);
+            if (leftBtn) leftBtn.setAttribute('aria-disabled', atStart ? 'true' : 'false');
+            if (rightBtn) rightBtn.setAttribute('aria-disabled', atEnd ? 'true' : 'false');
+        };
+
+        // throttle updates with requestAnimationFrame (already used)
+        let raf;
+        const onScroll = () => {
+            if (raf) cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+                updateState();
+                raf = null;
+            });
+        };
+
+        container.addEventListener('scroll', onScroll, { passive: true });
+
+        // debounce resize-driven updates
+        let resizeTimer;
+        const debouncedUpdate = () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updateState, 120);
+        };
+        window.addEventListener('resize', debouncedUpdate, { passive: true });
+
+        setTimeout(updateState, 80);
+    });
+}
+
+// --- GLOBAL CLICK DELEGATE FIX FOR CARD FAVORITES (reliable single handler) ---
+// Add a single delegated listener on document to reliably capture clicks on '.card-fav' hearts
+(function ensureSingleCardFavDelegate() {
+    // avoid adding multiple times
+    if (window.__nexus_card_fav_delegated) return;
+    window.__nexus_card_fav_delegated = true;
+
+    document.addEventListener('click', (e) => {
+        try {
+            const favBtn = e.target.closest && e.target.closest('.card-fav');
+            if (!favBtn) return;
+
+            // prevent clicks from bubbling into card open handlers
+            e.stopPropagation();
+            e.preventDefault();
+
+            // find nearest card id
+            const card = favBtn.closest('[data-card-game-id]');
+            const id = card ? card.getAttribute('data-card-game-id') : null;
+            if (!id) return;
+
+            // Toggle favorite and sync UI
+            toggleFavorites(id, 'row');
+        } catch (err) {
+            // swallow errors to avoid breaking other interactions
+            console.warn('card-fav delegate error', err);
+        }
+    }, { passive: false });
+})();
+
+// Replace attachCardEvents with delegated handlers to dramatically reduce listeners
+function attachCardEvents(isGrid = false) {
+    // keep delegated handlers for play button and opening details, but rely on document-level card-fav handler above
+    const delegatedRoots = [document.getElementById('dynamic-rows'), document.getElementById('search-results-grid')];
+    delegatedRoots.forEach(root => {
+        if (!root) return;
+        // Remove any previous delegated click listener bound with our internal ref (best-effort)
+        root.removeEventListener('click', _cardDelegatedClick, true);
+        root.addEventListener('click', _cardDelegatedClick, true);
+    });
+
+    function _cardDelegatedClick(e) {
+        const target = e.target;
+
+        // play button inside card
+        const playBtn = target.closest && target.closest('.card-play');
+        if (playBtn) {
+            e.stopPropagation();
+            e.preventDefault();
+            const card = playBtn.closest('[data-card-game-id]');
+            const id = card ? card.getAttribute('data-card-game-id') : null;
+            if (id) playGame(id);
+            return;
+        }
+
+        // NOTE: .card-fav handled globally above to avoid listener duplication and missed events.
+
+        // card body click -> open details (ignore clicks on any button)
+        const cardEl = target.closest && target.closest('[data-card-game-id]');
+        if (cardEl && !target.closest('button')) {
+            const id = cardEl.getAttribute('data-card-game-id');
+            if (id) openDetails(id);
+        }
+    }
+}
+
+function toggleFavorites(id, source = 'row') {
+    if (myList.includes(id)) {
+        myList = myList.filter(x => x !== id);
+    } else {
+        myList.push(id);
+    }
+    saveList();
+
+    // 1. Update the Hero section if the change originated there (it needs a full render to reflect status/potentially change game)
+    if (source === 'hero') {
+        renderHero();
+    }
+    
+    // 2. Update all card states across rows and search results instantly
+    updateCardFavoriteState(id); 
+
+    // 3. If on Favorites tab or source was from favorites UI (grid/modal), re-render the favorites view
+    if (currentTab === 'favorites' || source === 'grid' || source === 'modal') {
+        renderFavorites();
+    }
+
+    // 4. Update the modal button state if the modal is currently open for this game
+    if (detailsModal && !detailsModal.classList.contains('hidden')) {
+        updateModalFavButton(id);
+    }
+}
+
+// --- SEARCH ---
+function wireSearch() {
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+
+        if (searchTimeout) clearTimeout(searchTimeout);
+
+        if (query.length < 2) {
+            searchResultsContent.classList.add('hidden');
+
+            if (currentTab === 'home') {
+                homeContent.classList.remove('hidden');
+                requestAnimationFrame(() => homeContent.classList.add('animate-fade-in'));
+            }
+            if (currentTab === 'favorites') {
+                favoritesContent.classList.remove('hidden');
+                requestAnimationFrame(() => favoritesContent.classList.add('animate-fade-in'));
+            }
+            return;
+        }
+
+        homeContent.classList.add('hidden');
+        favoritesContent.classList.add('hidden');
+        searchResultsContent.classList.remove('hidden');
+        requestAnimationFrame(() => searchResultsContent.classList.add('animate-fade-in'));
+        searchQueryDisplay.textContent = query;
+
+        searchTimeout = setTimeout(() => {
+            const results = DB.filter(game =>
+                game.title.toLowerCase().includes(query) ||
+                game.cat.toLowerCase().includes(query) ||
+                game.desc.toLowerCase().includes(query)
+            );
+            renderSearchResults(results);
+        }, 200);
+    });
+}
+
+// --- NAVBAR SCROLL ---
+function wireNavbarScroll() {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 30) {
+            navbar.classList.add('shadow-lg');
+            navbar.style.background = 'rgba(2, 6, 23, 0.98)';
+        } else {
+            navbar.classList.remove('shadow-lg');
+            navbar.style.background = 'rgba(2, 6, 23, 0.92)';
+        }
+    }, { passive: true });
+}
+
+// --- GAME PLAYER ---
+function wireGameControls() {
+    btnCloseGame.addEventListener('click', closeGame);
+    btnFullscreen.addEventListener('click', toggleFullscreen);
+
+    // NEW: toggle hide-toolbar when clicked
+    if (btnHideToolbar && gameLayerToolbar) {
+        btnHideToolbar.addEventListener('click', (e) => {
+            e.preventDefault();
+            // toggle hidden state for toolbar
+            const isHidden = gameLayerToolbar.classList.toggle('hidden');
+            // reflect state visually on button (icon swap)
+            btnHideToolbar.innerHTML = isHidden
+                ? '<i class="fas fa-eye text-sm sm:text-lg"></i>'
+                : '<i class="fas fa-eye-slash text-sm sm:text-lg"></i>';
+            // when hiding toolbar, also ensure it won't interfere with fullscreen layout
+            if (isHidden) {
+                gameLayerToolbar.setAttribute('aria-hidden', 'true');
+            } else {
+                gameLayerToolbar.removeAttribute('aria-hidden');
+            }
+        });
+    }
+
+    // Ensure iframe is inert until user intentionally plays (helps avoid some mobile crashes)
+    // and stop any background loading if present.
+    gameFrame.src = 'about:blank';
+
+    // --- Volume control wiring ---
+    // Ensure a safe default implementation exists so enhancement wrappers can replace it without throwing.
+    // This avoids ReferenceError when enhanceVolumeHandling runs before a replacement is applied.
+    function applyVolumeToGame(v) {
+        try {
+            const vol = Math.max(0, Math.min(100, Number(v) || 0));
+            try { localStorage.setItem('nexus_game_volume', String(vol)); } catch (e) {}
+            try { if (typeof updateVolumeIcon === 'function') updateVolumeIcon(vol); } catch (e) {}
+            // Best-effort: post a message to iframe (non-blocking)
+            try {
+                if (window.gameFrame && window.gameFrame.contentWindow) {
+                    window.gameFrame.contentWindow.postMessage?.({ type: 'nexus:setVolume', volume: vol / 100 }, '*');
+                }
+            } catch (e) {}
+        } catch (err) {
+            // swallow to avoid breaking UI
+            console.warn('applyVolumeToGame fallback failed', err);
+        }
+    }
+
+    // --- Volume toast & throttled volume updates (improvements) ---
+    (function enhanceVolumeHandling() {
+        // single persistent volume toast instance (updates in-place)
+        let volumeToastEl = null;
+        let volumeToastTimer = null;
+
+        function showVolumeToast(value) {
+            try {
+                const container = document.getElementById('toast-container');
+                if (!container) return;
+                // create once
+                if (!volumeToastEl) {
+                    volumeToastEl = document.createElement('div');
+                    volumeToastEl.className = 'toast';
+                    volumeToastEl.innerHTML = `<i class="fas fa-volume-up"></i><span id="volume-toast-text"></span>`;
+                    container.appendChild(volumeToastEl);
+                    // force reflow then show
+                    void volumeToastEl.offsetWidth;
+                    volumeToastEl.classList.add('toast-show');
+                }
+                const txt = volumeToastEl.querySelector('#volume-toast-text');
+                if (txt) txt.textContent = ` Volume: ${Math.round(value)}%`;
+                // refresh auto-hide timer
+                clearTimeout(volumeToastTimer);
+                volumeToastTimer = setTimeout(() => {
+                    if (volumeToastEl && volumeToastEl.parentNode) {
+                        volumeToastEl.classList.remove('toast-show');
+                        setTimeout(() => {
+                            try { if (volumeToastEl && volumeToastEl.parentNode) container.removeChild(volumeToastEl); } catch (e) {}
+                            volumeToastEl = null;
+                        }, 220);
+                    }
+                }, 1100);
+            } catch (e) {
+                console.warn('showVolumeToast failed', e);
+            }
+        }
+
+        // small debounce helper (leading=false)
+        function debounce(fn, wait) {
+            let t = null;
+            return function(...args) {
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(this, args), wait);
+            };
+        }
+
+        // throttlePostMessage: ensure at most one postMessage per animation frame with latest value
+        let pendingVol = null;
+        let posted = false;
+        function throttlePostMessage(payload) {
+            pendingVol = payload;
+            if (posted) return;
+            posted = true;
+            requestAnimationFrame(() => {
+                try {
+                    if (gameFrame && gameFrame.contentWindow) {
+                        gameFrame.contentWindow.postMessage({ type: 'nexus:setVolume', volume: pendingVol / 100 }, '*');
+                    }
+                } catch (e) {}
+                pendingVol = null;
+                posted = false;
+            });
+        }
+
+        // Replace applyVolumeToGame with a safer, throttled implementation
+        const originalApplyVolumeToGame = applyVolumeToGame;
+        applyVolumeToGame = function(v) {
+            try {
+                const vol = Math.max(0, Math.min(100, Number(v) || 0));
+                // persist quickly (no spam)
+                try { localStorage.setItem('nexus_game_volume', String(vol)); } catch (e) {}
+                // update icon
+                updateVolumeIcon(vol);
+
+                // show a single updatable toast instead of many stacked ones
+                showVolumeToast(vol);
+
+                // PostMessage to iframe at most once per animation frame
+                throttlePostMessage(vol);
+
+                // If same-origin, set audio/video elements directly
+                try {
+                    const win = gameFrame && gameFrame.contentWindow;
+                    const doc = win && win.document;
+                    if (doc) {
+                        const mediaEls = Array.from(doc.querySelectorAll('audio, video'));
+                        mediaEls.forEach(m => {
+                            try { m.volume = Math.max(0, Math.min(1, vol / 100)); } catch (e) {}
+                            try { if (vol > 0) m.muted = false; } catch (e) {}
+                        });
+                    }
+                } catch (e) {
+                    // cross-origin likely; ignore
+                }
+            } catch (err) {
+                // fallback to original (best-effort)
+                try { originalApplyVolumeToGame(v); } catch (e) {}
+            }
+        };
+
+        // Debounced slider input handler to reduce event flood and avoid many internal updates/toasts
+        const volSlider = document.getElementById('volume-slider');
+        if (volSlider) {
+            const debouncedHandler = debounce((val) => {
+                try { applyVolumeToGame(Number(val)); } catch (e) {}
+            }, 120); // 120ms debounce for snappy UX but limited event spam
+
+            volSlider.removeEventListener && volSlider.removeEventListener('input', () => {});
+            volSlider.addEventListener('input', (e) => {
+                const val = Number(e.target.value);
+                // update icon immediately for snappy feedback
+                updateVolumeIcon(val);
+                // schedule actual work via debounce (toast + postMessage + media update)
+                debouncedHandler(val);
+            }, { passive: true });
+        }
+
+        // Improve volume toggle (mute/unmute) to reuse the same single toast and properly persist
+        const volToggle = document.getElementById('btn-volume-toggle');
+        if (volToggle) {
+            volToggle.removeEventListener && volToggle.removeEventListener('click', () => {});
+            volToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const slider = document.getElementById('volume-slider');
+                if (!slider) return;
+                const current = Number(slider.value);
+                if (current === 0) {
+                    // restore to saved or default (choose 60 as comfortable)
+                    let restore = 60;
+                    try {
+                        const v = parseInt(localStorage.getItem('nexus_game_volume'), 10);
+                        if (!isNaN(v) && v > 0) restore = Math.max(30, Math.min(100, v));
+                    } catch (e) {}
+                    slider.value = restore;
+                    updateVolumeIcon(restore);
+                    applyVolumeToGame(restore);
+                } else {
+                    slider.value = 0;
+                    updateVolumeIcon(0);
+                    applyVolumeToGame(0);
+                }
+            }, { passive: true });
+        }
+    })();
+
+    // --- Ensure Back button works on touch devices (mobile) ---
+    // Some mobile browsers may not synthesize click events if overlays or passive listeners exist.
+    // Add pointer/touch handlers to guarantee a responsive close action.
+    const touchCloseHandler = (e) => {
+        // Only handle primary pointers (avoid multi-touch interference)
+        if (e.pointerType && e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+        e.preventDefault && e.preventDefault();
+        e.stopPropagation && e.stopPropagation();
+        closeGame();
+    };
+
+    // pointerdown is snappy on touch devices; add passive:false to allow preventDefault
+    btnCloseGame.addEventListener('pointerdown', touchCloseHandler, { passive: false });
+
+    // also listen for touchend as a fallback on older browsers
+    btnCloseGame.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeGame();
+    }, { passive: false });
+}
+
+// --- Fullscreen helper (added) ---
+function toggleFullscreen() {
+    try {
+        // If currently not fullscreen, request fullscreen on the game layer (preferred target)
+        if (!document.fullscreenElement) {
+            // Prefer using the element that houses the game for a consistent UX
+            const el = gameLayer || document.documentElement;
+
+            // When requesting fullscreen ensure the same Stumble Guys scale variable is applied to the fullscreen element
+            // so the zoom level remains identical inside fullscreen.
+            const currentScale = getComputedStyle(gameLayer).getPropertyValue('--stumble-scale') || '1.8';
+            try { el.style.setProperty('--stumble-scale', currentScale.trim()); } catch (e) {}
+
+            if (el.requestFullscreen) {
+                el.requestFullscreen().catch(() => {
+                    // ignore failures (some iframes / browsers block fullscreen without gesture)
+                });
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
+            }
+        } else {
+            // Exit fullscreen if we're currently in it
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {
+                    // ignore failures (some browsers block exit without gesture)
+                });
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    } catch (err) {
+        // swallow any unexpected errors to prevent uncaught exceptions
+        console.warn('toggleFullscreen failed', err);
+    }
+}
+
+/* NEW: handle fullscreenchange to show/hide the hide-toolbar button and restore toolbar when exiting fullscreen,
+   and adjust the bottom-cut height variable so the injected embed's mask adapts in and out of fullscreen. */
+document.addEventListener('fullscreenchange', () => {
+    const isFS = !!document.fullscreenElement;
+
+    // Adjust the bottom-cut size for embeds that use the injected .bottom-cut element inside srcdoc.
+    try {
+        if (isFS) {
+            // when fullscreen, reduce the masked area so the game UI fits better
+            document.documentElement.style.setProperty('--nexus-bottom-cut', '6vh');
+            if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '6vh');
+        } else {
+            // restore default mask height when not fullscreen
+            document.documentElement.style.setProperty('--nexus-bottom-cut', '12vh');
+            if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '12vh');
+        }
+    } catch (e) { /* non-fatal */ }
+
+    // Show the hide-toolbar control only when in fullscreen
+    if (btnHideToolbar) {
+        if (isFS) {
+            btnHideToolbar.classList.remove('hidden');
+            // ensure icon default state is "eye-slash"
+            btnHideToolbar.innerHTML = '<i class="fas fa-eye-slash text-sm sm:text-lg"></i>';
+        } else {
+            // exiting fullscreen: ensure toolbar is visible again
+            if (gameLayerToolbar && gameLayerToolbar.classList.contains('hidden')) {
+                gameLayerToolbar.classList.remove('hidden');
+                gameLayerToolbar.removeAttribute('aria-hidden');
+            }
+            btnHideToolbar.classList.add('hidden');
+        }
+    }
+});
+
+// --- Simple iframe "ad blocker" & external navigation guard ---
+// A lightweight protection: remove popups via sandbox attribute (done in HTML) and
+// poll the iframe (when same-origin) for navigations to known ad hosts; if detected, close the game.
+const _AD_HOSTS = [
+    'ads.google.com', 'doubleclick.net', 'adservice.google.com', 'adserver', 'adnetwork', 'ads.', '.ad.'
+];
+let _iframeWatchTimer = null;
+
+// NEW: extension key isolation helper references
+let __nexus_extension_key_isolation = false;
+let __nexus_extension_key_handler = null;
+
+// Slightly increase iframe-watch interval to reduce timer pressure on low-end devices
+function startIframeWatch(allowedOrigin) {
+    stopIframeWatch();
+    _iframeWatchTimer = setInterval(() => {
+        try {
+            const win = gameFrame.contentWindow;
+            if (!win) return;
+            const href = win.location.href || '';
+            const low = href.toLowerCase();
+            for (const ad of _AD_HOSTS) {
+                if (low.includes(ad)) {
+                    console.warn('Blocked iframe navigation to ad host:', href);
+                    closeGame();
+                    return;
+                }
+            }
+            try {
+                const host = win.location.host || '';
+                if (allowedOrigin && host && !allowedOrigin.includes(host) && !host.includes(location.host)) {
+                    console.warn('Iframe navigated to an external host, closing for safety:', host);
+                    closeGame();
+                    return;
+                }
+            } catch (e) {
+                // ignore
+            }
+        } catch (err) {
+            // no-op
+        }
+    }, 1200); // 1.2s poll
+}
+
+function stopIframeWatch() {
+    if (_iframeWatchTimer) {
+        clearInterval(_iframeWatchTimer);
+        _iframeWatchTimer = null;
+    }
+}
+
+// NEW: Isolate keyboard input from extensions while a game is active.
+// We add a capture-phase keydown listener that prevents other page-level handlers
+// from intercepting gameplay keys (WASD, arrows, space, shift) when the game is active.
+// The handler is intentionally conservative: it only blocks propagation for keys likely used by games,
+// and it preserves modified-key combos (Ctrl/Alt/Meta) so browser shortcuts remain functional.
+function enableExtensionKeyIsolation() {
+    if (__nexus_extension_key_isolation) return;
+    __nexus_extension_key_isolation = true;
+
+    __nexus_extension_key_handler = function (e) {
+        try {
+            // If modal or input is focused, don't interfere
+            const target = e.target;
+            const tag = target && target.tagName ? target.tagName.toLowerCase() : '';
+            const isEditable = tag === 'input' || tag === 'textarea' || target.isContentEditable;
+
+            if (isEditable) return; // allow typing in inputs
+
+            // If any modifier is pressed, don't attempt to block — respect user/browser shortcuts
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+            // Normalize key for matching
+            const key = (e.key || '').toLowerCase();
+
+            // gameplay keys set (expandable)
+            const gameplayKeys = new Set(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright',' ','space','shift','enter','escape','tab']);
+
+            // If it's a gameplay key, stop other listeners from getting it.
+            // We intentionally DON'T call preventDefault for most keys to avoid breaking focus/native behavior.
+            if (gameplayKeys.has(key)) {
+                // stop other handlers (including some extension listeners) from seeing this event
+                // use stopImmediatePropagation in capture phase to be as aggressive as reasonably possible
+                try { e.stopImmediatePropagation(); } catch (err) {}
+                try { e.stopPropagation(); } catch (err) {}
+                // Do not prevent default for arrow keys/space so native behavior (scrolling etc.) remains available if needed.
+                // However, if the iframe is focused, default events typically route to it; we leave that intact.
+            } else {
+                // For non-game keys we leave everything as-is to avoid unexpected side-effects.
+            }
+        } catch (err) {
+            // swallow any errors to avoid interfering with page
+            console.warn('extension key isolation handler error', err);
+        }
+    };
+
+    // Use capture-phase listener for maximum chance to intercept other page listeners or extension bindings
+    window.addEventListener('keydown', __nexus_extension_key_handler, true);
+    window.addEventListener('keyup', __nexus_extension_key_handler, true);
+}
+
+function disableExtensionKeyIsolation() {
+    if (!__nexus_extension_key_isolation) return;
+    __nexus_extension_key_isolation = false;
+    try {
+        window.removeEventListener('keydown', __nexus_extension_key_handler, true);
+        window.removeEventListener('keyup', __nexus_extension_key_handler, true);
+    } catch (e) {}
+    __nexus_extension_key_handler = null;
+}
+
+// --- Safe iframe setter (prevents undefined error and adds basic safety/timeouts) ---
+function setGameFrameSrcSafe(url, timeout = 9000) {
+    try {
+        try { gameFrame.src = 'about:blank'; } catch (e) {}
+        gameFrame.dataset.intendedSrc = url;
+
+        let settled = false;
+        const clear = () => {
+            settled = true;
+            if (loadTimer) clearTimeout(loadTimer);
+        };
+
+        const onLoadOrError = () => {
+            clear();
+            try { gameFrame.removeEventListener('load', onLoadOrError); } catch (e) {}
+            try { gameFrame.removeEventListener('error', onLoadOrError); } catch (e) {}
+        };
+
+        gameFrame.addEventListener('load', onLoadOrError, { once: true });
+        gameFrame.addEventListener('error', onLoadOrError, { once: true });
+
+        try {
+            gameFrame.src = url;
+        } catch (err) {
+            try {
+                if (gameFrame.contentWindow && gameFrame.contentWindow.location) {
+                    gameFrame.contentWindow.location.href = url;
+                }
+            } catch (e) {
+                try { gameFrame.setAttribute('src', url); } catch (ee) { console.warn('Final fallback failed setting src attribute', ee); }
+            }
+        }
+
+        // progress nudges: small updates to global loader while waiting
+        updateGlobalLoaderProgress(28, 'Estabelecendo conexão...');
+        setTimeout(() => { updateGlobalLoaderProgress(48, 'Carregando recursos iniciais...'); }, 600);
+
+        const loadTimer = setTimeout(() => {
+            if (!settled) {
+                settled = true;
+                try { gameFrame.removeEventListener('load', onLoadOrError); } catch (e) {}
+                try { gameFrame.removeEventListener('error', onLoadOrError); } catch (e) {}
+                console.warn('Timeout ao carregar o jogo, loader escondido para evitar travamento.');
+                // hide enhanced loader after warning
+                hideGlobalLoader();
+            }
+        }, timeout);
+    } catch (err) {
+        console.warn('setGameFrameSrcSafe unexpected error', err);
+        try { gameFrame.src = url; } catch {}
+    }
+}
+
+function playGame(id) {
+    const game = getGameById(id);
+    if (!game) return;
+
+    activeGame = game;
+    playingTitle.textContent = game.title;
+
+    // NEW: enable keyboard isolation to reduce interference from extensions
+    try { enableExtensionKeyIsolation(); } catch (e) { console.warn('enableExtensionKeyIsolation failed', e); }
+
+    // Show enhanced global loader for a better user experience
+    showGlobalLoader({
+        title: `Iniciando ${game.title}`,
+        sub: 'Conectando ao servidor e carregando recursos...',
+        hint: 'Se estiver lento, verifique sua conexão.',
+        progress: 0
+    });
+
+    // Check for custom rendering mode
+    const isStumbleGuys = game.custom_render === 'stumbleguys';
+
+    // Reset iframe styling for standard mode
+    gameFrame.className = 'w-full h-full border-none z-10';
+    gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
+    
+    if (isStumbleGuys) {
+        // Apply custom rendering styles
+        gameFrame.classList.add('custom-render-stumbleguys-frame');
+        gameFrame.classList.remove('w-full', 'h-full');
+        
+        // Adjust wrapper display to allow absolute positioning of iframe
+        gameFrameWrapper.classList.add('custom-render-stumbleguys-wrapper');
+        gameFrameWrapper.classList.remove('flex', 'items-center', 'justify-center');
+
+        // Ensure a CSS variable is set on the game layer so fullscreen maintains the same zoom
+        try {
+            gameLayer.style.setProperty('--stumble-scale', '1.8');
+        } catch (e) {}
+    }
+
+    // ensure any lingering exit class removed
+    gameLayer.classList.remove('hidden', 'game-exit');
+    gameLayer.classList.add('flex', 'game-enter');
+
+    // show loader and status
+    gameLoader.style.display = 'block';
+    gameLoader.style.opacity = '1';
+    gameLoader.style.zIndex = '60';
+    if (loadingStatus) {
+        loadingStatus.textContent = 'Iniciando sessão de streaming...';
+        loadingStatus.style.opacity = '1';
+    }
+    try { gameFrame.style.visibility = 'hidden'; } catch(e){}
+
+    // Prevent right-click on the outer iframe element itself (best-effort; inner iframe also blocked when same-origin or via injected srcdoc)
+    try {
+        gameFrame.addEventListener('contextmenu', function(ev){
+            try { ev.preventDefault(); } catch(e){}
+        }, { passive: false });
+    } catch (err) {}
+
+    // use safe loader function to reduce mobile crash cases
+    // Special-case: Unity-based embeds (like Baldi) are loaded via srcdoc to preserve the provided Module HTML.
+    // If the DB entry uses custom_render === 'unity' we inject the supplied HTML snippet into the iframe srcdoc.
+    if (game.custom_render === 'unity' || game.id === 'baldi') {
+        try {
+            // The following HTML is intentionally inlined exactly as provided to match the user's module.
+            // Keep it minimal and self-contained; external Unity assets/scripts referenced by the HTML will still load from their hosts.
+            const baldiHtml = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Baldi's Basics</title>
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <script type="text/javascript" src="/js/main.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Nailington/3kh0-assets@aeb371b7e88542fd5e61eeed9e967a446d84fe1b/baldis-basics/TemplateData/style.css" />
+    <script src="https://cdn.jsdelivr.net/gh/Nailington/3kh0-assets@aeb371b7e88542fd5e61eeed9e967a446d84fe1b/baldis-basics/TemplateData/UnityProgress.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Nailington/3kh0-assets@aeb371b7e88542fd5e61eeed9e967a446d84fe1b/baldis-basics/baldi.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "https://rawcdn.githack.com/Nailington/3kh0-assets/aeb371b7e88542fd5e61eeed9e967a446d84fe1b/baldis-basics/baldi.json", {
+        onProgress: UnityProgress,
+        Module: {
+          onRuntimeInitialized: function () {
+            UnityProgress(gameInstance, "complete");
+          },
+        },
+      });
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  </head>
+  <body style="margin: 0;">
+    <div class="webgl-content">
+      <div id="unityContainer" style="width: 100%; height: 100%; padding: 0; margin: 0; border: 0; position: relative; background: rgb(35, 31, 32);">
+        <div id="gameContainer" style="width: 960px; height: 600px; margin: auto;"></div>
+      </div>
+      <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    </div>
+  </body>
+</html>`;
+            // set srcdoc so the iframe renders the Unity loader HTML
+            try { gameFrame.srcdoc = baldiHtml; } catch (e) {
+                // fallback: write into iframe document if same-origin allows
+                try {
+                    const w = gameFrame.contentWindow;
+                    const d = w && w.document;
+                    if (d) { d.open(); d.write(baldiHtml); d.close(); }
+                } catch (ee) {
+                    gameFrame.src = 'about:blank';
+                }
+            }
+        } catch (err) {
+            console.warn('Failed to load unity srcdoc for game', err);
+            setGameFrameSrcSafe(game.url);
+        }
+    } else if (game.custom_render === 'embed') {
+        // For simple embed cases (like CrazyGames), inject an iframe via srcdoc and crop the bottom area using CSS overflow/transform.
+        try {
+            // create a small embedded page that fills iframe while hiding bottom 12% to "cut" lower UI
+            const embedHtml = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+      html,body{height:100%;margin:0;background:#000;overflow:hidden;}
+      .wrap{position:relative;width:100%;height:100%;overflow:hidden;}
+      /* scale iframe up slightly and shift up to hide bottom area */
+      /* Increased the upward translate to crop more of the bottom UI for a "cut" effect */
+      iframe{position:absolute;left:50%;top:50%;width:100vw;height:100vh;transform:translate(-50%,-64%) scale(1.02);border:0;margin:0;padding:0;display:block;pointer-events:auto;}
+      /* adjust the translateY to crop bottom region (tweak as needed) */
+      @media(min-width:800px){ iframe{transform:translate(-50%,-60%) scale(1.04);} }
+
+      /* bottom black bar to mask lower UI elements (covers ~14% of viewport) */
+      /* IMPORTANT: pointer-events:auto so this element captures clicks and prevents them reaching the iframe beneath */
+      .bottom-cut{position:absolute;left:0;right:0;bottom:0;height:var(--nexus-bottom-cut,14vh);background:#000;z-index:9999;pointer-events:auto;}
+    </style>
+    <script>
+      // Block context menu inside the embedded page (best-effort for same-origin and to instruct friendly embeds)
+      try {
+        window.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+        // Also expose a gentle stub for postMessage-based embeds that might honor it
+        window.addEventListener('message', function(evt){
+          // ignore specifics, but keep listener minimal
+        });
+      } catch (e){}
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <iframe id="inner-embed" src="${game.url}" allow="gamepad *; fullscreen; autoplay" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"></iframe>
+      <div class="bottom-cut" aria-hidden="true"></div>
+    </div>
+    <script>
+      // Ensure bottom-cut captures input and prevents clicks from reaching the covered iframe area,
+      // while providing a safe handler that focuses or forwards a simple message to the inner iframe.
+      (function(){
+        var inner = document.getElementById('inner-embed');
+        var cut = document.querySelector('.bottom-cut');
+
+        // prevent pointer events reaching the iframe where the black bar covers it
+        cut.addEventListener('pointerdown', function(e){ e.stopPropagation(); e.preventDefault(); }, { passive: false });
+        cut.addEventListener('click', function(e){
+          try {
+            e.stopPropagation();
+            e.preventDefault();
+            // try to focus inner iframe so subsequent interactions go to it
+            try { inner.focus(); } catch (err) {}
+            // best-effort: notify inner iframe via postMessage (many embeds ignore, but some may accept)
+            try { inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:bottomCutClick' }, '*'); } catch(err){}
+          } catch (err) {}
+        }, { passive: false });
+
+        // If inner iframe is same-origin, prevent contextmenu inside it as well
+        inner.addEventListener('load', function(){
+          try {
+            var w = inner.contentWindow;
+            if (w && w.document) {
+              w.document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+            }
+          } catch (e) {
+            // cross-origin - nothing to do
+          }
+        }, { passive: true });
+      })();
+    </script>
+  </body>
+</html>`;
+            try { gameFrame.srcdoc = embedHtml; } catch (e) {
+                try {
+                    const w = gameFrame.contentWindow;
+                    const d = w && w.document;
+                    if (d) { d.open(); d.write(embedHtml); d.close(); }
+                } catch (ee) {
+                    setGameFrameSrcSafe(game.url);
+                }
+            }
+
+            // Start a short 3-second simulated click routine to send repeated click-like interactions when game starts.
+            // This tries multiple strategies: postMessage (non-invasive), dispatching pointer events on the inner iframe (same-origin), and dispatching clicks on the outer iframe element as a last resort.
+            (function startShortClickBurst(durationMs = 3000, intervalMs = 120) {
+                const maxIterations = Math.max(1, Math.floor(durationMs / intervalMs));
+                let iterations = 0;
+                const outerIframe = gameFrame;
+
+                function tryContentClick() {
+                    try {
+                        const win = outerIframe.contentWindow;
+                        // 1) If iframe exposes a DOM (same-origin), try to find center and click an element there
+                        if (win && win.document) {
+                            const doc = win.document;
+                            const cx = Math.round(doc.documentElement.clientWidth / 2);
+                            const cy = Math.round(doc.documentElement.clientHeight / 2);
+                            const el = doc.elementFromPoint(cx, cy);
+                            if (el && typeof el.click === 'function') {
+                                el.click();
+                                return true;
+                            }
+                            // fallback: synthesize PointerEvent at center
+                            try {
+                                const ev = new win.MouseEvent('click', { bubbles: true, cancelable: true, view: win, clientX: cx, clientY: cy });
+                                (el || doc.body).dispatchEvent(ev);
+                                return true;
+                            } catch (e) {}
+                        }
+                    } catch (e) {
+                        // cross-origin or unavailable
+                    }
+                    return false;
+                }
+
+                function tryPostMessage() {
+                    try {
+                        const win = outerIframe.contentWindow;
+                        if (win && typeof win.postMessage === 'function') {
+                            // a gentle, best-effort message that some embeds may optionally handle
+                            win.postMessage({ type: 'nexus:simulateClick' }, '*');
+                            return true;
+                        }
+                    } catch (e) {}
+                    return false;
+                }
+
+                function tryOuterClick() {
+                    try {
+                        // dispatch explicit left-button MouseEvents at the center of the outer iframe so cross-origin embeds get a synthetic click focus
+                        const rect = outerIframe.getBoundingClientRect();
+                        const cx = Math.round(rect.left + rect.width / 2);
+                        const cy = Math.round(rect.top + rect.height / 2);
+
+                        // Create a sequence that most frames will interpret as a user click (mousedown -> mouseup -> click)
+                        try {
+                            const down = new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, clientX: cx, clientY: cy, button: 0 });
+                            const up = new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window, clientX: cx, clientY: cy, button: 0 });
+                            const click = new MouseEvent('click', { bubbles: true, cancelable: true, view: window, clientX: cx, clientY: cy, button: 0 });
+                            outerIframe.dispatchEvent(down);
+                            outerIframe.dispatchEvent(up);
+                            outerIframe.dispatchEvent(click);
+                            return true;
+                        } catch (err) {
+                            // Fallback to pointer events if MouseEvent construction fails in some environments
+                            ['pointerdown','pointerup','click'].forEach((t) => {
+                                const ev = new PointerEvent(t, { bubbles: true, cancelable: true, pointerType: 'mouse', clientX: cx, clientY: cy });
+                                outerIframe.dispatchEvent(ev);
+                            });
+                            return true;
+                        }
+                    } catch (e) {}
+                    return false;
+                }
+
+                // perform attempts at the specified interval; stop after duration elapsed
+                const tick = () => {
+                    if (iterations++ >= maxIterations) {
+                        clearInterval(timer);
+                        return;
+                    }
+                    // Prefer content click, then postMessage, then outer click
+                    if (tryContentClick()) return;
+                    if (tryPostMessage()) return;
+                    tryOuterClick();
+                };
+
+                // delay a small amount to allow the srcdoc/inner iframe to initialize
+                const timer = setInterval(tick, intervalMs);
+                // ensure we stop after durationMs
+                setTimeout(() => clearInterval(timer), durationMs + 80);
+            })(3000, 110);
+
+        } catch (err) {
+            console.warn('Failed to load embed srcdoc for game', err);
+            setGameFrameSrcSafe(game.url);
+        }
+    } else {
+        setGameFrameSrcSafe(game.url);
+    }
+
+    // Start watching iframe for ad/navigation behavior.
+    try {
+        const tmp = new URL(game.url);
+        startIframeWatch([tmp.host]);
+    } catch {
+        startIframeWatch(null);
+    }
+
+    // Optional: clear on unload to avoid leaks
+    window.addEventListener('beforeunload', () => {
+        stopIframeWatch();
+    });
+
+    // Ensure previous onload cleared
+    gameFrame.onload = () => {
+        // reveal iframe and hide loader when iframe reports loaded
+        try {
+            gameFrame.style.visibility = 'visible';
+        } catch (e) {}
+        gameLoader.style.display = 'none';
+        gameLoader.style.opacity = '0';
+        if (loadingStatus) {
+             loadingStatus.textContent = 'Conectado. Carregando recursos do jogo...';
+             loadingStatus.style.opacity = '1';
+             setTimeout(() => { loadingStatus.style.opacity = '0'; }, 3000);
+        }
+        // update global loader progress to near completion then hide
+        updateGlobalLoaderProgress(92, 'Carregando recursos do jogo...');
+        setTimeout(() => { hideGlobalLoader(); }, 420);
+
+        try {
+            try {
+                if (gameFrame.contentWindow && typeof gameFrame.contentWindow.open === 'function') {
+                    gameFrame.contentWindow.open = function() { console.warn('Blocked iframe window.open'); return null; };
+                }
+            } catch (e) {}
+            gameFrame.contentWindow?.focus();
+        } catch {
+            // ignore cross-origin
+        }
+    };
+
+    // Safety timeout: if iframe doesn't load within 10s, hide loader to avoid blocking UI
+    const loadTimeout = setTimeout(() => {
+        if (gameLoader.style.display !== 'none') {
+            gameLoader.style.display = 'none';
+            gameLoader.style.opacity = '0';
+            if (loadingStatus) {
+                 loadingStatus.textContent = 'Tempo limite de carregamento. Tente novamente.';
+                 loadingStatus.style.opacity = '1';
+                 setTimeout(() => { loadingStatus.style.opacity = '0'; }, 3000);
+            }
+            console.warn('Timeout ao carregar o jogo, loader escondido para evitar travamento.');
+            try { gameFrame.style.visibility = 'visible'; } catch (e) {}
+            // hide global enhanced loader as well to keep UI responsive
+            hideGlobalLoader();
+        }
+    }, 10000);
+
+    // clear the timeout once load completes
+    gameFrame.addEventListener('load', () => clearTimeout(loadTimeout), { once: true });
+
+    try {
+        setupFNFTouchMappingIfNeeded(game);
+    } catch (err) {
+        console.warn('FNF touch mapping setup failed', err);
+    }
+}
+
+function closeGame() {
+    try {
+        // NEW: disable keyboard isolation when leaving a game
+        try { disableExtensionKeyIsolation(); } catch (e) { console.warn('disableExtensionKeyIsolation failed', e); }
+        // stop watching iframe
+        stopIframeWatch();
+
+        // Hide game frame immediately for smoother transition out, preventing visual flash
+        gameFrame.style.opacity = '0';
+
+        // play exit animation first to give a smooth closing transition
+        gameLayer.classList.remove('game-enter');
+        gameLayer.classList.add('game-exit');
+
+        // Define cleanup function to handle state reset and unmount
+        const cleanup = () => {
+            // Ensure cleanup runs only once
+            if (gameLayer.classList.contains('hidden')) return;
+
+            try {
+                gameFrame.src = 'about:blank';
+                gameFrame.removeAttribute('src');
+                gameFrame.style.opacity = '1'; // Reset opacity for next load
+            } catch (err) {
+                // ignore
+            }
+
+            // --- Reset custom rendering styles ---
+            gameFrame.classList.remove('custom-render-stumbleguys-frame');
+            gameFrame.classList.add('w-full', 'h-full');
+            gameFrameWrapper.classList.remove('custom-render-stumbleguys-wrapper');
+            gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
+            // --- End Reset ---
+
+            // remove any fnf overlay if present
+            removeFNFTouchOverlay();
+
+            gameLayer.classList.add('hidden');
+            gameLayer.classList.remove('flex', 'game-enter', 'game-exit');
+            
+            // Remove listeners if they haven't fired yet
+            gameLayer.removeEventListener('animationend', onExit);
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+            }
+        };
+
+        // Event listener for animation end
+        const onExit = (e) => {
+            // Ensure we only execute on the intended animation (gameExit)
+            if (e.animationName !== 'gameExit') return;
+            cleanup();
+        };
+
+        // Attach listener and setup a fallback timeout (350ms, slightly longer than 320ms CSS animation)
+        gameLayer.addEventListener('animationend', onExit);
+        setTimeout(cleanup, 350);
+
+    } catch (err) {
+        // fallback immediate close on error
+        try {
+            gameFrame.src = 'about:blank';
+            gameFrame.removeAttribute('src');
+        } catch (e) {}
+        stopIframeWatch();
+
+        // remove overlay as well
+        removeFNFTouchOverlay();
+
+        gameLayer.classList.add('hidden');
+        gameLayer.classList.remove('flex', 'game-enter', 'game-exit');
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+        }
+    }
+}
+
+// --- FNF touch mapping helpers ---
+// FNF touch mapping disabled: keep no-op functions to avoid breaking calls elsewhere.
+function setupFNFTouchMappingIfNeeded(game) {
+    // Intentionally disabled to allow direct clicks and keyboard events to reach the iframe.
+    return;
+}
+
+function removeFNFTouchOverlay() {
+    // no-op since overlay is disabled
+    return;
+}
+
+// --- MODAL ---
+function wireModal() {
+    detailsModal.addEventListener('click', e => {
+        if (e.target === detailsModal && allowBackdropClose) closeDetails();
+    });
+    modalClose.addEventListener('click', closeDetails);
+
+    // ensure modal backdrop shows smoothly
+    // no-op here but keep for future hooks
+}
+
+function openDetails(id) {
+    const game = getGameById(id);
+    if (!game) return;
+
+    isModalOpen = true; // Set state
+    allowBackdropClose = false; // Prevent immediate backdrop close
+
+    activeGame = game;
+
+    modalTitle.textContent = game.title;
+    modalDesc.textContent = game.desc;
+    // prefer explicit game.type for display if available, otherwise fall back to category
+    modalCat.textContent = game.type || game.cat;
+    modalControls.textContent = game.controls || 'Teclado e mouse padrão.';
+    modalBanner.src = game.banner;
+
+    modalPlayBtn.onclick = () => {
+        closeDetails();
+        playGame(game.id);
+    };
+
+    updateModalFavButton(game.id);
+    updateModalShareButton(game.id); // ensure share button targets current game
+
+    // prepare and show modal with enter animation
+    detailsModal.classList.remove('hidden');
+    detailsModal.classList.add('flex');
+    // add backdrop show class so the backdrop fades in smoothly
+    detailsModal.classList.remove('modal-backdrop-closing');
+    detailsModal.classList.add('modal-backdrop-show');
+
+    const isMobile = window.innerWidth < 640;
+
+    // Reset all exit/setup classes/styles before entry
+    modalCard.classList.remove('modal-exit', 'modal-enter', 'translate-y-full', 'opacity-0');
+    modalCard.style.transform = '';
+    modalCard.style.opacity = '';
+    
+    // Ensure the initial off-screen/invisible state is set before force reflow
+    if (isMobile) {
+        // Mobile start state: off-screen and invisible
+        modalCard.classList.add('translate-y-full', 'opacity-0'); 
+    } else {
+        // Desktop start state: invisible but centrally located (relying on global CSS positioning)
+        modalCard.classList.add('opacity-0');
+    }
+
+    void modalCard.offsetWidth; // Force reflow to register initial state for smooth transition/animation
+
+    // Trigger entry transition/animation
+    if (isMobile) {
+        // Mobile: Trigger smooth transition up and fade in by removing the initial classes
+        modalCard.classList.remove('translate-y-full', 'opacity-0');
+    } else {
+        // Desktop: Use CSS animation for drop-in effect AND remove opacity-0 immediately before starting animation
+        modalCard.classList.remove('opacity-0'); // FIX: Ensure opacity is lifted for desktop
+        modalCard.classList.add('modal-enter');
+    }
+
+    // Only animation cleanup needed (removes modal-enter class and inline styles set by keyframes on some browsers)
+    if (!isMobile) {
+        const onEnterAnim = function _onEnterAnim(e) {
+            if (e.animationName === 'modalEnter') {
+                modalCard.classList.remove('modal-enter');
+                modalCard.style.transform = '';
+                modalCard.style.opacity = '';
+                modalCard.removeEventListener('animationend', onEnterAnim);
+            }
+        };
+        modalCard.addEventListener('animationend', onEnterAnim);
+    }
+
+    // Allow backdrop close after animation/transition stabilizes (400ms, slightly longer than 320ms CSS animation)
+    setTimeout(() => {
+        allowBackdropClose = true;
+    }, 400);
+}
+
+function updateModalFavButton(id) {
+    const isAdded = myList.includes(id);
+    modalListBtn.innerHTML = isAdded
+        ? '<i class="fas fa-check text-green-400"></i> Adicionado'
+        : '<i class="fas fa-heart"></i> Adicionar aos favoritos';
+
+    modalListBtn.onclick = () => toggleFavorites(id, 'modal');
+}
+
+function updateModalShareButton(id) {
+    const btn = document.getElementById('modal-share-btn');
+    if (!btn) return;
+    btn.onclick = async () => {
+        await shareGameLink(id);
+    };
+}
+
+function closeDetails() {
+    // Prevent re-entry while closing
+    if (!isModalOpen) return;
+    isModalOpen = false;
+    allowBackdropClose = false;
+
+    // play exit transition/animation then hide modal
+    modalCard.classList.remove('modal-enter');
+    
+    const isMobile = window.innerWidth < 640;
+
+    // Define cleanup function to handle state reset and unmount
+    const cleanup = () => {
+        // Ensure cleanup runs only once
+        if (detailsModal.classList.contains('hidden')) {
+            modalCard.removeEventListener('animationend', onExit);
+            modalCard.removeEventListener('transitionend', onExit);
+            return;
+        }
+
+        // start backdrop fade-out for a smooth exit
+        detailsModal.classList.remove('modal-backdrop-show');
+        detailsModal.classList.add('modal-backdrop-closing');
+
+        // after backdrop fade completes hide fully (kept in cleanup to ensure modalities don't remain)
+        detailsModal.classList.add('hidden');
+        detailsModal.classList.remove('flex');
+        modalCard.classList.remove('modal-exit', 'translate-y-full', 'opacity-0');
+        
+        // Ensure inline styles are cleared for next open
+        modalCard.style.transform = '';
+        modalCard.style.opacity = '';
+
+        modalCard.removeEventListener('animationend', onExit);
+        modalCard.removeEventListener('transitionend', onExit);
+    };
+
+    // --- Transition/Animation Exit logic ---
+    if (isMobile) {
+        // Mobile: Trigger transition out: slide down and fade out
+        modalCard.classList.add('translate-y-full', 'opacity-0');
+    } else {
+        // Desktop: Use CSS animation for smooth exit
+        modalCard.classList.add('modal-exit');
+    }
+    // --- End Exit logic ---
+
+    // Ensure cleanup runs after animation/transition completes
+    const onExit = (e) => {
+        // Check if the event is the end of the expected exit mechanism (animation or transform transition)
+        const isAnimExit = !isMobile && e && e.animationName === 'modalExit';
+        // For mobile, any transition on the primary element (transform or opacity) signals completion
+        const isTransExit = isMobile && e && (e.propertyName === 'transform' || e.propertyName === 'opacity');
+
+        if (!isAnimExit && !isTransExit) return;
+        
+        cleanup();
+    };
+
+    // Attach listeners for both transition (mobile) and animation (desktop)
+    modalCard.addEventListener('animationend', onExit);
+    modalCard.addEventListener('transitionend', onExit);
+    
+    // Fallback timer (in case transition/animation events fail to fire)
+    setTimeout(cleanup, 350);
+}
+
+// --- EVENTS BINDING ---
+loginForm.addEventListener('submit', handleLoginSubmit);
+loginSubmit.addEventListener('click', handleLoginSubmit);
+
+// Kick off
+window.addEventListener('load', checkSession);
+
+// --- Toast helper (non-bloqueante, independente de ambiente) ---
+let toastTimeoutId = null;
+function showToast(message, { icon = 'fas fa-check-circle' } = {}) {
+    try {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `
+            <i class="${icon}"></i>
+            <span>${message}</span>
+        `;
+
+        container.appendChild(toast);
+
+        // force reflow then animate
+        void toast.offsetWidth;
+        toast.classList.add('toast-show');
+
+        clearTimeout(toastTimeoutId);
+        toastTimeoutId = setTimeout(() => {
+            toast.classList.remove('toast-show');
+            setTimeout(() => {
+                if (toast.parentNode === container) {
+                    container.removeChild(toast);
+                }
+            }, 220);
+        }, 2600);
+    } catch (e) {
+        console.warn('showToast failed', e);
+    }
+}
+
+// Prevent double-tap-to-zoom and pinch/gesture zoom on mobile
+(function preventMobileZoomGlitches() {
+    let lastTouchTime = 0;
+    document.addEventListener('touchend', (e) => {
+        const now = Date.now();
+        if (now - lastTouchTime <= 300) {
+            // quick double tap — prevent zoom by canceling the second event
+            e.preventDefault();
+        }
+        lastTouchTime = now;
+    }, { passive: false });
+
+    // Prevent iOS gesturestart (pinch) which can enable pinch-zoom
+    document.addEventListener('gesturestart', (e) => {
+        e.preventDefault();
+    }, { passive: false });
+
+    // Also block explicit right-button mousedown events to stop visual feedback on some devices
+    window.addEventListener('mousedown', (e) => {
+        if (e.button === 2) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }, { passive: false });
+
+    // Prevent developer tools inspection via common keyboard shortcuts (extend existing blocks)
+    (function extendKeyboardBlockers() {
+        // already have contextmenu/mouse blocking above; extend keyboard handling
+        window.addEventListener('keydown', (e) => {
+            // block F12, Ctrl+Shift+I/J/K, Ctrl+U, Ctrl+Shift+S etc.
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && /[IJC]/i.test(e.key)) ||
+                (e.ctrlKey && e.key.toLowerCase() === 'u') ||
+                (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'k') ||
+                (e.metaKey && e.altKey && e.key === 'I') // mac combos
+            ) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, { passive: false });
+    })();
+// --- DevTools detection (reliable, conservative, single-method) ---
+    (function devtoolsReliableDetect() {
+        // Remove older complex/buggy detectors and use a single precise size-difference heuristic.
+        // This detector cannot fully prevent a determined attacker, but will proactively unload iframe and show an overlay on detection.
+        // It uses a single heuristic: difference between outer/inner size, slower interval and debounce to avoid false positives
+        // and requires multiple confirming samples spaced by 800ms before taking action.
+        try {
+            // Skip devtools overlay/detection entirely on mobile to avoid false positives and improve UX.
+            const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            if (isMobileDevice) {
+                // expose a no-op restore for consistency and exit early
+                window.__nexus_restore_iframe = function() { /* no-op on mobile */ };
+                return;
+            }
+
+            const overlay = document.createElement('div');
+            overlay.className = 'devtools-overlay hidden';
+            overlay.innerHTML = `<div class="msg"><strong>Proteção ativa</strong><div style="height:8px"></div>Por motivos de segurança a sessão foi temporariamente suspensa enquanto ferramentas de desenvolvimento estão abertas.</div>`;
+            const attachTarget = document.getElementById('game-frame-wrapper') || document.body;
+            attachTarget.style.position = attachTarget.style.position || 'relative';
+            attachTarget.appendChild(overlay);
+
+            let consecutiveHits = 0;
+            let detected = false;
+            let lastStateChangeAt = 0;
+
+            const REQUIRED_HITS = 6;      // increased confirmations to avoid false positives
+            const SAMPLE_INTERVAL = 800;  // ms between checks (slower sampling)
+            const RESTORE_COOLDOWN = 1200; // ms after last negative sample before restore
+            // conservative threshold to avoid mobile/OS false positives
+            const THRESHOLD_PX = 220;
+
+            // helper: skip detection on mobile devices (outer/inner differences are unreliable)
+            const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+            function sampleDevtools() {
+                try {
+                    // Only probe when a game session is active and not on mobile.
+                    const hasActiveSession = !!(window.activeGame || (gameFrame && gameFrame.dataset && gameFrame.dataset.intendedSrc && gameFrame.dataset.intendedSrc !== '' && gameFrame.dataset.intendedSrc !== 'about:blank'));
+                    if (!hasActiveSession || isMobile) {
+                        consecutiveHits = 0;
+                        if (detected && Date.now() - lastStateChangeAt > RESTORE_COOLDOWN) {
+                            restoreSession();
+                        }
+                        return;
+                    }
+
+                    // outer/inner may be undefined in some embed contexts; bail if unavailable
+                    if (typeof window.outerWidth !== 'number' || typeof window.innerWidth !== 'number' || typeof window.outerHeight !== 'number' || typeof window.innerHeight !== 'number') {
+                        consecutiveHits = 0;
+                        return;
+                    }
+
+                    const widthDiff = Math.abs(window.outerWidth - window.innerWidth);
+                    const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
+
+                    const isLargeDiff = widthDiff > THRESHOLD_PX || heightDiff > THRESHOLD_PX;
+
+                    if (isLargeDiff) {
+                        consecutiveHits++;
+                    } else {
+                        consecutiveHits = Math.max(0, consecutiveHits - 1);
+                    }
+
+                    // Only trigger after REQUIRED_HITS consecutive confirmations
+                    if (!detected && consecutiveHits >= REQUIRED_HITS) {
+                        engageProtection('size-delta-confirmed');
+                    }
+
+                    // If previously detected, check for stable recovery before restoring
+                    if (detected && !isLargeDiff && Date.now() - lastStateChangeAt > RESTORE_COOLDOWN) {
+                        restoreSession();
+                    }
+                } catch (e) {
+                    // swallow errors to avoid impacting app
+                    consecutiveHits = 0;
+                }
+            }
+
+            function engageProtection(reason) {
+                try {
+                    if (detected) return;
+                    detected = true;
+                    lastStateChangeAt = Date.now();
+                    console.warn('DevTools detector engaged:', reason);
+
+                    // unload iframe safely and back it up
+                    try {
+                        if (gameFrame) {
+                            gameFrame.dataset._nexus_backup_src = gameFrame.dataset.intendedSrc || gameFrame.src || '';
+                            try { gameFrame.src = 'about:blank'; } catch (e) { gameFrame.setAttribute('src', 'about:blank'); }
+                        }
+                    } catch (e) {}
+
+                    // show overlay, but do not block other UI scripts
+                    overlay.classList.remove('hidden');
+                    hideGlobalLoader(); // hide if loader was visible to avoid UI stuck states
+                } catch (e) {}
+            }
+
+            function restoreSession() {
+                try {
+                    if (!detected) return;
+                    detected = false;
+                    lastStateChangeAt = Date.now();
+                    consecutiveHits = 0;
+                    overlay.classList.add('hidden');
+
+                    // restore iframe if we have a valid backup
+                    try {
+                        const backup = gameFrame && (gameFrame.dataset._nexus_backup_src || '');
+                        if (backup && backup !== '' && backup !== 'about:blank') {
+                            // restore after a short delay so UI settles
+                            setTimeout(() => {
+                                setGameFrameSrcSafe(backup);
+                                delete gameFrame.dataset._nexus_backup_src;
+                            }, 240);
+                        }
+                    } catch (e) {}
+                } catch (e) {}
+            }
+
+            // conservative sampling loop; non-blocking and low-frequency
+            setInterval(sampleDevtools, SAMPLE_INTERVAL);
+
+            // expose manual restore for debugging if required (kept intentionally simple)
+            window.__nexus_restore_iframe = function() {
+                try {
+                    restoreSession();
+                } catch (e) {}
+            };
+        } catch (e) {
+            // ensure we never break app flow if detector setup fails
+            console.warn('devtoolsReliableDetect init failed', e);
+        }
+    })();
+
+// --- RUNTIME ANTI-TAMPER / INTEGRITY PROBES (added) ---
+    (function runtimeAntiTamper() {
+        // Anti-tamper checks disabled by configuration to prevent defensive overlay or session suspension.
+        // Provide simple compatibility stubs.
+        window.__nexus_integrity_ok = true;
+    })();
+})();
+
+// --- Volume toast & throttled volume updates (improvements) ---
+(function enhanceVolumeHandling() {
+    // single persistent volume toast instance (updates in-place)
+    let volumeToastEl = null;
+    let volumeToastTimer = null;
+
+    function showVolumeToast(value) {
+        try {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            // create once
+            if (!volumeToastEl) {
+                volumeToastEl = document.createElement('div');
+                volumeToastEl.className = 'toast';
+                volumeToastEl.innerHTML = `<i class="fas fa-volume-up"></i><span id="volume-toast-text"></span>`;
+                container.appendChild(volumeToastEl);
+                // force reflow then show
+                void volumeToastEl.offsetWidth;
+                volumeToastEl.classList.add('toast-show');
+            }
+            const txt = volumeToastEl.querySelector('#volume-toast-text');
+            if (txt) txt.textContent = ` Volume: ${Math.round(value)}%`;
+            // refresh auto-hide timer
+            clearTimeout(volumeToastTimer);
+            volumeToastTimer = setTimeout(() => {
+                if (volumeToastEl && volumeToastEl.parentNode) {
+                    volumeToastEl.classList.remove('toast-show');
+                    setTimeout(() => {
+                        try { if (volumeToastEl && volumeToastEl.parentNode) container.removeChild(volumeToastEl); } catch (e) {}
+                        volumeToastEl = null;
+                    }, 220);
+                }
+            }, 1100);
+        } catch (e) {
+            console.warn('showVolumeToast failed', e);
+        }
+    }
+
+    // small debounce helper (leading=false)
+    function debounce(fn, wait) {
+        let t = null;
+        return function(...args) {
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(this, args), wait);
+        };
+    }
+
+    // throttlePostMessage: ensure at most one postMessage per animation frame with latest value
+    let pendingVol = null;
+    let posted = false;
+    function throttlePostMessage(payload) {
+        pendingVol = payload;
+        if (posted) return;
+        posted = true;
+        requestAnimationFrame(() => {
+            try {
+                if (gameFrame && gameFrame.contentWindow) {
+                    gameFrame.contentWindow.postMessage({ type: 'nexus:setVolume', volume: pendingVol / 100 }, '*');
+                }
+            } catch (e) {}
+            pendingVol = null;
+            posted = false;
+        });
+    }
+
+    // Replace applyVolumeToGame with a safer, throttled implementation
+    const originalApplyVolumeToGame = applyVolumeToGame;
+    applyVolumeToGame = function(v) {
+        try {
+            const vol = Math.max(0, Math.min(100, Number(v) || 0));
+            // persist quickly (no spam)
+            try { localStorage.setItem('nexus_game_volume', String(vol)); } catch (e) {}
+            // update icon
+            updateVolumeIcon(vol);
+
+            // show a single updatable toast instead of many stacked ones
+            showVolumeToast(vol);
+
+            // PostMessage to iframe at most once per animation frame
+            throttlePostMessage(vol);
+
+            // If same-origin, set audio/video elements directly
+            try {
+                const win = gameFrame && gameFrame.contentWindow;
+                const doc = win && win.document;
+                if (doc) {
+                    const mediaEls = Array.from(doc.querySelectorAll('audio, video'));
+                    mediaEls.forEach(m => {
+                        try { m.volume = Math.max(0, Math.min(1, vol / 100)); } catch (e) {}
+                        try { if (vol > 0) m.muted = false; } catch (e) {}
+                    });
+                }
+            } catch (e) {
+                // cross-origin likely; ignore
+            }
+        } catch (err) {
+            // fallback to original (best-effort)
+            try { originalApplyVolumeToGame(v); } catch (e) {}
+        }
+    };
+
+    // Debounced slider input handler to reduce event flood and avoid many internal updates/toasts
+    const volSlider = document.getElementById('volume-slider');
+    if (volSlider) {
+        const debouncedHandler = debounce((val) => {
+            try { applyVolumeToGame(Number(val)); } catch (e) {}
+        }, 120); // 120ms debounce for snappy UX but limited event spam
+
+        volSlider.removeEventListener && volSlider.removeEventListener('input', () => {});
+        volSlider.addEventListener('input', (e) => {
+            const val = Number(e.target.value);
+            // update icon immediately for snappy feedback
+            updateVolumeIcon(val);
+            // schedule actual work via debounce (toast + postMessage + media update)
+            debouncedHandler(val);
+        }, { passive: true });
+    }
+
+    // Improve volume toggle (mute/unmute) to reuse the same single toast and properly persist
+    const volToggle = document.getElementById('btn-volume-toggle');
+    if (volToggle) {
+        volToggle.removeEventListener && volToggle.removeEventListener('click', () => {});
+        volToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const slider = document.getElementById('volume-slider');
+            if (!slider) return;
+            const current = Number(slider.value);
+            if (current === 0) {
+                // restore to saved or default (choose 60 as comfortable)
+                let restore = 60;
+                try {
+                    const v = parseInt(localStorage.getItem('nexus_game_volume'), 10);
+                    if (!isNaN(v) && v > 0) restore = Math.max(30, Math.min(100, v));
+                } catch (e) {}
+                slider.value = restore;
+                updateVolumeIcon(restore);
+                applyVolumeToGame(restore);
+            } else {
+                slider.value = 0;
+                updateVolumeIcon(0);
+                applyVolumeToGame(0);
+            }
+        }, { passive: true });
+    }
+})();
