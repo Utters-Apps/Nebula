@@ -1942,6 +1942,8 @@ function playGame(id) {
     if (!game) return;
 
     activeGame = game;
+    // Lock page scrolling and gestures while a game session is active to improve mobile gameplay UX
+    try { document.documentElement.classList.add('no-game-scroll'); } catch (e) {}
     playingTitle.textContent = game.title;
 
     // NEW: enable keyboard isolation to reduce interference from extensions
@@ -2308,6 +2310,8 @@ function closeGame() {
         try { disableExtensionKeyIsolation(); } catch (e) { console.warn('disableExtensionKeyIsolation failed', e); }
         // stop watching iframe
         stopIframeWatch();
+        // Restore page scrolling and touch behavior now that game session ended
+        try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
 
         // Hide game frame immediately for smoother transition out, preventing visual flash
         gameFrame.style.opacity = '0';
