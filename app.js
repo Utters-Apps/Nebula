@@ -1,6 +1,6 @@
 // --- DATABASE ---
 const DB = [
-    { id: 'subway', title: 'Subway Surfers', cat: 'Arcade', img: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', banner: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', url: 'https://g.igroutka.ru/games/164/Xm2W5MIcPqrF1Y90/12/subway_surfers_easter_edinburgh/', desc: 'The classic endless runner — dash along the tracks, dodge trains and outrun the grumpy inspector in this global reflex hit.', controls: 'Arrows: Move/Jump/Roll | Space: Skate', feat: true, color: 'blue-500' },
+    { id: 'subway', title: 'Subway Surfers', cat: 'Runner', img: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', banner: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', url: 'https://g.igroutka.ru/games/164/Xm2W5MIcPqrF1Y90/12/subway_surfers_easter_edinburgh/', desc: 'The classic endless runner — dash along the tracks, dodge trains and outrun the grumpy inspector in this global reflex hit.', controls: 'Arrows: Move/Jump/Roll | Space: Skate', feat: true, color: 'blue-500' },
     { id: 'fnf', title: 'Friday Night Funkin\'', cat: 'Rhythm', img: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', banner: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', url: 'https://raw.githack.com/genizy/fridayfunk/master/index.html', desc: 'Feel the beat in this indie rhythm game — hit the arrows to the beat and win intense rap battles.', controls: 'Arrows / Keys: Rhythm | Space: Pause', feat: true, color: 'purple-500' },
     { id: 'krunker', title: 'Krunker.io', cat: 'FPS', img: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://krunker.io/?game=PARK_0', desc: 'Fast-paced voxel FPS. Move quickly using bunny hops and slide jumps to dominate the arena.', controls: 'WASD: Move | Mouse: Aim/Shoot', feat: true, color: 'cyan-500' },
     { id: 'venge', title: 'Venge.io', cat: 'FPS', img: 'https://venge.io/thumbnail.jpg', banner: 'https://venge.io/thumbnail.jpg', url: 'https://venge.io/', desc: 'Tactical multiplayer shooter — pick a hero, control objectives and use card-based abilities.', controls: 'WASD: Move | Mouse: Grenades', feat: false, color: 'red-500' },
@@ -43,10 +43,84 @@ const DB = [
     { id: 'vectaria', title: 'Vectaria', cat: 'Simulation', type: 'Simulation', img: 'https://vectaria.io/preview-og.webp', banner: 'https://vectaria.io/preview-og.webp', url: 'https://vectaria.io/home', desc: 'Web simulation: explore environments and resources with rich simulation mechanics.', controls: 'Mouse / Touch: Navigate and interact', feat: false, color: 'sky-400' },
     
     // Added Om Nom: Run (Runner)
-    { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Runner', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%22F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'An endless runner starring Om Nom — jump, slide and collect sweets through colorful levels.', controls: 'Arrows / Touch: Move and Jump', feat: false, color: 'lime-400' },
+    { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Runner', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.crazygames.com/en_US/om-nom-run/index.html?v=1.346', desc: 'An endless runner starring Om Nom — jump, slide and collect sweets through colorful levels.', controls: 'Arrows / Touch: Move and Jump', feat: false, color: 'lime-400', custom_render: 'embed' },
 
     // Added Cut the Rope: Experiments (Puzzle)
-    { id: 'cuttheropexp', title: 'Cut the Rope: Experiments', cat: 'Puzzle', img: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', banner: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', url: 'https://games.cdn.famobi.com/html5games/c/cut-the-rope-experiments/v020/?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=e73ceee2-0c50-4254-b0b8-656d7a69aca4&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=735&original_ref=https%3A%2F%2Fplay.famobi.com%2Fhtml5game%2Fe73ceee2-0c50-4254-b0b8-656d7a69aca4%2FA1000-1', desc: 'Cut ropes precisely and solve creative experiments to feed Om Nom in this classic puzzle.', controls: 'Mouse / Touch: Cut ropes and interact', feat: false, color: 'emerald-400' },
+    { 
+        id: 'cuttheropexp', 
+        title: 'Cut the Rope: Experiments', 
+        cat: 'Puzzle', 
+        img: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', 
+        banner: 'https://www-cms.zeptolab.com/uploads/CTR_exp_1280x780x2_0ccfd30d3f.jpg', 
+        desc: 'Cut ropes precisely and solve creative experiments to feed Om Nom in this classic puzzle.', 
+        controls: 'Mouse / Touch: Cut ropes and interact', 
+        feat: false, 
+        color: 'emerald-400',
+        custom_render: 'srcdoc',
+        // srcdoc now includes the same "bottom-cut" overlay used by other embeds (Duo / Star Stuff),
+        // so intrusive lower UI elements in the inner embed are masked and the mask captures pointer events.
+        srcdoc_html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Cut The Rope Experiments - Embed</title>
+  <style>
+    html,body{height:100%;margin:0;background:#000;overflow:hidden;}
+    .wrap{position:relative;width:100%;height:100%;overflow:hidden;background:#000;}
+    iframe#inner-embed{position:absolute;inset:0;width:100%;height:100%;border:0;margin:0;padding:0;display:block;background:#000;object-fit:cover;}
+    .bottom-cut{position:absolute;left:0;right:0;bottom:0;height:var(--nexus-bottom-cut,10vh);background:#000;z-index:9999;pointer-events:auto;}
+    @media(min-width:900px){ .bottom-cut{ height:var(--nexus-bottom-cut,8vh); } }
+  </style>
+  <script>
+    try {
+      window.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+      window.addEventListener('message', function(){}, { passive: true });
+    } catch(e){}
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <iframe id="inner-embed"
+            src="https://games.crazygames.com/en_US/cut-the-rope-experiments/index.html?v=1.346"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"
+            allow="fullscreen; autoplay; gamepad"
+            loading="lazy"></iframe>
+
+    <div class="bottom-cut" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    (function(){
+      var inner = document.getElementById('inner-embed');
+      var cut = document.querySelector('.bottom-cut');
+
+      // prevent pointer events reaching the iframe where the black bar covers it
+      cut.addEventListener('pointerdown', function(e){ e.stopPropagation(); e.preventDefault(); }, { passive: false });
+      cut.addEventListener('click', function(e){
+        try {
+          e.stopPropagation();
+          e.preventDefault();
+          try { inner.focus(); } catch (err) {}
+          try { inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:bottomCutClick' }, '*'); } catch(err){}
+        } catch (err) {}
+      }, { passive: false });
+
+      inner.addEventListener('load', function(){
+        try {
+          var w = inner.contentWindow;
+          if (w && w.document) {
+            w.document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+          }
+        } catch (e) {
+          // cross-origin - nothing to do
+        }
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>` 
+    },
 
     { id: 'bitlife', title: 'BitLife', cat: 'Simulation', img: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', banner: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', url: 'https://ubg365.github.io/bitlife-life-simulator/play.html', desc: 'Make choices, live a virtual life and experience successes and failures in this addictive text simulator.', controls: 'Mouse: Choices', feat: false, color: 'indigo-500' },
 
@@ -410,14 +484,14 @@ const CATEGORIES = [
     // Modified Arcade row: exclude specific IDs and always include Om Nom Run and Imagine Island
     { title: 'Arcade & Casual', id: 'arcade-container', filter: g => (
             // base categories
-            (['Arcade', 'Ritmo', 'Simulação', 'Puzzle', 'Party Royale'].includes(g.cat)
+            (['Arcade', 'Rhythm', 'Simulation', 'Runner', 'Party Royale'].includes(g.cat)
                 // exclude these specific games from this row
                 && !['braintest2', 'ludoking', 'candycrush', 'rumblerush', 'stumbleguys', 'cuttheropemagic', 'cuttheropexp'].includes(g.id)
             )
             // always include these two games regardless of category
             || ['omnomrun', 'imagineisland'].includes(g.id)
         ), color: 'cyan-500' },
-    { title: 'Horror Session', id: 'horror-container', filter: g => g.cat === 'Terror', color: 'red-500' },
+    { title: 'Horror & Survival', id: 'horror-container', filter: g => g.cat === 'Horror', color: 'red-500' },
     // Added: Puzzle row shown after horror
     { title: 'Puzzles & Brain Teasers', id: 'puzzle-container', filter: g => g.cat === 'Puzzle', color: 'amber-400' }
 ];
@@ -899,46 +973,60 @@ function refreshTrendingRow() {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    // Build a dynamic pool:
-    // - always include a core of featured games
-    // - sometimes (25% chance) inject 1-2 non-featured picks to introduce variety/new entries
-    const featured = DB.filter(g => g.feat);
-    if (!featured.length) return;
+    // Build a smarter rotating pool:
+    // - prioritize featured games but rotate them deterministically so users see variety across visits
+    // - occasionally (weighted) inject a non-featured "surprise" pick
+    // - ensure we always fill visible slots even on narrow viewports
+    const allFeatured = DB.filter(g => g.feat);
+    const allNonFeat = DB.filter(g => !g.feat);
 
-    // determine new selection size (clamped to available)
+    if (allFeatured.length === 0 && allNonFeat.length === 0) return;
+
+    // compute visible count based on container width with reasonable bounds
     const visibleCount = Math.max(4, Math.min(8, Math.floor(container.clientWidth / 220) || 5));
 
-    // base pool is featured shuffled
-    let pool = shuffleArray(featured);
-
-    // occasionally add a small number of non-featured items to introduce "new" games
-    if (Math.random() < 0.25) {
-        const nonFeat = DB.filter(g => !g.feat);
-        if (nonFeat.length) {
-            const pick = shuffleArray(nonFeat).slice(0, Math.min(2, nonFeat.length));
-            // interleave picks into pool for visual variety
-            pick.forEach((p, i) => {
-                pool.splice(1 + i * 2, 0, p);
-            });
-        }
+    // Deterministic rotation index derived from time to avoid pure randomness per tick
+    const rotateSeed = Math.floor(Date.now() / (1000 * 10)) ; // rotate every 10s
+    function rotate(arr, seed) {
+        if (!arr || !arr.length) return arr.slice();
+        const a = arr.slice();
+        const k = Math.abs(seed) % a.length;
+        return a.slice(k).concat(a.slice(0, k));
     }
 
-    // final visible slice
-    const newSelection = pool.slice(0, visibleCount);
+    // create base pool: featured rotated, but if not enough, append highest-quality non-featured picks
+    let pool = rotate(allFeatured.length ? allFeatured : allNonFeat, rotateSeed);
 
-    // perform a minimal DOM diff update: only replace cards that changed to avoid layout thrash
+    // If pool is too small, append some non-featured, chosen deterministically
+    if (pool.length < visibleCount) {
+        const filler = rotate(allNonFeat, rotateSeed + 7).slice(0, visibleCount - pool.length);
+        pool = pool.concat(filler);
+    }
+
+    // Weighted surprise injection: 20% chance to include 1-2 non-feature "discoveries"
+    if (Math.random() < 0.20 && allNonFeat.length) {
+        const picks = shuffleArray(allNonFeat).slice(0, Math.min(2, allNonFeat.length));
+        // interleave picks to keep UI varied
+        picks.forEach((p, i) => {
+            pool.splice(1 + i * 2, 0, p);
+        });
+    }
+
+    // select final visible list but keep stable order relative to rotated pool
+    const newSelection = pool.filter(Boolean).slice(0, visibleCount);
+
+    // Minimal DOM diffing: update, reorder, insert, remove as necessary
     const existingCards = Array.from(container.querySelectorAll('[data-card-game-id]')).map(n => n.getAttribute('data-card-game-id'));
     const newIds = newSelection.map(g => g.id);
 
-    // If lengths differ dramatically or no existing cards, rebuild for simplicity
-    const shouldRebuild = existingCards.length === 0 || Math.abs(existingCards.length - newIds.length) > 3;
+    const shouldRebuild = existingCards.length === 0 || Math.abs(existingCards.length - newIds.length) > 4;
 
     if (shouldRebuild) {
+        // Rebuild with gentle animations
         container.innerHTML = newSelection.map(g => createCard(g, false)).join('');
-        // lightweight entrance: fade-in for new content
         container.querySelectorAll('[data-card-game-id]').forEach((el, idx) => {
             el.style.opacity = '0';
-            el.style.transform = 'translateY(8px)';
+            el.style.transform = 'translateY(10px)';
             requestAnimationFrame(() => {
                 el.style.transition = 'opacity 360ms ease, transform 360ms cubic-bezier(.22,.9,.35,1)';
                 el.style.opacity = '1';
@@ -946,22 +1034,20 @@ function refreshTrendingRow() {
             });
         });
     } else {
-        // patch in-place: update or insert cards to follow new order
+        // Patch in place: move existing, insert missing, remove extras
         newSelection.forEach((g, idx) => {
             const existing = container.querySelector(`[data-card-game-id="${g.id}"]`);
             if (existing) {
-                // move to correct position if needed
                 const currentNode = container.children[idx];
                 if (currentNode !== existing) {
                     container.insertBefore(existing, currentNode || null);
                 }
             } else {
-                // create new node and insert at idx
                 const wrapper = document.createElement('div');
                 wrapper.innerHTML = createCard(g, false);
                 const newNode = wrapper.firstElementChild;
                 newNode.style.opacity = '0';
-                newNode.style.transform = 'translateY(8px)';
+                newNode.style.transform = 'translateY(10px)';
                 const ref = container.children[idx] || null;
                 container.insertBefore(newNode, ref);
                 requestAnimationFrame(() => {
@@ -972,28 +1058,27 @@ function refreshTrendingRow() {
             }
         });
 
-        // remove stray nodes not in newIds
+        // remove leftovers
         existingCards.forEach(id => {
             if (!newIds.includes(id)) {
                 const node = container.querySelector(`[data-card-game-id="${id}"]`);
                 if (node) {
-                    node.style.transition = 'opacity 240ms ease, transform 240ms ease';
+                    node.style.transition = 'opacity 220ms ease, transform 220ms ease';
                     node.style.opacity = '0';
-                    node.style.transform = 'translateY(10px)';
+                    node.style.transform = 'translateY(12px)';
                     setTimeout(() => {
                         if (node.parentNode) node.parentNode.removeChild(node);
-                        // ensure rows/cards elsewhere are updated to reflect the change
                         updateCardFavoriteState(id);
-                    }, 300);
+                    }, 260);
                 }
             }
         });
     }
 
-    // reattach delegated handlers (fast and idempotent)
+    // ensure event handlers are attached
     attachCardEvents();
 
-    // ensure scroll state buttons update (trigger a single RAF scroll event)
+    // nudge scroll-state update
     requestAnimationFrame(() => container.dispatchEvent(new Event('scroll')));
 }
 
@@ -2061,12 +2146,12 @@ document.addEventListener('fullscreenchange', () => {
     try {
         if (isFS) {
             // when fullscreen, reduce the masked area so the game UI fits better
-            document.documentElement.style.setProperty('--nexus-bottom-cut', '6vh');
-            if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '6vh');
+            document.documentElement.style.setProperty('--nexus-bottom-cut', '5vh');
+            if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '5vh');
         } else {
             // restore default mask height when not fullscreen
-            document.documentElement.style.setProperty('--nexus-bottom-cut', '12vh');
-            if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '12vh');
+            document.documentElement.style.setProperty('--nexus-bottom-cut', '9vh');
+            if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '9vh');
         }
     } catch (e) { /* non-fatal */ }
 
@@ -2300,7 +2385,7 @@ function playGame(id) {
     gameLoader.style.opacity = '1';
     gameLoader.style.zIndex = '60';
     if (loadingStatus) {
-        loadingStatus.textContent = 'Iniciando sessão de streaming...';
+        loadingStatus.textContent = 'Starting streaming session...';
         loadingStatus.style.opacity = '1';
     }
     try { gameFrame.style.visibility = 'hidden'; } catch(e){}
@@ -2332,8 +2417,8 @@ function playGame(id) {
         top: 0;
         left: 0;
         width: 100%;
-        height: 65px; /* altura exata da barra MS Store */
-        background: #000; /* pode trocar por transparente */
+        height: 65px; /* exact height of MS Store bar */
+        background: #000; /* can be changed to transparent */
         z-index: 9999;
         pointer-events: none;
       "></div>
@@ -2567,6 +2652,17 @@ function playGame(id) {
             console.warn('Failed to load embed srcdoc for game', err);
             setGameFrameSrcSafe(game.url);
         }
+    } else if (game.custom_render === 'srcdoc' && game.srcdoc_html) {
+        // Handle generic srcdoc injection
+        try {
+            gameFrame.removeAttribute && gameFrame.removeAttribute('src');
+            // Set the provided HTML content directly
+            gameFrame.srcdoc = game.srcdoc_html;
+        } catch (e) {
+            console.warn('Failed to set srcdoc_html for game', game.id, e);
+            // Fallback: If srcdoc fails (rare), try setting a blank src
+            try { setGameFrameSrcSafe('about:blank'); } catch (ee) {}
+        }
     } else {
         setGameFrameSrcSafe(game.url);
     }
@@ -2621,11 +2717,11 @@ function playGame(id) {
             gameLoader.style.display = 'none';
             gameLoader.style.opacity = '0';
             if (loadingStatus) {
-                 loadingStatus.textContent = 'Tempo limite de carregamento. Tente novamente.';
+                 loadingStatus.textContent = 'Loading timeout. Please try again.';
                  loadingStatus.style.opacity = '1';
                  setTimeout(() => { loadingStatus.style.opacity = '0'; }, 3000);
             }
-            console.warn('Timeout ao carregar o jogo, loader escondido para evitar travamento.');
+            console.warn('Loading timeout, loader hidden to prevent lockup.');
             try { gameFrame.style.visibility = 'visible'; } catch (e) {}
             // hide global enhanced loader as well to keep UI responsive
             hideGlobalLoader();
