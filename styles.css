@@ -2327,3 +2327,59 @@ button:focus, .compact-card:focus, .card-play:focus {
   height: 100% !important;
 }
 
+/* Smooth transitions and mobile-friendly animations for toolbar controls */
+#btn-hide-toolbar {
+  transition: opacity 220ms ease, transform 200ms cubic-bezier(.2,1,0.22,1);
+  will-change: opacity, transform;
+}
+#btn-hide-toolbar.hidden {
+  opacity: 0 !important;
+  transform: translateY(6px) scale(0.98) !important;
+  pointer-events: none !important;
+}
+
+/* Reveal button that appears when toolbar is hidden on mobile */
+#nexus-mobile-reveal-toolbar {
+  transition: opacity 220ms ease, transform 200ms cubic-bezier(.2,1,0.22,1);
+  will-change: opacity, transform;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+#nexus-mobile-reveal-toolbar.hidden {
+  opacity: 0 !important;
+  transform: translateY(6px) scale(0.98) !important;
+  pointer-events: none !important;
+}
+
+/* iOS small close button transitions */
+#nexus-ios-small-close {
+  transition: opacity 200ms ease, transform 180ms cubic-bezier(.2,1,0.22,1);
+  will-change: opacity, transform;
+}
+#nexus-ios-small-close.hidden {
+  opacity: 0 !important;
+  transform: translateX(-8px) scale(0.98) !important;
+  pointer-events: none !important;
+}
+
+/* Ensure the game-layer top/left toolbar fades smoothly when shown/hidden on mobile landscape */
+@media (max-width: 640px) and (orientation: landscape) {
+  #game-layer > .glass-nav {
+    transition: opacity 260ms ease, transform 260ms cubic-bezier(.22,.9,.35,1);
+    will-change: opacity, transform;
+    opacity: 1;
+  }
+  #game-layer > .glass-nav.hidden {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.995);
+    pointer-events: none;
+  }
+}
+
+/* Small accessibility: prefer reduced motion for users who opt out */
+@media (prefers-reduced-motion: reduce) {
+  #btn-hide-toolbar, #nexus-mobile-reveal-toolbar, #nexus-ios-small-close, #game-layer > .glass-nav {
+    transition: none !important;
+  }
+}
+
