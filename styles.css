@@ -204,6 +204,74 @@ body{
 }
 #game-layer .w-8{ width:40px;height:40px }
 
+/* When a mobile device is rotated to landscape, make the game toolbar vertical on the left.
+   This moves the toolbar from the top into a left-side vertical bar and shifts the iframe content
+   to the right so the game remains fully visible and touch targets stay reachable. */
+@media (max-width: 640px) and (orientation: landscape) {
+  /* vertical left toolbar */
+  #game-layer > .glass-nav {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 64px;                 /* compact vertical width for touch */
+    height: 100%;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    display: flex;
+    flex-direction: column;      /* stack controls vertically */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    border-right: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 0;
+    background: linear-gradient(180deg, rgba(6,8,14,0.96), rgba(3,5,11,0.94));
+    z-index: 120;
+  }
+
+  /* make toolbar buttons vertically aligned and larger for thumb reach */
+  #game-layer > .glass-nav .w-8,
+  #game-layer > .glass-nav button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 8px 0;
+    border-radius: 10px;
+  }
+
+  /* hide textual labels in the compact vertical layout to save space */
+  #game-layer > .glass-nav span,
+  #game-layer > .glass-nav .font-medium,
+  #game-layer > .glass-nav .text-sm {
+    display: none;
+  }
+
+  /* shift iframe wrapper to the right so content does not sit under the vertical bar */
+  #game-frame-wrapper {
+    margin-left: 64px !important;
+    /* ensure wrapper still fills remaining area */
+    width: calc(100% - 64px) !important;
+    height: 100% !important;
+  }
+
+  /* ensure the iframe itself respects the shifted area */
+  #game-frame {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* adjust loader & overlays to account for left bar */
+  #global-loader .loader-card, #game-layer #loader {
+    margin-left: 64px;
+  }
+
+  /* when in this state, hide the top navbar inside the game layer to avoid double controls */
+  #game-layer > .glass-nav + * {
+    /* no-op placeholder: ensures layout when other adjacent elements exist */
+  }
+}
+
 /* volume control compact, clear */
 #game-volume-control{ min-width:140px; display:flex; align-items:center; gap:10px; padding:6px 8px; border-radius:999px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03) }
 #volume-slider{ height:8px; border-radius:999px; background: linear-gradient(90deg,#4f46e5 0%,#ec4899 100%); -webkit-appearance:none }
