@@ -3375,8 +3375,9 @@ loginSubmit.addEventListener('click', handleLoginSubmit);
 // --- PROFILE AVATAR LOGOUT (click to sign out) ---
 (function wireLogoutOnAvatar() {
     try {
-        // target either avatar variant used in navbar
-        const avatarEl = document.querySelector('#navbar .w-8, #navbar .w-9');
+        // target either avatar variant used in navbar or mobile account button
+        const avatarEl = document.querySelector('#navbar .w-8, #navbar .w-9, #mobile-account-btn, #navbar .user-avatar-mobile-hide');
+
         if (!avatarEl) return;
 
         // Confirmed logout flow
