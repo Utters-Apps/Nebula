@@ -1756,9 +1756,55 @@ body::after {
     -webkit-overflow-scrolling: auto !important;
 }
 
-/* When a game session is active we also hide the mobile bottom navigation to maximize vertical space on phones */
+/* When a game session is active we also hide the mobile bottom navigation to maximize vertical space on phones
+   plus: extend the game iframe into the bottom-bar area so the game visually fills the freed space. */
 .no-game-scroll .mobile-bottom-bar {
     display: none !important;
+}
+
+/* When a game is active, extend the iframe height to cover the bottom area the mobile bar occupied.
+   Uses the --nexus-bottom-cut variable so embeds using bottom-cut masks will line up correctly.
+   We use --vh to account for iOS viewport quirks. */
+.no-game-scroll #game-frame {
+    height: calc(var(--vh, 1vh) * 100 + var(--nexus-bottom-cut, 9vh)) !important;
+    /* If custom-render frames use absolute positioning, allow them to remain centered by not forcing width */
+    width: 100% !important;
+    position: relative !important;
+    transform: translateY(0) !important;
+}
+
+/* Ensure wrapper doesn't add extra padding that would reduce the new full-bleed effect */
+.no-game-scroll #game-frame-wrapper {
+    padding-bottom: 0 !important;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Force iframe content to be visible while filling the space (helps with some browsers that crop overflow) */
+.no-game-scroll #game-frame,
+.no-game-scroll #game-frame iframe {
+    min-height: calc(var(--vh, 1vh) * 100 + var(--nexus-bottom-cut, 9vh)) !important;
+}
+
+/* Mobile-only tweak: position details modal slightly lower so it visually sits above the bottom bar area */
+@media (max-width: 640px) {
+    /* Move modal backdrop alignment to bottom so modal card appears above bottom-bar area */
+    #details-modal {
+        align-items: flex-end !important;
+        padding-bottom: calc(env(safe-area-inset-bottom) + 12px) !important;
+    }
+    /* Increase bottom spacing of the modal card so it sits visually over the hidden mobile bar */
+    #details-modal #modal-card {
+        margin-bottom: calc(env(safe-area-inset-bottom) + 72px) !important;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+    /* Slightly lift the modal card's internal padding to avoid overlap with the bottom safe area */
+    #details-modal #modal-card #modal-card-inner,
+    #details-modal #modal-card .p-5,
+    #details-modal #modal-card .p-8 {
+        padding-bottom: calc(env(safe-area-inset-bottom) + 18px);
+    }
 }
 
 /* Hide main navbar when game is active to maximize screen space */
