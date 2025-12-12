@@ -39,16 +39,49 @@
             <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-white tracking-tight">Welcome to Nexus</h1>
             <p class="text-gray-400 mb-6 text-xs sm:text-sm">Sign in to continue your experience.</p>
 
-            <form id="login-form" class="space-y-4" onsubmit="return false;">
+            <form id="login-form" class="space-y-4" novalidate>
+                <div class="flex items-center gap-3 mb-1">
+                    <div id="login-avatar" class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-black text-lg select-none">
+                        <span id="login-avatar-initials">N</span>
+                    </div>
+                    <div class="text-left">
+                        <div id="login-welcome" class="text-sm text-gray-300 font-semibold">Welcome back</div>
+                        <div id="login-subhint" class="text-xs text-gray-500">Sign in to continue</div>
+                    </div>
+                </div>
+
                 <div class="relative group">
                     <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-400 transition-colors"></i>
                     <input type="text"
                            id="username-input"
                            required
-                           autocomplete="nickname"
+                           autocomplete="username"
                            placeholder="Username"
+                           aria-label="Username"
                            class="w-full bg-[#0f172a] border border-gray-700 text-white pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-600 text-sm">
                 </div>
+
+                <div class="relative group">
+                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-400 transition-colors"></i>
+                    <input type="password"
+                           id="password-input"
+                           required
+                           autocomplete="current-password"
+                           placeholder="Password"
+                           aria-label="Password"
+                           class="w-full bg-[#0f172a] border border-gray-700 text-white pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-600 text-sm">
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-gray-400">
+                    <label class="inline-flex items-center gap-2">
+                        <input id="remember-checkbox" type="checkbox" class="accent-blue-500" />
+                        <span>Remember me</span>
+                    </label>
+                    <button id="forgot-password" type="button" class="text-blue-400 hover:underline">Forgot?</button>
+                </div>
+
+                <div id="login-error" class="text-sm text-red-400 hidden"></div>
+
                 <button id="login-submit"
                         type="submit"
                         class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-900/30 transform transition hover:scale-[1.02] active:scale-95 text-sm">
