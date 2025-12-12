@@ -27,6 +27,9 @@ const DB = [
     // New: Star Stuff (Puzzle) - embedded via controlled srcdoc iframe with crop to hide bottom area
     { id: 'starstuff', title: 'Star Stuff', cat: 'Puzzle', type: 'Puzzle', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', url: 'https://www.crazygames.com/embed/star-stuff', desc: 'Casual space puzzle — connect stars and solve gravitational challenges.', controls: 'Mouse / Touch: Interact', feat: false, color: 'indigo-400', custom_render: 'embed' },
 
+    // New: Toodee and Topdee (Puzzle-Platformer) - uses CrazyGames embed with bottom black bar mask
+    { id: 'toodee', title: 'Toodee and Topdee', cat: 'Puzzle-Platformer', img: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', banner: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', url: 'https://www.crazygames.com/embed/toodee-and-topdee-demo', desc: 'A charming puzzle-platformer where two characters cooperate to solve levels.', controls: 'WASD / Arrow keys + Space: Jump | Mouse / Touch: Interact', feat: false, color: 'indigo-400', custom_render: 'embed' },
+
     // New: Duo (Co-op) - CrazyGames embed with bottom black bar cut (same method as Star Stuff)
     { id: 'duo', title: 'Duo', cat: 'Co-op', type: 'Co-op', img: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', banner: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', url: 'https://www.crazygames.com/embed/duo-kjn', desc: 'Cooperative game: work with a partner to solve puzzles and progress through levels.', controls: 'Mouse / Touch: Navigate and interact', feat: false, color: 'teal-400', custom_render: 'embed' },
 
@@ -301,6 +304,93 @@ const DB = [
     }
 })();
 
+// --- RESOURCE TRACKER: centralized registry to avoid leaks and duplicated timers/listeners ---
+const ResourceTracker = (function(){
+    const timeouts = new Set();
+    const intervals = new Set();
+    const observers = new Set();
+    const listeners = new Set(); // {target, type, handler, options}
+    const rafs = new Set();
+
+    return {
+        setTimeout(fn, ms) {
+            const id = setTimeout(() => { timeouts.delete(id); try{ fn(); }catch(e){} }, ms);
+            timeouts.add(id);
+            return id;
+        },
+        clearTimeout(id) {
+            try { clearTimeout(id); } catch(e){}
+            timeouts.delete(id);
+        },
+        setInterval(fn, ms) {
+            const id = setInterval(fn, ms);
+            intervals.add(id);
+            return id;
+        },
+        clearInterval(id) {
+            try { clearInterval(id); } catch(e){}
+            intervals.delete(id);
+        },
+        requestAnimationFrame(fn) {
+            const id = requestAnimationFrame((t) => { rafs.delete(id); try{ fn(t); }catch(e){} });
+            rafs.add(id);
+            return id;
+        },
+        cancelAnimationFrame(id) {
+            try { cancelAnimationFrame(id); } catch(e){}
+            rafs.delete(id);
+        },
+        observe(mo) {
+            try { observers.add(mo); } catch(e){}
+            return mo;
+        },
+        disconnectObserver(mo) {
+            try { mo.disconnect(); } catch(e){}
+            observers.delete(mo);
+        },
+        addListener(target, type, handler, options) {
+            try {
+                target.addEventListener(type, handler, options || false);
+                listeners.add({target, type, handler, options});
+            } catch(e){}
+        },
+        removeListener(target, type, handler, options) {
+            try { target.removeEventListener(type, handler, options || false); } catch(e){}
+            // remove any matching entry
+            for (const l of Array.from(listeners)) {
+                if (l.target === target && l.type === type && l.handler === handler) listeners.delete(l);
+            }
+        },
+        cleanupAll() {
+            // Clear timeouts
+            for (const id of Array.from(timeouts)) {
+                try { clearTimeout(id); } catch(e){}
+                timeouts.delete(id);
+            }
+            // Clear intervals
+            for (const id of Array.from(intervals)) {
+                try { clearInterval(id); } catch(e){}
+                intervals.delete(id);
+            }
+            // Cancel rAFs
+            for (const id of Array.from(rafs)) {
+                try { cancelAnimationFrame(id); } catch(e){}
+                rafs.delete(id);
+            }
+            // Disconnect MutationObservers / IntersectionObservers
+            for (const mo of Array.from(observers)) {
+                try { mo.disconnect(); } catch(e){}
+                observers.delete(mo);
+            }
+            // Remove event listeners registered via tracker
+            for (const l of Array.from(listeners)) {
+                try { l.target.removeEventListener(l.type, l.handler, l.options || false); } catch(e){}
+                listeners.delete(l);
+            }
+        }
+    };
+})();
+
 /* --- Disable right-click (contextmenu) site-wide and best-effort for iframes ---
    Strategy:
    - Block contextmenu on the top-level document in capture phase, stopping propagation and default.
@@ -499,6 +589,7 @@ const CATEGORIES = [
 // --- STATE ---
 let myList = [];
 let activeGame = null;
+let activeGameUsedBottomCut = false; // NEW: flag to detect games that used bottom-cut / srcdoc overlay
 let currentUser = null;
 let currentTab = 'home';
 let searchTimeout = null;
@@ -1205,11 +1296,16 @@ function refreshTrendingRow() {
 
 function startTrendingAutoRefresh(intervalMs = 12000) {
     // clear any previous interval
-    if (_trendingInterval) clearInterval(_trendingInterval);
+    try {
+        if (_trendingInterval) {
+            try { ResourceTracker.clearInterval(_trendingInterval); } catch(e){}
+            _trendingInterval = null;
+        }
+    } catch(e){}
     // initial refresh so user sees variation quickly
     refreshTrendingRow();
     // set periodic refresh with modest frequency for performance
-    _trendingInterval = setInterval(() => {
+    _trendingInterval = ResourceTracker.setInterval(() => {
         try {
             refreshTrendingRow();
             // occasionally also refresh hero to match trending vibe (small 8% chance)
@@ -1222,7 +1318,10 @@ function startTrendingAutoRefresh(intervalMs = 12000) {
 
 // Optional: clear on unload to avoid leaks
 window.addEventListener('beforeunload', () => {
-    if (_trendingInterval) clearInterval(_trendingInterval);
+    if (_trendingInterval) {
+        try { ResourceTracker.clearInterval(_trendingInterval); } catch(e){}
+        _trendingInterval = null;
+    }
 });
 
 // --- TABS ---
@@ -1230,7 +1329,7 @@ function wireTabs() {
     // include both desktop and mobile tab elements
     document.querySelectorAll('.tab-btn, .tab-chip').forEach(btn => {
         // use pointerdown for snappier touch response and to avoid 300ms delays on some devices
-        btn.addEventListener('pointerdown', (ev) => {
+        const handler = (ev) => {
             // ensure we only handle primary pointers
             if (ev.isPrimary === false) return;
             ev.preventDefault(); // immediate visual response; click will be synthesized or ignored
@@ -1238,10 +1337,11 @@ function wireTabs() {
             // If the tab is already active, do nothing to avoid unnecessary refreshes
             if (tab === currentTab) return;
             switchTab(tab);
-        }, { passive: false });
-
+        };
+        // Register via ResourceTracker so listeners can be removed centrally if needed
+        ResourceTracker.addListener(btn, 'pointerdown', handler, { passive: false });
         // also listen for touchend as a fallback on older browsers
-        btn.addEventListener('touchend', (e) => {
+        ResourceTracker.addListener(btn, 'touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
             const tab = btn.getAttribute('data-tab');
@@ -2016,11 +2116,25 @@ function wireGameControls() {
 
             // call closeGame after the small animation delay so user perceives it
             setTimeout(() => {
-                try { closeGame(); } catch (err) { console.warn('closeGame failed after animation', err); }
+                try { 
+                    closeGame(); 
+                    // If this session used the "bottom-cut" black bar overlay, reload the page to guarantee a clean state.
+                    // Slight delay ensures close animations / cleanup run before reload.
+                    if (activeGameUsedBottomCut) {
+                        setTimeout(() => {
+                            try { location.reload(); } catch (e) { /* ignore */ }
+                        }, 420);
+                    }
+                } catch (err) { console.warn('closeGame failed after animation', err); }
             }, 260);
         } catch (err) {
             console.warn('btnCloseGame handler error', err);
-            try { closeGame(); } catch (e) {}
+            try { 
+                closeGame();
+                if (activeGameUsedBottomCut) {
+                    setTimeout(() => { try { location.reload(); } catch (e) {} }, 420);
+                }
+            } catch (e) {}
         }
     });
     btnFullscreen.addEventListener('click', toggleFullscreen);
@@ -2320,6 +2434,73 @@ function toggleFullscreen() {
     }
 }
 
+/* NEW: robust fullscreen error/fallback handling to ensure scroll is always restored
+   and pseudo-fullscreen fallbacks don't leave the page locked. */
+(function ensureFullscreenErrorHandling(){
+    try {
+        function restoreScrollSafely() {
+            try {
+                // remove any forced visual fullscreen markers
+                document.documentElement.classList.remove('forced-fullscreen');
+                // ensure scroll-lock class removed and inline styles cleared
+                document.documentElement.classList.remove('no-game-scroll');
+                try { document.documentElement.style.overflow = ''; } catch (e) {}
+                try { document.documentElement.style.touchAction = ''; } catch (e) {}
+                try { if (document.body) { document.body.style.overflow = ''; document.body.style.touchAction = ''; } } catch (e) {}
+                // also reveal mobile bottom bar if it was hidden
+                try {
+                    const mobileBar = document.querySelector('.mobile-bottom-bar');
+                    if (mobileBar) mobileBar.style.removeProperty('display');
+                } catch (e) {}
+            } catch (e) {
+                console.warn('restoreScrollSafely failed', e);
+            }
+        }
+
+        // When fullscreen change occurs, double-check scroll state and adapt mask var
+        document.addEventListener('fullscreenchange', () => {
+            try {
+                const isFS = !!document.fullscreenElement;
+                if (isFS) {
+                    document.documentElement.style.setProperty('--nexus-bottom-cut', '5vh');
+                    if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '5vh');
+                } else {
+                    document.documentElement.style.setProperty('--nexus-bottom-cut', '9vh');
+                    if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '9vh');
+                }
+
+                // If leaving fullscreen, always ensure scroll is available
+                if (!isFS) {
+                    restoreScrollSafely();
+                }
+            } catch (e) {
+                console.warn('fullscreenchange handler error', e);
+                restoreScrollSafely();
+            }
+        }, { passive: true });
+
+        // Handle fullscreen errors (native or webkit) — make sure nothing remains locked
+        document.addEventListener('fullscreenerror', (e) => {
+            console.warn('fullscreenerror detected', e);
+            restoreScrollSafely();
+            // visual fallback to forced-fullscreen if desired but ensure scroll restoration wasn't lost
+            document.documentElement.classList.add('forced-fullscreen');
+            // remove forced-fullscreen shortly after to avoid persistent lock in buggy WebViews
+            setTimeout(() => document.documentElement.classList.remove('forced-fullscreen'), 1200);
+        });
+
+        // webkit prefix fallback for older iOS/Android webviews
+        document.addEventListener('webkitfullscreenerror', (e) => {
+            console.warn('webkitfullscreenerror detected', e);
+            restoreScrollSafely();
+            document.documentElement.classList.add('forced-fullscreen');
+            setTimeout(() => document.documentElement.classList.remove('forced-fullscreen'), 1200);
+        });
+    } catch (e) {
+        console.warn('ensureFullscreenErrorHandling failed', e);
+    }
+})();
+
 /* NEW: handle fullscreenchange to show/hide the hide-toolbar button and restore toolbar when exiting fullscreen,
    and adjust the bottom-cut height variable so the injected embed's mask adapts in and out of fullscreen. */
 document.addEventListener('fullscreenchange', () => {
@@ -2522,6 +2703,7 @@ function playGame(id) {
     if (!game) return;
 
     activeGame = game;
+    activeGameUsedBottomCut = false; // reset flag each launch
 
     // Save previous scroll/touch inline styles so we can reliably restore later (works across iOS/Android/PWA/WebView)
     try {
@@ -2567,6 +2749,14 @@ function playGame(id) {
 
     // Check for custom rendering mode
     const isStumbleGuys = game.custom_render === 'stumbleguys';
+
+    // Mark games that use an injected bottom-cut or srcdoc-based overlay so we can special-case reload on exit.
+    // This is a best-effort marker since many embed cases are cross-origin and cannot be inspected later.
+    try {
+        if (game.custom_render === 'embed' || game.custom_render === 'srcdoc' || game.id === 'cuttheropexp' || game.id === 'pieceofcake' || game.id === 'starstuff' || game.id === 'duo' || game.custom_render === 'unity') {
+            activeGameUsedBottomCut = true;
+        }
+    } catch (e) {}
 
     // Reset iframe styling for standard mode
     gameFrame.className = 'w-full h-full border-none z-10';
@@ -2951,8 +3141,7 @@ function playGame(id) {
 
 function closeGame() {
     try {
-        // determine if we should refresh the page after closing (special-case for some embeds)
-        const shouldReloadAfterClose = activeGame && (activeGame.id === 'duo' || activeGame.id === 'starstuff');
+
 
         // restore mobile bottom bar when leaving game
         try {
@@ -3129,14 +3318,10 @@ function closeGame() {
                 document.exitFullscreen().catch(() => {});
             }
 
-            // If the closed game requires a full page reload (embed quirks), reload now
-            try {
-                if (activeGame && (activeGame.id === 'duo' || activeGame.id === 'starstuff')) {
-                    setTimeout(() => { location.reload(); }, 120);
-                }
-            } catch (e) {
-                // ignore reload errors
-            }
+            // CENTRAL CLEANUP: free any tracked resources (timers, observers, registered listeners)
+            try { ResourceTracker.cleanupAll(); } catch (e) {}
+
+
         };
 
         // Event listener for animation end
@@ -3177,6 +3362,9 @@ function closeGame() {
         if (document.fullscreenElement) {
             document.exitFullscreen().catch(() => {});
         }
+
+        // Ensure tracked resources cleared on error path too
+        try { ResourceTracker.cleanupAll(); } catch (e) {}
 
         // If error path and special-case game was active, still attempt reload
         try {
