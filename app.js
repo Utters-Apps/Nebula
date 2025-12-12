@@ -2270,21 +2270,53 @@ async function goFullscreen(elem) {
 /* toggleFullscreen kept for backwards compatibility; prefer goFullscreen for fallback handling */
 function toggleFullscreen() {
     try {
+        // Defensive check: if browser doesn't support any fullscreen API we use the visual fallback but guard restoration.
+        const supportsNative = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.msFullscreenEnabled);
+        // If not currently fullscreen, attempt to enter
         if (!document.fullscreenElement && !document.documentElement.classList.contains('forced-fullscreen')) {
-            goFullscreen(gameLayer).catch(()=>{});
+            if (supportsNative) {
+                // try native fullscreen but guard against failures so we don't break scrolling
+                goFullscreen(gameLayer).catch((err) => {
+                    console.warn('Native fullscreen attempt failed, falling back to visual fullscreen', err);
+                    // Ensure no permanent scroll lock: remove any no-game-scroll residual and apply visual fallback
+                    try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+                    document.documentElement.classList.add('forced-fullscreen');
+                });
+            } else {
+                // Use visual fallback only for environments without native support (PWAs, some WebViews, iOS)
+                document.documentElement.classList.add('forced-fullscreen');
+            }
         } else {
-            // If visual forced-fullscreen was applied, remove it; otherwise exit native fullscreen
+            // Exit both visual and native fullscreen safely
             if (document.documentElement.classList.contains('forced-fullscreen')) {
                 document.documentElement.classList.remove('forced-fullscreen');
             }
-            if (document.exitFullscreen) {
-                document.exitFullscreen().catch(() => {});
-            } else if (document.webkitExitFullscreen) {
-                try { document.webkitExitFullscreen(); } catch (e) {}
+            // Try native exit if active, but do not assume it will succeed; always ensure scroll restoration
+            try {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch((err) => {
+                        console.warn('exitFullscreen failed', err);
+                    }).finally(() => {
+                        // always restore scroll to avoid permanent lock
+                        try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+                        try { document.documentElement.style.overflow = ''; document.body && (document.body.style.overflow = ''); } catch (e) {}
+                    });
+                } else if (document.webkitExitFullscreen) {
+                    try { document.webkitExitFullscreen(); } catch (e) {}
+                    try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+                } else {
+                    // No native exit available: ensure visual flags cleaned up
+                    try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+                }
+            } catch (err) {
+                console.warn('toggleFullscreen cleanup failed', err);
+                try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
             }
         }
     } catch (err) {
         console.warn('toggleFullscreen failed', err);
+        // ensure we never leave the page unscrollable
+        try { document.documentElement.classList.remove('no-game-scroll'); document.documentElement.style.overflow = ''; if (document.body) document.body.style.overflow = ''; } catch (e) {}
     }
 }
 
@@ -2490,22 +2522,36 @@ function playGame(id) {
     if (!game) return;
 
     activeGame = game;
-    // Lock page scrolling and gestures while a game session is active to improve mobile gameplay UX
-    try { document.documentElement.classList.add('no-game-scroll'); } catch (e) {}
-    // Also hide mobile bottom bar explicitly as an extra safeguard for some environments
+
+    // Save previous scroll/touch inline styles so we can reliably restore later (works across iOS/Android/PWA/WebView)
     try {
-        document.documentElement.classList.add('no-game-scroll'); // ensure class present
+        const docEl = document.documentElement;
+        // store only if not already stored
+        if (!docEl.dataset.nexusPrevOverflow) {
+            docEl.dataset.nexusPrevOverflow = docEl.style.overflow || '';
+            docEl.dataset.nexusPrevTouch = docEl.style.touchAction || '';
+        }
+        if (!document.body.dataset || !document.body.dataset.nexusPrevOverflow) {
+            document.body.dataset && (document.body.dataset.nexusPrevOverflow = document.body.style.overflow || '');
+            document.body.dataset && (document.body.dataset.nexusPrevTouch = document.body.style.touchAction || '');
+        }
+    } catch (e) {}
+
+    // Apply a robust "no-scroll" state using both class and inline styles to cover PWAs and WebViews.
+    try {
+        document.documentElement.classList.add('no-game-scroll');
+        // Inline style changes are applied to both documentElement and body which improves cross-platform restoration.
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.touchAction = 'none';
+        if (document.body) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none';
+        }
+        // Also hide mobile bottom bar explicitly as an extra safeguard for some environments
         const mobileBar = document.querySelector('.mobile-bottom-bar');
         if (mobileBar) mobileBar.style.display = 'none';
     } catch (e) {}
 
-    // NEW: explicitly hide/lock scroll on root and body to ensure mobile browsers stop scrolling immediately
-    try {
-        document.documentElement.style.overflow = 'hidden';
-        document.body && (document.body.style.overflow = 'hidden');
-        // also disable touch-action on body as extra guard on some browsers
-        document.body && (document.body.style.touchAction = 'none');
-    } catch (e) {}
     playingTitle.textContent = game.title;
 
     // NEW: enable keyboard isolation to reduce interference from extensions
@@ -2912,7 +2958,7 @@ function closeGame() {
         try {
             const mobileBar = document.querySelector('.mobile-bottom-bar');
             if (mobileBar) {
-                // allow CSS to control visibility when no-game-scroll removed; ensure visible now
+                // remove inline display override so CSS controls visibility again
                 mobileBar.style.removeProperty('display');
             }
         } catch (e) {}
@@ -2921,17 +2967,55 @@ function closeGame() {
         try { disableExtensionKeyIsolation(); } catch (e) { console.warn('disableExtensionKeyIsolation failed', e); }
         // stop watching iframe
         stopIframeWatch();
-        // Restore page scrolling and touch behavior now that game session ended
+        // Remove the class that indicates a game is active
         try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
 
-        // NEW: explicitly restore overflow/touch styles on html/body so mobile scroll returns reliably
+        // Restore previous inline overflow/touchAction values saved when playGame ran.
         try {
-            document.documentElement.style.overflow = '';
-            if (document.body) {
+            const docEl = document.documentElement;
+            // restore documentElement inline styles
+            if (docEl && docEl.dataset) {
+                if (typeof docEl.dataset.nexusPrevOverflow !== 'undefined') {
+                    docEl.style.overflow = docEl.dataset.nexusPrevOverflow || '';
+                    delete docEl.dataset.nexusPrevOverflow;
+                } else {
+                    docEl.style.overflow = '';
+                }
+                if (typeof docEl.dataset.nexusPrevTouch !== 'undefined') {
+                    docEl.style.touchAction = docEl.dataset.nexusPrevTouch || '';
+                    delete docEl.dataset.nexusPrevTouch;
+                } else {
+                    docEl.style.touchAction = '';
+                }
+            } else {
+                // fallback: clear to default
+                document.documentElement.style.overflow = '';
+                document.documentElement.style.touchAction = '';
+            }
+
+            // restore body inline styles
+            if (document.body && document.body.dataset) {
+                if (typeof document.body.dataset.nexusPrevOverflow !== 'undefined') {
+                    document.body.style.overflow = document.body.dataset.nexusPrevOverflow || '';
+                    delete document.body.dataset.nexusPrevOverflow;
+                } else {
+                    document.body.style.overflow = '';
+                }
+                if (typeof document.body.dataset.nexusPrevTouch !== 'undefined') {
+                    document.body.style.touchAction = document.body.dataset.nexusPrevTouch || '';
+                    delete document.body.dataset.nexusPrevTouch;
+                } else {
+                    document.body.style.touchAction = '';
+                }
+            } else if (document.body) {
                 document.body.style.overflow = '';
                 document.body.style.touchAction = '';
             }
-        } catch (e) {}
+        } catch (e) {
+            // best-effort restore, avoid permanent lock
+            try { document.documentElement.style.overflow = ''; document.documentElement.style.touchAction = ''; } catch (ee) {}
+            try { if (document.body) { document.body.style.overflow = ''; document.body.style.touchAction = ''; } } catch (ee) {}
+        }
 
         // Attempt to gently stop audio/video inside the iframe (best-effort for same-origin; postMessage for cross-origin)
         try {
@@ -2953,7 +3037,7 @@ function closeGame() {
                 } catch (ee) {}
             }
 
-            // NEW: extra best-effort: if the iframe uses an inner embed (srcdoc -> inner iframe like in embedHtml), 
+            // extra best-effort: if the iframe uses an inner embed (srcdoc -> inner iframe like in embedHtml), 
             // try to reach inside via contentWindow to stop or unload that inner iframe (same-origin only).
             try {
                 const win = gameFrame && gameFrame.contentWindow;
