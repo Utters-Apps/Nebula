@@ -1816,11 +1816,30 @@ body::after {
 
 /* ===== Prevent page scrolling while a game is active and maximize viewport (Cloud Gaming Improvement) =====
    Add a class to documentElement to lock background scroll and touch gestures, while allowing the game-layer itself to remain interactive.
+   Extended to also lock the iframe wrapper, inner embed wrappers and bottom-cut overlays so embedded iframes or injected bars
+   cannot create a page-level scrollbar on desktop or mobile.
 */
-.no-game-scroll, .no-game-scroll body, .no-game-scroll #app-container {
+.no-game-scroll,
+.no-game-scroll body,
+.no-game-scroll #app-container,
+.no-game-scroll #home-content,
+.no-game-scroll #favorites-content,
+.no-game-scroll #search-results-content {
     overflow: hidden !important;
     touch-action: none !important; /* reduce accidental gestures behind iframe */
     height: 100% !important;
+    -webkit-overflow-scrolling: auto !important;
+}
+
+/* Also lock overflow and touch for the in-layer game frame and common embed wrappers when a game is active.
+   This prevents inner iframes or injected bottom bars from producing page scroll on desktop or mobile. */
+.no-game-scroll #game-frame-wrapper,
+.no-game-scroll #game-frame,
+.no-game-scroll iframe,
+.no-game-scroll .wrap,
+.no-game-scroll .bottom-cut {
+    overflow: hidden !important;
+    touch-action: none !important;
     -webkit-overflow-scrolling: auto !important;
 }
 
