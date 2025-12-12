@@ -3077,6 +3077,26 @@ function playGame(id) {
     gameLayer.classList.remove('hidden', 'game-exit');
     gameLayer.classList.add('flex', 'game-enter');
 
+    // Ensure hide-toolbar and reveal controls are properly reset/visible when starting a game.
+    try {
+        // Make sure hide-toolbar button exists and is visible on iOS and other platforms.
+        if (btnHideToolbar) {
+            btnHideToolbar.classList.remove('hidden');
+            btnHideToolbar.style.transition = 'opacity 260ms ease, transform 220ms cubic-bezier(.2,1,0.22,1)';
+            btnHideToolbar.style.opacity = '1';
+        }
+
+        // Remove any lingering reveal button from previous sessions to avoid duplicate UI.
+        const reveal = document.getElementById('nexus-mobile-reveal-toolbar');
+        if (reveal && reveal.parentNode) {
+            try { reveal.parentNode.removeChild(reveal); } catch (e) {}
+        }
+
+        // Ensure iOS small close is hidden until user explicitly hides toolbar.
+        const smallClose = document.getElementById('nexus-ios-small-close');
+        if (smallClose) smallClose.classList.add('hidden');
+    } catch (e) { console.warn('playGame toolbar init failed', e); }
+
     // show loader and status
     gameLoader.style.display = 'block';
     gameLoader.style.opacity = '1';
@@ -3644,6 +3664,44 @@ function closeGame() {
             // best-effort restore, avoid permanent lock
             try { document.documentElement.style.overflow = ''; document.documentElement.style.touchAction = ''; } catch (ee) {}
             try { if (document.body) { document.body.style.overflow = ''; document.body.style.touchAction = ''; } } catch (ee) {}
+        }
+
+        // Ensure any toolbar-related controls (reveal button, hide toolbar button, ios small close) are removed/hidden on exit.
+        try {
+            // Hide and remove the reveal toolbar button if it exists
+            const reveal = document.getElementById('nexus-mobile-reveal-toolbar');
+            if (reveal) {
+                reveal.style.transition = 'opacity 220ms ease, transform 180ms cubic-bezier(.2,1,0.22,1)';
+                reveal.style.opacity = '0';
+                reveal.style.transform = 'translateY(6px) scale(0.98)';
+                setTimeout(() => {
+                    try { if (reveal && reveal.parentNode) reveal.parentNode.removeChild(reveal); } catch (e) {}
+                }, 260);
+            }
+
+            // Hide the hide-toolbar button visually and mark hidden so it won't appear unexpectedly
+            if (btnHideToolbar) {
+                btnHideToolbar.style.transition = 'opacity 220ms ease, transform 180ms cubic-bezier(.2,1,0.22,1)';
+                btnHideToolbar.style.opacity = '0';
+                btnHideToolbar.style.transform = 'translateY(6px) scale(0.98)';
+                // actually hide after the transition so layout resets
+                setTimeout(() => {
+                    try { btnHideToolbar.classList.add('hidden'); btnHideToolbar.style.opacity = ''; btnHideToolbar.style.transform = ''; } catch (e) {}
+                }, 260);
+            }
+
+            // Also remove the small iOS close if present (created by initApp), hide with transition first
+            const smallClose = document.getElementById('nexus-ios-small-close');
+            if (smallClose) {
+                smallClose.style.transition = 'opacity 200ms ease, transform 160ms ease';
+                smallClose.style.opacity = '0';
+                smallClose.style.transform = 'translateX(-8px) scale(0.98)';
+                setTimeout(() => {
+                    try { if (smallClose && smallClose.parentNode) smallClose.parentNode.removeChild(smallClose); } catch (e) {}
+                }, 220);
+            }
+        } catch (e) {
+            console.warn('closeGame toolbar cleanup failed', e);
         }
 
         // Attempt to gently stop audio/video inside the iframe (best-effort for same-origin; postMessage for cross-origin)
