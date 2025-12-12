@@ -27,6 +27,9 @@ const DB = [
     // New: Star Stuff (Puzzle) - embedded via controlled srcdoc iframe with crop to hide bottom area
     { id: 'starstuff', title: 'Star Stuff', cat: 'Puzzle', type: 'Puzzle', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', url: 'https://www.crazygames.com/embed/star-stuff', desc: 'Casual space puzzle — connect stars and solve gravitational challenges.', controls: 'WASD or arrow keys move | Space interact | Tab switch bots | P pause | Shift/Z fast-forward/rewind', feat: false, color: 'indigo-400', custom_render: 'embed' },
 
+    // Added Escape From Prison Multiplayer (Puzzle / Platformer) - CrazyGames embed with bottom black bar mask
+    { id: 'escapeprison', title: 'Escape From Prison Multiplayer', cat: 'Puzzle', type: 'Platformer', img: 'https://imgs.crazygames.com/escape-from-prison-multiplayer_16x9/20250120074825/escape-from-prison-multiplayer_16x9-cover?', banner: 'https://imgs.crazygames.com/escape-from-prison-multiplayer_16x9/20250120074825/escape-from-prison-multiplayer_16x9-cover?', url: 'https://games.crazygames.com/en_US/escape-from-prison-multiplayer/index.html?v=1.346', desc: 'Cooperative platformer escape challenge — work with others (or solo) to flee the prison using precise jumps and teamwork.', controls: 'WASD or Arrow Keys | Move; Space | Jump; Touch Controls | Mobile movement and jump', feat: false, color: 'indigo-400', custom_render: 'embed' },
+
     // New: Toodee and Topdee (Puzzle-Platformer) - uses CrazyGames embed with bottom black bar mask
     { id: 'toodee', title: 'Toodee and Topdee', cat: 'Puzzle', img: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', banner: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', url: 'https://www.crazygames.com/embed/toodee-and-topdee-demo', desc: 'A charming puzzle-platformer where two characters cooperate to solve levels.', controls: 'Arrow keys move | Z action | X switch character | R restart | Esc menu', feat: false, color: 'indigo-400', custom_render: 'embed' },
 
@@ -567,7 +570,7 @@ function updateVolumeIcon(vol){
     }
 }
 
-// Categories for rows
+ // Categories for rows
 const CATEGORIES = [
     { title: 'Trending Now', id: 'trending-container', filter: g => g.feat, color: 'blue-500' },
     { title: 'FPS & Competitive', id: 'fps-container', filter: g => (g.cat === 'FPS' || g.id === 'stumbleguys'), color: 'purple-500' },
@@ -582,8 +585,8 @@ const CATEGORIES = [
             || ['omnomrun', 'imagineisland'].includes(g.id)
         ), color: 'cyan-500' },
     { title: 'Horror & Survival', id: 'horror-container', filter: g => g.cat === 'Horror', color: 'red-500' },
-    // Added: Puzzle row shown after horror
-    { title: 'Puzzles & Brain Teasers', id: 'puzzle-container', filter: g => g.cat === 'Puzzle', color: 'amber-400' }
+    // Updated: Puzzles & Platform row shown after horror — includes both Puzzle and Platformer games (by category or explicit type)
+    { title: 'Puzzles & Platform', id: 'puzzle-container', filter: g => (g.cat === 'Puzzle' || g.cat === 'Platformer' || (g.type && g.type === 'Platformer')), color: 'amber-400' }
 ];
 
 // --- STATE ---
