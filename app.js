@@ -796,11 +796,95 @@ function checkSession() {
 }
 
 function handleLoginSubmit(e) {
-    e.preventDefault();
-    const username = usernameInput.value.trim();
-    if (!username) return;
-    localStorage.setItem('nexus_user', username);
-    enterApp(username);
+    try {
+        e && e.preventDefault && e.preventDefault();
+        const username = (usernameInput && usernameInput.value || '').trim();
+        const password = (document.getElementById('password-input') && document.getElementById('password-input').value) || '';
+        const remember = !!document.getElementById('remember-checkbox') && document.getElementById('remember-checkbox').checked;
+        const errEl = document.getElementById('login-error');
+        if (errEl) { errEl.textContent = ''; errEl.classList.add('hidden'); }
+
+        // Basic client-side validation
+        if (!username || username.length < 3) {
+            if (errEl) { errEl.textContent = 'Choose a username with at least 3 characters.'; errEl.classList.remove('hidden'); }
+            usernameInput && usernameInput.focus();
+            return;
+        }
+        if (!password || password.length < 6) {
+            if (errEl) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.classList.remove('hidden'); }
+            const pwd = document.getElementById('password-input');
+            pwd && pwd.focus();
+            return;
+        }
+
+        // show a non-blocking loader and simulate asynchronous authentication
+        showGlobalLoader({ title: 'Signing in...', sub: 'Verifying credentials...', hint: '', progress: 24 });
+
+        // small UX touch: update avatar preview to match entered name while waiting
+        try {
+            const initials = username.split(/\s+/).slice(0,2).map(s => s[0]?.toUpperCase() || '').join('').slice(0,2) || username[0]?.toUpperCase() || 'U';
+            const avatarEl = document.getElementById('login-avatar-initials');
+            if (avatarEl) avatarEl.textContent = initials;
+        } catch (e) {}
+
+        // Fake auth call (replace with real endpoint easily)
+        setTimeout(() => {
+            try {
+                // Simple deterministic "failure" simulation for trivial passwords (for realism)
+                if (password === 'password' || username.toLowerCase().includes('test') && password.length < 8) {
+                    hideGlobalLoader();
+                    if (errEl) { errEl.textContent = 'Invalid credentials. Try again.'; errEl.classList.remove('hidden'); }
+                    showToast('Sign in failed.', { icon: 'fas fa-exclamation-circle' });
+                    return;
+                }
+
+                // Build a richer user object to persist
+                const userObj = {
+                    name: username,
+                    initials: (username.split(/\s+/).slice(0,2).map(s => s[0]?.toUpperCase()).join('').slice(0,2)) || username[0]?.toUpperCase(),
+                    loggedAt: Date.now(),
+                    remember: !!remember
+                };
+
+                // persist user according to remember preference
+                try {
+                    if (remember) localStorage.setItem('nexus_user', JSON.stringify(userObj));
+                    else sessionStorage.setItem('nexus_user_temp', JSON.stringify(userObj));
+                } catch (e) {}
+
+                // update UI quickly and enter app
+                try {
+                    updateUserDisplay(userObj);
+                } catch (e) {}
+
+                hideGlobalLoader();
+                showToast(`Welcome, ${userObj.name}!`);
+                enterApp(userObj.name || username);
+            } catch (err) {
+                hideGlobalLoader();
+                console.warn('login simulation failed', err);
+                showToast('Unexpected error during sign in.', { icon: 'fas fa-exclamation-triangle' });
+            }
+        }, 900 + Math.floor(Math.random() * 700)); // small randomized delay for realism
+    } catch (err) {
+        console.warn('handleLoginSubmit error', err);
+    }
+}
+
+// helper to update topbar avatar and display name when login succeeds
+function updateUserDisplay(user) {
+    try {
+        const display = document.getElementById('user-display-name');
+        const avatar = document.querySelector('#navbar .w-8') || document.querySelector('#navbar .w-9');
+        if (display && user && user.name) {
+            const shortName = user.name.length > 12 ? user.name.slice(0, 12) + '…' : user.name;
+            display.textContent = shortName;
+            display.classList.remove('hidden');
+        }
+        if (avatar && user && user.initials) {
+            avatar.textContent = user.initials.slice(0,2);
+        }
+    } catch (e) {}
 }
 
 // --- DEEP LINK / SHARE SYSTEM ---
@@ -3287,6 +3371,70 @@ function closeDetails() {
 // --- EVENTS BINDING ---
 loginForm.addEventListener('submit', handleLoginSubmit);
 loginSubmit.addEventListener('click', handleLoginSubmit);
+
+// --- PROFILE AVATAR LOGOUT (click to sign out) ---
+(function wireLogoutOnAvatar() {
+    try {
+        // target either avatar variant used in navbar
+        const avatarEl = document.querySelector('#navbar .w-8, #navbar .w-9');
+        if (!avatarEl) return;
+
+        // Confirmed logout flow
+        async function handleLogoutClick(e) {
+            try {
+                e && e.preventDefault && e.preventDefault();
+                const ok = await showConfirm({
+                    title: 'Sign out',
+                    message: 'Do you want to sign out of your account?',
+                    okText: 'Sign out',
+                    cancelText: 'Cancel'
+                });
+                if (!ok) return;
+
+                // Clear persisted user session and favorites and restore initial state
+                try { localStorage.removeItem('nexus_user'); } catch (e) {}
+                try { sessionStorage.removeItem('nexus_user_temp'); } catch (e) {}
+                try { localStorage.removeItem('nexus_mylist'); } catch (e) {}
+                myList = [];
+                currentUser = null;
+
+                showToast('Signed out.', { icon: 'fas fa-sign-out-alt' });
+
+                // Return to login screen (simple, reliable reset)
+                // Hide app and show login again; preserve nice transition
+                try {
+                    appContainer.style.opacity = '0';
+                    appContainer.style.pointerEvents = 'none';
+                } catch (e) {}
+                setTimeout(() => {
+                    try {
+                        loginScreen.style.display = '';
+                        loginScreen.style.opacity = '1';
+                        loginScreen.style.pointerEvents = 'auto';
+                        // reset login inputs for a clean state
+                        usernameInput.value = '';
+                        const pwd = document.getElementById('password-input');
+                        if (pwd) pwd.value = '';
+                        // update top UI
+                        userDisplayName.textContent = 'Guest';
+                    } catch (e) {}
+                }, 260);
+
+                // Also reload as a robust fallback to clear any in-memory state in complex sessions
+                setTimeout(() => { try { location.reload(); } catch (e) {} }, 700);
+            } catch (err) {
+                console.warn('logout click failed', err);
+            }
+        }
+
+        // Use pointerdown for snappy response on touch devices
+        avatarEl.addEventListener('pointerdown', handleLogoutClick, { passive: false });
+        // click fallback
+        avatarEl.addEventListener('click', handleLogoutClick, { passive: true });
+    } catch (e) {
+        console.warn('wireLogoutOnAvatar failed', e);
+    }
+})();
 
 /* --- iOS 100vh fix (sets --vh) and iOS guidance UI wiring --- */
 function setViewportHeightVar(){
