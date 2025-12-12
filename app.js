@@ -1244,6 +1244,18 @@ function initApp() {
         wireModal();
         wireGameControls();
 
+        // iOS-specific adjustments: allow hiding the in-game toolbar without entering fullscreen and remove the fullscreen button for iOS.
+        try {
+            if (isIos()) {
+                // ensure hide-toolbar control is available on iOS so users can hide toolbar while not in fullscreen
+                if (btnHideToolbar) btnHideToolbar.classList.remove('hidden');
+                // remove the fullscreen button on iOS to prevent broken native fullscreen attempts
+                if (btnFullscreen) btnFullscreen.classList.add('hidden');
+            }
+        } catch (e) {
+            // non-fatal
+        }
+
         // Start trending auto-refresh with conservative interval
         startTrendingAutoRefresh(12000);
 
@@ -2586,13 +2598,25 @@ function toggleFullscreen() {
                     if (gameLayer) gameLayer.style.setProperty('--nexus-bottom-cut', '9vh');
                 }
 
-                // If leaving fullscreen, always ensure scroll is available
+                // If leaving fullscreen, restore scroll only when NOT actively playing a game.
+                // Keep no-game-scroll applied while a game session is active to avoid re-enabling background scrolling.
                 if (!isFS) {
-                    restoreScrollSafely();
+                    try {
+                        if (!activeGame) {
+                            restoreScrollSafely();
+                        } else {
+                            // When a game is active, ensure we keep the page locked and do not restore scroll.
+                            // Also avoid forcibly revealing the toolbar or other UI that would interfere with gameplay.
+                            // No-op here intentionally.
+                        }
+                    } catch (innerErr) {
+                        console.warn('fullscreenchange inner handler error', innerErr);
+                        // conservative fallback: do not restore scroll to avoid accidental unlock during active session
+                    }
                 }
             } catch (e) {
                 console.warn('fullscreenchange handler error', e);
-                restoreScrollSafely();
+                // conservative fallback: do not restore scroll here to avoid enabling page scroll while a game is active
             }
         }, { passive: true });
 
@@ -2636,19 +2660,28 @@ document.addEventListener('fullscreenchange', () => {
         }
     } catch (e) { /* non-fatal */ }
 
-    // Show the hide-toolbar control only when in fullscreen
+    // Show the hide-toolbar control only when in fullscreen; but don't force toolbar reveal when exiting fullscreen if a game is active.
     if (btnHideToolbar) {
         if (isFS) {
             btnHideToolbar.classList.remove('hidden');
             // ensure icon default state is "eye-slash"
             btnHideToolbar.innerHTML = '<i class="fas fa-eye-slash text-sm sm:text-lg"></i>';
         } else {
-            // exiting fullscreen: ensure toolbar is visible again
-            if (gameLayerToolbar && gameLayerToolbar.classList.contains('hidden')) {
-                gameLayerToolbar.classList.remove('hidden');
-                gameLayerToolbar.removeAttribute('aria-hidden');
+            // If no active game, reveal toolbar and hide the control; if a game is active, keep current toolbar state so gameplay isn't disrupted.
+            if (!activeGame) {
+                try {
+                    if (gameLayerToolbar && gameLayerToolbar.classList.contains('hidden')) {
+                        gameLayerToolbar.classList.remove('hidden');
+                        gameLayerToolbar.removeAttribute('aria-hidden');
+                    }
+                    btnHideToolbar.classList.add('hidden');
+                } catch (e) {
+                    // ignore UI restore errors
+                }
+            } else {
+                // keep btnHideToolbar visible during active session to allow hiding/showing toolbar on iOS without fullscreen
+                btnHideToolbar.classList.remove('hidden');
             }
-            btnHideToolbar.classList.add('hidden');
         }
     }
 });
@@ -2849,6 +2882,21 @@ function playGame(id) {
             document.body.style.overflow = 'hidden';
             document.body.style.touchAction = 'none';
         }
+
+        // Additionally, disable interaction and scroll on main app panes so they don't react during a game.
+        try {
+            const panes = [document.getElementById('home-content'), document.getElementById('favorites-content'), document.getElementById('search-results-content')];
+            panes.forEach(p => {
+                if (!p) return;
+                // hide scrollbars and prevent pointer events while game is active
+                p.style.overflow = 'hidden';
+                p.style.pointerEvents = 'none';
+                p.style.touchAction = 'none';
+                // keep height to avoid visual jumps
+                p.style.height = '100%';
+            });
+        } catch (e) {}
+
         // Also hide mobile bottom bar explicitly as an extra safeguard for some environments
         const mobileBar = document.querySelector('.mobile-bottom-bar');
         if (mobileBar) mobileBar.style.display = 'none';
@@ -3410,6 +3458,18 @@ function closeGame() {
         stopIframeWatch();
         // Remove the class that indicates a game is active
         try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+
+        // Restore interaction/scroll on main app panes that were locked during play
+        try {
+            const panes = [document.getElementById('home-content'), document.getElementById('favorites-content'), document.getElementById('search-results-content')];
+            panes.forEach(p => {
+                if (!p) return;
+                p.style.overflow = '';
+                p.style.pointerEvents = '';
+                p.style.touchAction = '';
+                p.style.height = '';
+            });
+        } catch (e) {}
 
         // Restore previous inline overflow/touchAction values saved when playGame ran.
         try {
