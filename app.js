@@ -96,32 +96,146 @@ const DB = [
     <div class="bottom-cut" aria-hidden="true"></div>
   </div>
 
+  <!-- Replacement injector: constantly replace "CrazyGames" and specific "Play on CrazyGames to save your progress"
+       inside this document and attempt to inject the same replacer into the inner iframe if same-origin. -->
   <script>
     (function(){
-      var inner = document.getElementById('inner-embed');
-      var cut = document.querySelector('.bottom-cut');
-
-      // prevent pointer events reaching the iframe where the black bar covers it
-      cut.addEventListener('pointerdown', function(e){ e.stopPropagation(); e.preventDefault(); }, { passive: false });
-      cut.addEventListener('click', function(e){
+      function replaceTextInNode(node) {
         try {
-          e.stopPropagation();
-          e.preventDefault();
-          try { inner.focus(); } catch (err) {}
-          try { inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:bottomCutClick' }, '*'); } catch(err){}
-        } catch (err) {}
-      }, { passive: false });
-
-      inner.addEventListener('load', function(){
-        try {
-          var w = inner.contentWindow;
-          if (w && w.document) {
-            w.document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+          if (!node) return;
+          // Text node: replace textual content
+          if (node.nodeType === Node.TEXT_NODE) {
+            var txt = node.nodeValue;
+            if (!txt) return;
+            var newTxt = txt.replace(/Play on CrazyGames to save your progress/g, 'Play on Nebula Nexus')
+                            .replace(/CrazyGames/g, 'Nebula Nexus');
+            if (newTxt !== txt) node.nodeValue = newTxt;
+            return;
           }
-        } catch (e) {
-          // cross-origin - nothing to do
-        }
-      }, { passive: true });
+          // Element node: replace common attributes that may contain strings shown in UI
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            try {
+              var attrs = ['alt','title','placeholder','aria-label','value','data-tooltip','data-title'];
+              attrs.forEach(function(attr){
+                try {
+                  if (node.hasAttribute && node.hasAttribute(attr)) {
+                    var v = node.getAttribute(attr);
+                    if (v && typeof v === 'string') {
+                      var nv = v.replace(/Play on CrazyGames to save your progress/g, 'Play on Nebula Nexus')
+                                .replace(/CrazyGames/g, 'Nebula Nexus');
+                      if (nv !== v) node.setAttribute(attr, nv);
+                    }
+                  }
+                } catch (e){}
+              });
+            } catch (e){}
+          }
+        } catch (e){}
+      }
+
+      function walkAndReplace(root) {
+        try {
+          if (!root) return;
+          var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+          var node;
+          while (node = walker.nextNode()) {
+            replaceTextInNode(node);
+          }
+        } catch (e){}
+      }
+
+      function observeRoot(root) {
+        try {
+          walkAndReplace(root);
+          var mo = new MutationObserver(function(muts){
+            muts.forEach(function(m){
+              if (m.type === 'characterData' && m.target) {
+                replaceTextInNode(m.target);
+              } else if (m.addedNodes && m.addedNodes.length) {
+                m.addedNodes.forEach(function(n){
+                  if (n.nodeType === Node.TEXT_NODE) replaceTextInNode(n);
+                  else walkAndReplace(n);
+                });
+              }
+            });
+          });
+          mo.observe(root, { childList: true, subtree: true, characterData: true });
+          return mo;
+        } catch (e){ return null; }
+      }
+
+      var localMo = observeRoot(document.body);
+      var sweepInterval = setInterval(function(){ try { walkAndReplace(document.body); } catch(e){} }, 1200);
+
+      var inner = document.getElementById('inner-embed');
+      function tryInnerInject() {
+        try {
+          if (!inner) return;
+          try {
+            var win = inner.contentWindow;
+            var doc = win && win.document;
+            if (doc && doc.body) {
+              var s = doc.createElement('script');
+              s.type = 'text/javascript';
+              s.textContent = '(' + function() {
+                function replaceTextInNode(node) {
+                  try {
+                    if (!node || node.nodeType !== Node.TEXT_NODE) return;
+                    var txt = node.nodeValue;
+                    if (!txt) return;
+                    var newTxt = txt.replace(/Play on CrazyGames to save your progress/g, 'Play on Nebula Nexus')
+                                    .replace(/CrazyGames/g, 'Nebula Nexus');
+                    if (newTxt !== txt) node.nodeValue = newTxt;
+                  } catch (e){}
+                }
+                function walkAndReplace(root) {
+                  try {
+                    if (!root) return;
+                    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+                    var node;
+                    while (node = walker.nextNode()) {
+                      replaceTextInNode(node);
+                    }
+                  } catch (e){}
+                }
+                function observeRoot(root) {
+                  try {
+                    walkAndReplace(root);
+                    var mo = new MutationObserver(function(muts){
+                      muts.forEach(function(m){
+                        if (m.type === 'characterData' && m.target) {
+                          replaceTextInNode(m.target);
+                        } else if (m.addedNodes && m.addedNodes.length) {
+                          m.addedNodes.forEach(function(n){
+                            if (n.nodeType === Node.TEXT_NODE) replaceTextInNode(n);
+                            else walkAndReplace(n);
+                          });
+                        }
+                      });
+                    });
+                    mo.observe(root, { childList: true, subtree: true, characterData: true });
+                    return mo;
+                  } catch (e){ return null; }
+                }
+                try {
+                  observeRoot(document.body);
+                  setInterval(function(){ try { walkAndReplace(document.body); } catch(e){} }, 1200);
+                } catch (e){}
+              } + ')();';
+              doc.documentElement.appendChild(s);
+              return;
+            }
+          } catch (e) {}
+          try { inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:replaceCrazyGamesText' }, '*'); } catch(e){}
+        } catch (e){}
+      }
+
+      if (inner) {
+        inner.addEventListener('load', tryInnerInject, { passive: true });
+        setTimeout(tryInnerInject, 300);
+      }
+
+      window.addEventListener('unload', function(){ try { clearInterval(sweepInterval); if (localMo) localMo.disconnect(); } catch (e){} }, { passive: true });
     })();
   </script>
 </body>
@@ -3010,35 +3124,167 @@ function playGame(id) {
       ></iframe>
       <div class="bottom-cut" aria-hidden="true"></div>
     </div>
+
+    <!-- Replacement injector: constantly replace "CrazyGames" and specific "Play on CrazyGames to save your progress" inside this document
+         and attempt to propagate into a same-origin inner iframe; runs continuously via MutationObserver and interval as fallback. -->
     <script>
       (function(){
-        var inner = document.getElementById('inner-embed');
-        var cut = document.querySelector('.bottom-cut');
-
-        // keep the mask from letting clicks pass through into obscured UI below
-        cut.addEventListener('pointerdown', function(e){ e.stopPropagation(); e.preventDefault(); }, { passive: false });
-        cut.addEventListener('click', function(e){
+        function replaceTextInNode(node) {
           try {
-            e.stopPropagation();
-            e.preventDefault();
-            try { inner.focus(); } catch (err) {}
-            try { inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:bottomCutClick' }, '*'); } catch(err){}
-          } catch (err) {}
-        }, { passive: false });
+            if (!node) return;
+            // Replace text nodes
+            if (node.nodeType === Node.TEXT_NODE) {
+              var txt = node.nodeValue;
+              if (!txt) return;
+              var newTxt = txt.replace(/Play on CrazyGames to save your progress/g, 'Play on Nebula Nexus')
+                              .replace(/CrazyGames/g, 'Nebula Nexus');
+              if (newTxt !== txt) node.nodeValue = newTxt;
+              return;
+            }
+            // For elements, update common textual attributes so buttons/inputs/labels are covered
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              try {
+                var attrs = ['alt','title','placeholder','aria-label','value','data-tooltip','data-title'];
+                attrs.forEach(function(attr){
+                  try {
+                    if (node.hasAttribute && node.hasAttribute(attr)) {
+                      var v = node.getAttribute(attr);
+                      if (v && typeof v === 'string') {
+                        var nv = v.replace(/Play on CrazyGames to save your progress/g, 'Play on Nebula Nexus')
+                                  .replace(/CrazyGames/g, 'Nebula Nexus');
+                        if (nv !== v) node.setAttribute(attr, nv);
+                      }
+                    }
+                  } catch (e){}
+                });
+              } catch (e){}
+            }
+          } catch (e){}
+        }
 
-        // If inner iframe is same-origin, prevent contextmenu inside it as well
-        if (inner) {
-          inner.addEventListener('load', function(){
+        function walkAndReplace(root) {
+          try {
+            if (!root) return;
+            var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+            var node;
+            while (node = walker.nextNode()) {
+              replaceTextInNode(node);
+            }
+          } catch (e){}
+        }
+
+        function observeRoot(root) {
+          try {
+            walkAndReplace(root);
+            var mo = new MutationObserver(function(muts){
+              muts.forEach(function(m){
+                if (m.type === 'characterData' && m.target) {
+                  replaceTextInNode(m.target);
+                } else if (m.addedNodes && m.addedNodes.length) {
+                  m.addedNodes.forEach(function(n){
+                    if (n.nodeType === Node.TEXT_NODE) replaceTextInNode(n);
+                    else walkAndReplace(n);
+                  });
+                }
+              });
+            });
+            mo.observe(root, { childList: true, subtree: true, characterData: true });
+            return mo;
+          } catch (e){ return null; }
+        }
+
+        // Run on this document
+        var localMo = observeRoot(document.body);
+        // as a fallback, run a periodic sweep (covers dynamic frameworks that manipulate DOM rapidly)
+        var sweepInterval = setInterval(function(){ try { walkAndReplace(document.body); } catch(e){} }, 1200);
+
+        // Attempt to reach inner iframe if same-origin; if not same-origin, still postMessage as a hint.
+        var inner = document.getElementById('inner-embed');
+        function tryInnerInject() {
+          try {
+            if (!inner) return;
+            // If same-origin, directly access and install observer there
             try {
-              var w = inner.contentWindow;
-              if (w && w.document) {
-                w.document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+              var win = inner.contentWindow;
+              var doc = win && win.document;
+              if (doc && doc.body) {
+                // install replacer inside inner frame
+                try {
+                  // create script that does same replacement logic inside the inner frame
+                  var s = doc.createElement('script');
+                  s.type = 'text/javascript';
+                  s.textContent = '(' + function() {
+                    function replaceTextInNode(node) {
+                      try {
+                        if (!node || node.nodeType !== Node.TEXT_NODE) return;
+                        var txt = node.nodeValue;
+                        if (!txt) return;
+                        var newTxt = txt.replace(/Play on CrazyGames to save your progress/g, 'Play on Nebula Nexus')
+                                        .replace(/CrazyGames/g, 'Nebula Nexus');
+                        if (newTxt !== txt) node.nodeValue = newTxt;
+                      } catch (e){}
+                    }
+                    function walkAndReplace(root) {
+                      try {
+                        if (!root) return;
+                        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+                        var node;
+                        while (node = walker.nextNode()) {
+                          replaceTextInNode(node);
+                        }
+                      } catch (e){}
+                    }
+                    function observeRoot(root) {
+                      try {
+                        walkAndReplace(root);
+                        var mo = new MutationObserver(function(muts){
+                          muts.forEach(function(m){
+                            if (m.type === 'characterData' && m.target) {
+                              replaceTextInNode(m.target);
+                            } else if (m.addedNodes && m.addedNodes.length) {
+                              m.addedNodes.forEach(function(n){
+                                if (n.nodeType === Node.TEXT_NODE) replaceTextInNode(n);
+                                else walkAndReplace(n);
+                              });
+                            }
+                          });
+                        });
+                        mo.observe(root, { childList: true, subtree: true, characterData: true });
+                        return mo;
+                      } catch (e){ return null; }
+                    }
+                    try {
+                      observeRoot(document.body);
+                      setInterval(function(){ try { walkAndReplace(document.body); } catch(e){} }, 1200);
+                    } catch (e){}
+                  } + ')();';
+                  doc.documentElement.appendChild(s);
+                  return; // injected successfully
+                } catch (e) {
+                  // if injection into inner doc fails, fall back to postMessage hint
+                }
               }
             } catch (e) {
-              // cross-origin - nothing to do
+              // cross-origin; cannot access doc
             }
-          }, { passive: true });
+            // PostMessage hint to inner frame asking it to perform replacement if it listens
+            try {
+              inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:replaceCrazyGamesText' }, '*');
+            } catch (e){}
+          } catch (e){}
         }
+
+        // Try injecting when inner loads
+        if (inner) {
+          inner.addEventListener('load', tryInnerInject, { passive: true });
+          // attempt immediately in case it is already same-origin and loaded
+          setTimeout(tryInnerInject, 300);
+        }
+
+        // Clean-up when this document unloads
+        window.addEventListener('unload', function(){
+          try { clearInterval(sweepInterval); if (localMo) localMo.disconnect(); } catch (e){}
+        }, { passive: true });
       })();
     </script>
   </body>
