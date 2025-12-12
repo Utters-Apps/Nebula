@@ -5,7 +5,7 @@
     <!-- Mobile-first, no zoom to keep cloud gaming controls stable -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>Nexus Cloud - Premium Gaming</title>
+    <title>Nexus Cloud</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="ICON.png">
@@ -25,13 +25,15 @@
         display:none;
       }
       @media(max-width:640px){
+        /* Keep the bottom bar above mobile browser chrome by using the safe-area inset.
+           Add a small additional offset so the bar does not get occluded when the browser UI floats. */
         .mobile-bottom-bar{
           display:flex;
           position:fixed;
           left:0;
           right:0;
-          bottom:0;
-          padding:8px calc(env(safe-area-inset-left) + 12px) calc(env(safe-area-inset-bottom) + 12px) calc(env(safe-area-inset-right) + 12px);
+          bottom: calc(env(safe-area-inset-bottom, 0px) + 6px);
+          padding:8px calc(env(safe-area-inset-left, 0px) + 12px) calc(env(safe-area-inset-bottom, 0px) + 12px) calc(env(safe-area-inset-right, 0px) + 12px);
           gap:10px;
           justify-content:center;
           z-index:9999;
@@ -39,6 +41,12 @@
           border-top:1px solid rgba(255,255,255,0.04);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
+          /* ensure it doesn't capture pointer events that should reach the game when a game is active */
+          touch-action: manipulation;
+        }
+        /* ensure main content reserves space so page content isn't covered by the bar (accounts for safe-area too) */
+        main {
+          padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
         }
         .mobile-bottom-bar .mobile-tab-btn{
           min-width:56px;
