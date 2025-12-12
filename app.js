@@ -4482,9 +4482,11 @@ function isIos() {
 if ('serviceWorker' in navigator) {
     // register after load to avoid blocking critical startup
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        // Use a relative path for the service worker file so registration works when the site is served from a subpath or non-root origin.
+        // Avoid forcing scope here to let the browser infer the correct scope relative to the sw location.
+        navigator.serviceWorker.register('sw.js')
             .then(reg => {
-                console.info('ServiceWorker registered:', reg.scope);
+                console.info('ServiceWorker registered:', reg.scope || 'relative-scope');
             })
             .catch(err => {
                 console.warn('ServiceWorker registration failed:', err);
