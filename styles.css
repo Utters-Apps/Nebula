@@ -1756,6 +1756,11 @@ body::after {
     -webkit-overflow-scrolling: auto !important;
 }
 
+/* When a game session is active we also hide the mobile bottom navigation to maximize vertical space on phones */
+.no-game-scroll .mobile-bottom-bar {
+    display: none !important;
+}
+
 /* Hide main navbar when game is active to maximize screen space */
 .no-game-scroll #navbar {
     display: none !important;
@@ -2107,6 +2112,69 @@ button:focus, .compact-card:focus, .card-play:focus {
   .sheen-surface::after { display: none; }
   .game-card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 24px rgba(0,0,0,0.55); }
   .loader-card { padding: 14px; }
+
+  /* Mobile-focused lightweight animations and touch polish
+     - Reduce heavy blurs/shadows while keeping lively motion
+     - Add small enter/exit transitions for mobile cards and modal for tactile feel
+     - Use will-change sparingly to hint GPU where beneficial
+  */
+  .mobile-animate .game-card,
+  .mobile-animate .compact-card {
+    transition: transform 220ms cubic-bezier(.22,.9,.35,1), opacity 220ms ease, box-shadow 200ms ease;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  /* subtle staggered entrance for lists on mobile */
+  .mobile-animate [data-card-game-id] {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  .mobile-animate [data-card-game-id].enter {
+    animation: mobileCardEnter 360ms cubic-bezier(.22,.9,.35,1) both;
+  }
+  @keyframes mobileCardEnter {
+    0% { opacity: 0; transform: translateY(10px) scale(0.995); }
+    60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* mobile modal: smoother slide & fade */
+  .mobile-animate #modal-card {
+    transition: transform 320ms cubic-bezier(.22,.9,.35,1), opacity 260ms ease;
+    will-change: transform, opacity;
+  }
+  .mobile-animate #modal-card.translate-y-full {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  .mobile-animate #modal-card:not(.translate-y-full) {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* reduce heavy box-shadows on hovered elements to save GPU */
+  .mobile-animate .game-card:hover,
+  .mobile-animate .compact-card:hover {
+    box-shadow: 0 12px 26px rgba(0,0,0,0.45);
+  }
+
+  /* gentle press feedback for touch targets */
+  .mobile-animate button, .mobile-animate .tab-chip, .mobile-animate .tab-btn {
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .mobile-animate button:active, .mobile-animate .tab-chip:active, .mobile-animate .tab-btn:active {
+    transform: translateY(1px) scale(0.995);
+  }
+
+  /* Optimize hero and iframe wrapper to avoid expensive compositing during play */
+  .mobile-animate #hero-section,
+  .mobile-animate #game-frame-wrapper {
+    will-change: auto;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
 }
 
 /* utility: add sheen-surface to hero and featured cards */
