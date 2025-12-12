@@ -9,7 +9,7 @@
   --muted: #9aa3b3;
   --soft-white: rgba(255,255,255,0.92);
   --elevation: 0 14px 40px rgba(2,6,23,0.6);
-  --nexus-bottom-cut: 9vh;
+  --nexus-bottom-cut: 6vh;
 }
 
 /* ---- Page base: richer, warmer dark canvas ---- */
@@ -1340,7 +1340,7 @@ body::after {
 
 /* micro-animations for play buttons to make UI feel responsive */
 .card-play, .hero-play {
-    transition: transform 160ms cubic-bezier(0.2,1,0.22,1), box-shadow 160ms ease;
+    transition: transform 160ms cubic-bezier(.2,1,0.22,1), box-shadow 160ms ease;
 }
 .card-play:active, .hero-play:active {
     transform: translateY(1px) scale(0.99);
@@ -2116,8 +2116,8 @@ body::after {
   background: linear-gradient(90deg,#fff 0%, #f3f4f6 100%);
   color: #071028;
   border: 0;
-  box-shadow: 0 10px 30px rgba(59,130,246,0.12), 0 2px 8px rgba(2,6,23,0.3);
-  transition: transform 160ms cubic-bezier(.22,.9,.35,1), box-shadow 160ms ease;
+  box-shadow: 0 10px 30px rgba(59,130,246,0.12), 0 3px 8px rgba(2,6,23,0.3);
+  transition: transform 160ms cubic-bezier(.2,1,0.22,1), box-shadow 160ms ease;
 }
 .hero-play:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 44px rgba(59,130,246,0.18); }
 
