@@ -5,7 +5,7 @@
     <!-- Mobile-first, no zoom to keep cloud gaming controls stable -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>Nexus Cloud - Premium Gaming</title>
+    <title>Nexus Cloud</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="ICON.png">
@@ -64,8 +64,8 @@
         .sm\\:hidden { display:none !important; }
 
         /* Hide the duplicate right-side navbar avatar on mobile to keep only the mobile account button */
-        #navbar .w-8,
-        #navbar .w-9,
+        /* Keep navbar avatars visible on mobile so the account button remains accessible.
+           We only hide any explicitly marked duplicate avatars, not default avatar classes. */
         #navbar .user-avatar-mobile-hide {
           display: none !important;
         }
