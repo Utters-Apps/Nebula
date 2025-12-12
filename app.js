@@ -40,16 +40,16 @@ const DB = [
     { id: 'stumbleguys', title: 'Stumble Guys', cat: 'Party Royale', img: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', banner: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', url: 'https://www.stumbleguys.com/pt-BR/play', desc: 'A massive multiplayer party-elimination game — race, stumble and fight to reach the finish line!', controls: 'Mobile: tap move | tap jump; PC: WASD move | Space jump', feat: true, color: 'yellow-300', custom_render: 'stumbleguys', year: 2021, developer: 'Kitka Games & Scopely' },
 
     // New: Piece of Cake - Merge & Bake (Puzzle)
-    { id: 'pieceofcake', title: 'Piece of Cake: Merge & Bake', cat: 'Puzzle', cat: 'Puzzle', img: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://cdn.mergecakegame.com/html5/cg/index.html', desc: 'A casual, addictive puzzle where you merge pieces to bake cakes and beat levels.', controls: 'Click select | Click drag | Tap select (mobile) | Tap drag', feat: false, color: 'amber-400' },
+    { id: 'pieceofcake', title: 'Piece of Cake: Merge & Bake', cat: 'Puzzle', img: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://cdn.mergecakegame.com/html5/cg/index.html', desc: 'A casual, addictive puzzle where you merge pieces to bake cakes and beat levels.', controls: 'Click select | Click drag | Tap select (mobile) | Tap drag', feat: false, color: 'amber-400', year: 2024, developer: 'HG Devs / Happy Games' },
 
     // Added Cut The Rope Magic (Puzzle)
-    { id: 'cuttheropemagic', title: 'Cut The Rope Magic', cat: 'Puzzle', img: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', banner: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', url: 'https://play.famobi.com/cut-the-rope-magic/A-MINIJUEGOS', desc: 'Help Om Nom recover magic and solve puzzles by cutting ropes and using special items to feed the candy.', controls: 'Click select | Click drag | Tap select (mobile) | Tap drag', feat: false, color: 'emerald-400' },
+    { id: 'cuttheropemagic', title: 'Cut The Rope Magic', cat: 'Puzzle', img: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', banner: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', url: 'https://play.famobi.com/cut-the-rope-magic/A-MINIJUEGOS', desc: 'Help Om Nom recover magic and solve puzzles by cutting ropes and using special items to feed the candy.', controls: 'Click select | Click drag | Tap select (mobile) | Tap drag', feat: false, color: 'emerald-400', year: 2015, developer: 'ZeptoLab' },
 
     // Added Vectaria (Simulation)
-    { id: 'vectaria', title: 'Vectaria', cat: 'Simulation', type: 'Simulation', img: 'https://vectaria.io/preview-og.webp', banner: 'https://vectaria.io/preview-og.webp', url: 'https://vectaria.io/home', desc: 'Web simulation: explore environments and resources with rich simulation mechanics.', controls: 'Mouse / Touch: Navigate and interact', feat: false, color: 'sky-400' },
+    { id: 'vectaria', title: 'Vectaria', cat: 'Simulation', type: 'Simulation', img: 'https://vectaria.io/preview-og.webp', banner: 'https://vectaria.io/preview-og.webp', url: 'https://vectaria.io/home', desc: 'Web simulation: explore environments and resources with rich simulation mechanics.', controls: 'Mouse / Touch: Navigate and interact', feat: false, color: 'sky-400', year: '2024/2025', developer: 'Vectaria.io' },
     
     // Added Om Nom: Run (Runner)
-    { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Runner', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.crazygames.com/en_US/om-nom-run/index.html?v=1.346', desc: 'An endless runner starring Om Nom — jump, slide and collect sweets through colorful levels.', controls: 'Arrows / Touch: Move and Jump', feat: false, color: 'lime-400', custom_render: 'embed' },
+    { id: 'omnomrun', title: 'Om Nom: Run', cat: 'Runner', img: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', banner: 'https://m.media-amazon.com/images/I/91Wkd9nOACL.png', url: 'https://games.crazygames.com/en_US/om-nom-run/index.html?v=1.346', desc: 'An endless runner starring Om Nom — jump, slide and collect sweets through colorful levels.', controls: 'Arrows / Touch: Move and Jump', feat: false, color: 'lime-400', custom_render: 'embed', year: 2020, developer: 'Koukoi Games / ZeptoLab' },
 
     // Added Cut the Rope: Experiments (Puzzle)
     { 
@@ -63,6 +63,8 @@ const DB = [
         feat: false, 
         color: 'emerald-400',
         custom_render: 'srcdoc',
+        year: 2011,
+        developer: 'ZeptoLab',
         // srcdoc now includes the same "bottom-cut" overlay used by other embeds (Duo / Star Stuff),
         // so intrusive lower UI elements in the inner embed are masked and the mask captures pointer events.
         srcdoc_html: `<!DOCTYPE html>
@@ -242,28 +244,28 @@ const DB = [
 </html>` 
     },
 
-    { id: 'bitlife', title: 'BitLife', cat: 'Simulation', img: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', banner: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', url: 'https://ubg365.github.io/bitlife-life-simulator/play.html', desc: 'Make choices, live a virtual life and experience successes and failures in this addictive text simulator.', controls: 'Mouse: Choices', feat: false, color: 'indigo-500' },
+    { id: 'bitlife', title: 'BitLife', cat: 'Simulation', img: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', banner: 'https://goodgamestudios.com/wp-content/uploads/2022/11/BitLife-INT-1920.jpg', url: 'https://ubg365.github.io/bitlife-life-simulator/play.html', desc: 'Make choices, live a virtual life and experience successes and failures in this addictive text simulator.', controls: 'Mouse: Choices', feat: false, color: 'indigo-500', year: 2018, developer: 'CandyWriter' },
 
     // Added Brain Test 2: Tricky Stories (Puzzle)
-    { id: 'braintest2', title: 'Brain Test 2: Tricky Stories', cat: 'Puzzle', img: 'https://i.ytimg.com/vi/1pRyM2v9uN0/maxresdefault.jpg', banner: 'https://i.ytimg.com/vi/1pRyM2v9uN0/maxresdefault.jpg', url: 'https://23azostore.github.io/s2/brain-test-2-tricky-stories/', desc: 'Clever puzzles and tricky stories — solve creative, surprising riddles to progress.', controls: 'Touch / Mouse: Select and drag', feat: false, color: 'amber-400' },
+    { id: 'braintest2', title: 'Brain Test 2: Tricky Stories', cat: 'Puzzle', img: 'https://i.ytimg.com/vi/1pRyM2v9uN0/maxresdefault.jpg', banner: 'https://i.ytimg.com/vi/1pRyM2v9uN0/maxresdefault.jpg', url: 'https://23azostore.github.io/s2/brain-test-2-tricky-stories/', desc: 'Clever puzzles and tricky stories — solve creative, surprising riddles to progress.', controls: 'Touch / Mouse: Select and drag', feat: false, color: 'amber-400', year: 2020, developer: 'Unico Studio' },
 
     // Added Ludo King (Board / Puzzle)
-    { id: 'ludoking', title: 'Ludo King', cat: 'Puzzle', type: 'Board', img: 'https://s2-techtudo.glbimg.com/4m6NJj1sWnVJ33uhdd3z-HahpDA=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/M/x/Voj7c4ScCB8fUcWfhigw/ludo-king.jpg', banner: 'https://s2-techtudo.glbimg.com/4m6NJj1sWnVJ33uhdd3z-HahpDA=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/M/x/Voj7c4ScCB8fUcWfhigw/ludo-king.jpg', url: 'https://ludoking.com/play/', desc: 'Web version of the classic Ludo — play quick matches with friends or AI, roll dice and race home.', controls: 'Touch / Mouse: Select piece and roll dice', feat: false, color: 'emerald-500' },
+    { id: 'ludoking', title: 'Ludo King', cat: 'Puzzle', type: 'Board', img: 'https://s2-techtudo.glbimg.com/4m6NJj1sWnVJ33uhdd3z-HahpDA=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/M/x/Voj7c4ScCB8fUcWfhigw/ludo-king.jpg', banner: 'https://s2-techtudo.glbimg.com/4m6NJj1sWnVJ33uhdd3z-HahpDA=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/M/x/Voj7c4ScCB8fUcWfhigw/ludo-king.jpg', url: 'https://ludoking.com/play/', desc: 'Web version of the classic Ludo — play quick matches with friends or AI, roll dice and race home.', controls: 'Touch / Mouse: Select piece and roll dice', feat: false, color: 'emerald-500', year: 2016, developer: 'Gametion' },
 
     // Added Candy Crush Saga (Puzzle)
-    { id: 'candycrush', title: 'Candy Crush Saga', cat: 'Puzzle', type: 'Puzzle', img: 'https://files.tecnoblog.net/wp-content/uploads/2021/08/candy-crush-saga-1060x596.jpeg', banner: 'https://files.tecnoblog.net/wp-content/uploads/2021/08/candy-crush-saga-1060x596.jpeg', url: 'https://html5.gamemonetize.co/ushitaltif0ig5by3w54p4cy9sd3yptt/', desc: 'Match candies, complete objectives and progress through addictive levels in this web version of the classic match‑3.', controls: 'Touch / Mouse: Select and match', feat: false, color: 'pink-400' },
+    { id: 'candycrush', title: 'Candy Crush Saga', cat: 'Puzzle', type: 'Puzzle', img: 'https://files.tecnoblog.net/wp-content/uploads/2021/08/candy-crush-saga-1060x596.jpeg', banner: 'https://files.tecnoblog.net/wp-content/uploads/2021/08/candy-crush-saga-1060x596.jpeg', url: 'https://html5.gamemonetize.co/ushitaltif0ig5by3w54p4cy9sd3yptt/', desc: 'Match candies, complete objectives and progress through addictive levels in this web version of the classic match‑3.', controls: 'Touch / Mouse: Select and match', feat: false, color: 'pink-400', year: 2012, developer: 'King' },
 
     // Added Among Us (Party)
-    { id: 'amongus', title: 'Among Us', cat: 'Party Royale', type: 'Party', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', url: 'https://stgames.top/unity/amongus/', desc: 'Social deduction — complete tasks or find the impostor before it\'s too late.', controls: 'Mouse / Touch: Navigate and Interact | Keyboard: Chat', feat: false, color: 'rose-500' },
+    { id: 'amongus', title: 'Among Us', cat: 'Party Royale', type: 'Party', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/945360/capsule_616x353.jpg?t=1757444903', url: 'https://stgames.top/unity/amongus/', desc: 'Social deduction — complete tasks or find the impostor before it\'s too late.', controls: 'Mouse / Touch: Navigate and Interact | Keyboard: Chat', feat: false, color: 'rose-500', year: 2018, developer: 'Innersloth' },
 
     // Added: Temple Run 2 (Endless runner)
-    { id: 'templerun2', title: 'Temple Run 2', cat: 'Runner', type: 'Endless Runner', img: 'https://cdn.aptoide.com/imgs/7/4/8/748a24b37754e55d3a08829d0056ce68_fgraphic.png', banner: 'https://cdn.aptoide.com/imgs/7/4/8/748a24b37754e55d3a08829d0056ce68_fgraphic.png', url: 'https://games.engineering.com/temple-run-2/index.html', desc: 'Classic endless runner — run, slide and dodge obstacles while collecting coins and upgrades.', controls: 'Touch / Mouse: Move and swipe', feat: false, color: 'amber-500' },
+    { id: 'templerun2', title: 'Temple Run 2', cat: 'Runner', type: 'Endless Runner', img: 'https://cdn.aptoide.com/imgs/7/4/8/748a24b37754e55d3a08829d0056ce68_fgraphic.png', banner: 'https://cdn.aptoide.com/imgs/7/4/8/748a24b37754e55d3a08829d0056ce68_fgraphic.png', url: 'https://games.engineering.com/temple-run-2/index.html', desc: 'Classic endless runner — run, slide and dodge obstacles while collecting coins and upgrades.', controls: 'Touch / Mouse: Move and swipe', feat: false, color: 'amber-500', year: 2013, developer: 'Imangi Studios' },
 
     // Added: Block Blast (Puzzle)
-    { id: 'blockblast', title: 'Block Blast', cat: 'Puzzle', type: 'Puzzle', img: 'https://res.ldrescdn.com/rms/ldplayer/process/img/5cd9e962fc364121b3a781cd928a41b61735491234.png', banner: 'https://res.ldrescdn.com/rms/ldplayer/process/img/5cd9e962fc364121b3a781cd928a41b61735491234.png', url: 'https://playgama.com/export/game/block-blast-master', desc: 'Addictive block-bursting puzzle — match and pop blocks to clear the board and beat challenges.', controls: 'Mouse / Touch: Aim and release', feat: false, color: 'emerald-400' },
+    { id: 'blockblast', title: 'Block Blast', cat: 'Puzzle', type: 'Puzzle', img: 'https://res.ldrescdn.com/rms/ldplayer/process/img/5cd9e962fc364121b3a781cd928a41b61735491234.png', banner: 'https://res.ldrescdn.com/rms/ldplayer/process/img/5cd9e962fc364121b3a781cd928a41b61735491234.png', url: 'https://playgama.com/export/game/block-blast-master', desc: 'Addictive block-bursting puzzle — match and pop blocks to clear the board and beat challenges.', controls: 'Mouse / Touch: Aim and release', feat: false, color: 'emerald-400', year: '2019–2022', developer: 'Hungry Studio' },
 
     // Added: Level Devil (user request)
-    { id: 'leveldevil', title: 'Level Devil', cat: 'Platformer', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3242750/a78a03f1047a590e6b9b0360ec361924d7f98959/capsule_616x353.jpg?t=1754941597', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3242750/a78a03f1047a590e6b9b0360ec361924d7f98959/capsule_616x353.jpg?t=1754941597', url: 'https://gamecollections.me/game/owner/level-devil-2/', desc: 'Navigate deadly platforms and overcome infernal challenges in this level-based platformer.', controls: 'Arrows: Move | Space: Jump', feat: false, color: 'rose-500' },
+    { id: 'leveldevil', title: 'Level Devil', cat: 'Platformer', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3242750/a78a03f1047a590e6b9b0360ec361924d7f98959/capsule_616x353.jpg?t=1754941597', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3242750/a78a03f1047a590e6b9b0360ec361924d7f98959/capsule_616x353.jpg?t=1754941597', url: 'https://gamecollections.me/game/owner/level-devil-2/', desc: 'Navigate deadly platforms and overcome infernal challenges in this level-based platformer.', controls: 'Arrows: Move | Space: Jump', feat: false, color: 'rose-500', year: '2022–2023', developer: 'Unept' },
 
     // Added: The Last Stand (Flash via Ruffle)
     {
@@ -3063,13 +3065,28 @@ function playGame(id) {
     // If running on a mobile-sized viewport, block certain incompatible games with a modal message.
     try {
         const isMobileDevice = (window.innerWidth && window.innerWidth < 640) || isIos();
-        // games/types known to be incompatible on mobile
-        const mobileBlockedIds = new Set(['cuttheropexp', 'tomb', 'bitlife', 'stumbleguys', 'thelaststand']);
+        // Full list of games explicitly blocked on mobile per requirement
+        const mobileBlockedIds = new Set([
+            'fnf', // Friday Night Funkin'
+            'shellshockers',
+            'tomb',
+            'baldi',
+            'starstuff',
+            'escapeprison',
+            'toodee',
+            'duo',
+            'stumbleguys',
+            'omnomrun',
+            'cuttheropexp',
+            'thelaststand'
+        ]);
         const usesRuffle = (game.custom_render && game.custom_render === 'ruffle') || (game.id && game.id === 'thelaststand');
         const usesBottomCut = (game.custom_render && (game.custom_render === 'embed' || game.custom_render === 'srcdoc')) || false;
-        if (isMobileDevice && (usesRuffle || mobileBlockedIds.has(game.id) || game.custom_render === 'stumbleguys' || usesBottomCut && ['cuttheropexp','starstuff','duo'].includes(game.id))) {
+
+        // If user is on mobile and the game is in the incompatible list or uses Ruffle / some srcdoc embeds, block play and show a clear modal
+        if (isMobileDevice && (usesRuffle || mobileBlockedIds.has(game.id) || game.custom_render === 'stumbleguys' || (usesBottomCut && ['cuttheropexp','starstuff','duo','escapeprison','toodee','omnomrun'].includes(game.id)))) {
             // show blocking modal and abort launching the iframe
-            showUnsupportedMobileModal(game);
+            showMobileIncompatModal(game);
             return;
         }
     } catch (e) {
@@ -4322,37 +4339,57 @@ function wireModal() {
     // no-op here but keep for future hooks
 }
 
-function showUnsupportedMobileModal(game) {
+function showMobileIncompatModal(game) {
     try {
-        // Populate modal with a clear incompatibility message and block play on mobile
-        modalTitle.textContent = game.title + ' — Not supported on mobile';
-        modalDesc.textContent = 'This game is not compatible with mobile devices due to its embedded player or layout. Please try on a desktop browser.';
-        modalCat.textContent = game.type || game.cat;
-        modalControls.textContent = game.controls || '—';
-        modalBanner.src = game.banner || game.img || '';
-        // Show Developer/Year if available
-        modalDeveloper.textContent = game.developer || '—';
-        modalYear.textContent = game.year ? String(game.year) : '—';
-        // Disable play/add/share controls in modal to prevent attempts
-        modalPlayBtn.onclick = null;
-        modalListBtn.onclick = null;
-        modalShareBtn.onclick = null;
-        modalListBtn.innerHTML = '<i class="fas fa-heart"></i> Add to favorites';
-        // Show modal and prevent backdrop-close for blocking behavior
-        isModalOpen = true;
-        allowBackdropClose = false;
-        detailsModal.classList.remove('hidden');
-        detailsModal.classList.add('flex');
-        detailsModal.classList.remove('modal-backdrop-closing');
-        detailsModal.classList.add('modal-backdrop-show');
-        // Ensure mobile slide-in state
-        modalCard.classList.remove('modal-exit', 'modal-enter', 'translate-y-full', 'opacity-0');
-        if (window.innerWidth < 640) modalCard.classList.add('translate-y-full', 'opacity-0');
-        void modalCard.offsetWidth;
-        if (window.innerWidth < 640) modalCard.classList.remove('translate-y-full', 'opacity-0'); else { modalCard.classList.remove('opacity-0'); modalCard.classList.add('modal-enter'); }
-        setTimeout(() => { allowBackdropClose = true; }, 400);
+        // Use the dedicated mobile-unsupported-modal for a centered, blocking message
+        const modal = document.getElementById('mobile-unsupported-modal');
+        if (!modal) {
+            // fallback: reuse details modal if our custom one is missing
+            showUnsupportedMobileModal && showUnsupportedMobileModal(game);
+            return;
+        }
+        const title = document.getElementById('mobile-unsupported-title');
+        const desc = document.getElementById('mobile-unsupported-desc');
+        const okBtn = document.getElementById('mobile-unsupported-ok');
+        const shareBtn = document.getElementById('mobile-unsupported-share');
+
+        title.textContent = `${game.title} — Not supported on mobile`;
+        desc.textContent = 'This game is not compatible with mobile devices due to its embedded player or layout. Please open this game on a desktop or laptop for the full experience.';
+
+        // Ensure favorites button remains usable: allow adding to favorites from this modal
+        okBtn.onclick = () => {
+            // close modal only
+            try { modal.classList.add('hidden'); } catch (e) {}
+        };
+
+        shareBtn.onclick = async () => {
+            try {
+                // attempt to copy deep link or open native share
+                const url = buildShareUrlForGame(game.id);
+                if (navigator.share) {
+                    await navigator.share({ title: game.title, text: game.desc, url });
+                    showToast('Share dialog opened.');
+                } else {
+                    await navigator.clipboard.writeText(url);
+                    showToast('Link copied to clipboard.');
+                }
+            } catch (e) {
+                showToast('Unable to share link.');
+            }
+        };
+
+        // Make modal visible and trap focus
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+
+        // trap keyboard/tab focus inside modal for accessibility (simple)
+        const focusable = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+        if (focusable.length) focusable[0].focus();
+
+        // Prevent click-through by ensuring modal is the top interactive layer (it already uses z-index)
+        // Add simple backdrop-close prevention: only OK button closes it
     } catch (e) {
-        console.warn('showUnsupportedMobileModal failed', e);
+        console.warn('showMobileIncompatModal failed', e);
         alert('This game is not supported on mobile devices.');
     }
 }
