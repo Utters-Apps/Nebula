@@ -1314,6 +1314,12 @@ function initApp() {
         // Start trending auto-refresh with conservative interval
         startTrendingAutoRefresh(12000);
 
+        // Ensure any leftover iOS small-close button is removed (we do not want an "X" present on the left in any circumstance)
+        try {
+            const iosClose = document.getElementById('nexus-ios-small-close');
+            if (iosClose && iosClose.parentNode) iosClose.parentNode.removeChild(iosClose);
+        } catch (e) {}
+
         // Process deep link if present
         handleDeepLinkOnLoad();
 
@@ -2343,23 +2349,13 @@ function wireGameControls() {
                 gameLayerToolbar.removeAttribute('aria-hidden');
             }
 
-            // iOS-specific behavior: when toolbar is hidden, show a small left-side close button; hide it when toolbar visible.
+            // iOS: do not create or toggle a left-side "X" close button (removed per design).
+            // Keep hide-toolbar control visible on iOS so users can hide/show the toolbar without any left-side close.
             try {
                 if (isIos()) {
-                    const smallClose = document.getElementById('nexus-ios-small-close');
-                    if (smallClose) {
-                        if (isHidden) {
-                            smallClose.classList.remove('hidden');
-                        } else {
-                            smallClose.classList.add('hidden');
-                        }
-                    }
-                    // Keep hide-toolbar control always visible on iOS (do not hide the button itself)
                     btnHideToolbar.classList.remove('hidden');
                 }
-            } catch (e) {
-                // non-fatal
-            }
+            } catch (e) {}
 
             // NEW: on mobile also create/ensure a small reveal button so users can bring toolbar back if they hid it
             try {
@@ -3087,10 +3083,51 @@ function playGame(id) {
         }
 
         // Remove any lingering reveal button from previous sessions to avoid duplicate UI.
-        const reveal = document.getElementById('nexus-mobile-reveal-toolbar');
-        if (reveal && reveal.parentNode) {
-            try { reveal.parentNode.removeChild(reveal); } catch (e) {}
+        const revealExisting = document.getElementById('nexus-mobile-reveal-toolbar');
+        if (revealExisting && revealExisting.parentNode) {
+            try { revealExisting.parentNode.removeChild(revealExisting); } catch (e) {}
         }
+        // Create a persistent but hidden mobile reveal button so the three-dot control is always present
+        // and will reliably appear when the toolbar is hidden; this prevents disappearance when opening a new game.
+        try {
+            if (!document.getElementById('nexus-mobile-reveal-toolbar')) {
+                const reveal = document.createElement('button');
+                reveal.id = 'nexus-mobile-reveal-toolbar';
+                reveal.type = 'button';
+                reveal.title = 'Show toolbar';
+                reveal.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
+                // Position/styling minimal and hidden by default; click will reveal toolbar when needed
+                reveal.style.position = 'fixed';
+                reveal.style.zIndex = '13001';
+                reveal.style.right = '10px';
+                reveal.style.top = '12px';
+                reveal.style.width = '44px';
+                reveal.style.height = '44px';
+                reveal.style.borderRadius = '10px';
+                reveal.style.background = 'rgba(0,0,0,0.5)';
+                reveal.style.color = '#fff';
+                reveal.style.border = '1px solid rgba(255,255,255,0.06)';
+                reveal.style.display = 'none'; // hidden initially
+                reveal.style.alignItems = 'center';
+                reveal.style.justifyContent = 'center';
+                reveal.style.backdropFilter = 'blur(6px)';
+                reveal.addEventListener('click', (ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    try {
+                        if (gameLayerToolbar) {
+                            gameLayerToolbar.classList.remove('hidden');
+                            gameLayerToolbar.removeAttribute('aria-hidden');
+                        }
+                        if (btnHideToolbar) {
+                            btnHideToolbar.innerHTML = '<i class="fas fa-eye-slash text-sm sm:text-lg"></i>';
+                        }
+                        reveal.style.display = 'none';
+                    } catch (err) {}
+                }, { passive: false });
+                document.body.appendChild(reveal);
+            }
+        } catch (e) {}
 
         // Ensure iOS small close is hidden until user explicitly hides toolbar.
         const smallClose = document.getElementById('nexus-ios-small-close');
