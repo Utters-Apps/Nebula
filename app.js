@@ -4341,13 +4341,14 @@ function wireModal() {
 
 function showMobileIncompatModal(game) {
     try {
-        // Use the dedicated mobile-unsupported-modal for a centered, blocking message
         const modal = document.getElementById('mobile-unsupported-modal');
-        if (!modal) {
-            // fallback: reuse details modal if our custom one is missing
-            showUnsupportedMobileModal && showUnsupportedMobileModal(game);
+        const card = document.getElementById('mobile-unsupported-card');
+        if (!modal || !card) {
+            // fallback: alert if modal not present
+            alert(`${game.title} is not supported on mobile. Please open on desktop.`);
             return;
         }
+
         const title = document.getElementById('mobile-unsupported-title');
         const desc = document.getElementById('mobile-unsupported-desc');
         const okBtn = document.getElementById('mobile-unsupported-ok');
@@ -4356,15 +4357,47 @@ function showMobileIncompatModal(game) {
         title.textContent = `${game.title} — Not supported on mobile`;
         desc.textContent = 'This game is not compatible with mobile devices due to its embedded player or layout. Please open this game on a desktop or laptop for the full experience.';
 
-        // Ensure favorites button remains usable: allow adding to favorites from this modal
-        okBtn.onclick = () => {
-            // close modal only
-            try { modal.classList.add('hidden'); } catch (e) {}
+        // Mark modal visible and trap background interactions
+        modal.setAttribute('aria-hidden', 'false');
+        // make body inert-ish so underlying cards can't receive pointer events
+        document.documentElement.classList.add('nexus-modal-open');
+
+        // animate in
+        card.classList.remove('modal-hide');
+        // force reflow
+        void card.offsetWidth;
+        card.classList.add('modal-show');
+        // ensure modal shows (CSS ties display to aria-hidden)
+        modal.style.display = 'flex';
+
+        // Clean up any previous listeners to avoid duplicates
+        okBtn.replaceWith(okBtn.cloneNode(true));
+        shareBtn.replaceWith(shareBtn.cloneNode(true));
+        const freshOk = document.getElementById('mobile-unsupported-ok');
+        const freshShare = document.getElementById('mobile-unsupported-share');
+
+        // Close handler
+        const closeHandler = (ev) => {
+            try {
+                ev && ev.preventDefault && ev.preventDefault();
+            } catch (e) {}
+            // animate out
+            try {
+                card.classList.remove('modal-show');
+                card.classList.add('modal-hide');
+                modal.setAttribute('aria-hidden', 'true');
+                setTimeout(() => {
+                    try { modal.style.display = 'none'; } catch (e) {}
+                    document.documentElement.classList.remove('nexus-modal-open');
+                }, 320);
+            } catch (e) {}
         };
 
-        shareBtn.onclick = async () => {
+        // Share handler (uses navigator.share when available otherwise copies link)
+        freshShare.addEventListener('click', async (e) => {
             try {
-                // attempt to copy deep link or open native share
+                e.preventDefault();
+                e.stopPropagation();
                 const url = buildShareUrlForGame(game.id);
                 if (navigator.share) {
                     await navigator.share({ title: game.title, text: game.desc, url });
@@ -4373,21 +4406,64 @@ function showMobileIncompatModal(game) {
                     await navigator.clipboard.writeText(url);
                     showToast('Link copied to clipboard.');
                 }
-            } catch (e) {
+            } catch (err) {
                 showToast('Unable to share link.');
             }
-        };
+        }, { passive: false });
 
-        // Make modal visible and trap focus
-        modal.classList.remove('hidden');
-        modal.style.display = 'flex';
+        // OK closes modal
+        freshOk.addEventListener('click', (e) => {
+            try { e.preventDefault(); e.stopPropagation(); } catch (err) {}
+            closeHandler(e);
+        }, { passive: false });
 
-        // trap keyboard/tab focus inside modal for accessibility (simple)
-        const focusable = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+        // Ensure keyboard accessibility: Escape closes modal, trap tab focus inside
+        const focusable = Array.from(card.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(Boolean);
+        let lastFocused = document.activeElement;
         if (focusable.length) focusable[0].focus();
 
-        // Prevent click-through by ensuring modal is the top interactive layer (it already uses z-index)
-        // Add simple backdrop-close prevention: only OK button closes it
+        function onKey(e) {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                closeHandler(e);
+            } else if (e.key === 'Tab') {
+                // simple focus trap
+                if (focusable.length === 0) return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        }
+
+        window.addEventListener('keydown', onKey, { passive: false });
+
+        // remove key listener when modal closes (cleanup via close handler)
+        const cleanupOnClose = () => {
+            window.removeEventListener('keydown', onKey);
+        };
+
+        // wrap closeHandler to run cleanup
+        const proxiedClose = (ev) => {
+            cleanupOnClose();
+            closeHandler(ev);
+            try { lastFocused && lastFocused.focus(); } catch (e) {}
+        };
+
+        // ensure OK uses proxiedClose so cleanup runs
+        freshOk.removeEventListener && freshOk.addEventListener('click', proxiedClose, { passive: false });
+
+        // Prevent clicks on backdrop from closing (modal is intentionally blocking)
+        modal.querySelector('.absolute')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // do not close on backdrop click
+        }, { passive: true });
+
     } catch (e) {
         console.warn('showMobileIncompatModal failed', e);
         alert('This game is not supported on mobile devices.');
