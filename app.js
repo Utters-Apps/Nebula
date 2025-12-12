@@ -4473,38 +4473,9 @@ window.addEventListener('resize', setViewportHeightVar);
 window.addEventListener('orientationchange', setViewportHeightVar);
 setViewportHeightVar();
 
-// Detect iOS to show a gentle banner recommending the visual fullscreen fallback
+ // Detect iOS used elsewhere in the app
 function isIos() {
     return /iP(ad|hone|od)/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-}
-
-function showIosFullscreenBanner() {
-    try {
-        const b = document.getElementById('ios-fullscreen-banner');
-        if (!b) return;
-        // only show briefly on iOS and keep small
-        b.classList.remove('hidden');
-        b.setAttribute('aria-hidden','false');
-        // wire buttons
-        const tryBtn = document.getElementById('ios-fullscreen-try');
-        const dismissBtn = document.getElementById('ios-fullscreen-dismiss');
-        if (tryBtn) {
-            tryBtn.onclick = () => {
-                goFullscreen(document.documentElement);
-                // keep banner but hide after a short delay
-                setTimeout(() => { b.classList.add('hidden'); b.setAttribute('aria-hidden','true'); }, 800);
-            };
-        }
-        if (dismissBtn) {
-            dismissBtn.onclick = () => { b.classList.add('hidden'); b.setAttribute('aria-hidden','true'); };
-        }
-    } catch (e) {}
-}
-
-// show the banner on iOS after load (non-blocking)
-if (isIos()) {
-    // small delay so the UI doesn't pop instantly, and only show when the app is interactive
-    window.addEventListener('load', () => { setTimeout(showIosFullscreenBanner, 800); });
 }
 
 /* --- PWA: service worker registration --- */
