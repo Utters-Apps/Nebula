@@ -3229,6 +3229,18 @@ function playGame(id) {
                     } catch (e) {}
                     // reduce bottom cut mask so more vertical space is available
                     try { document.documentElement.style.setProperty('--nexus-bottom-cut', '6vh'); } catch (e) {}
+
+                    // Ensure the hide-toolbar button is present and visible for Piece of Cake (fix bug where it was hidden)
+                    try {
+                        if (btnHideToolbar) {
+                            btnHideToolbar.classList.remove('hidden');
+                            btnHideToolbar.style.opacity = '1';
+                            btnHideToolbar.innerHTML = '<i class="fas fa-eye-slash text-sm sm:text-lg"></i>';
+                        }
+                        // Also ensure the mobile reveal button is not accidentally removed so users can toggle back
+                        const reveal = document.getElementById('nexus-mobile-reveal-toolbar');
+                        if (reveal) reveal.style.display = 'none';
+                    } catch (e) {}
                 } else {
                     // ensure normal desktop/mobile behavior for non-iOS devices
                     document.documentElement.classList.remove('ios-minimal-toolbar');
