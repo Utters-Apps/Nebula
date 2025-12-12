@@ -2360,6 +2360,58 @@ function wireGameControls() {
             } catch (e) {
                 // non-fatal
             }
+
+            // NEW: on mobile also create/ensure a small reveal button so users can bring toolbar back if they hid it
+            try {
+                const revealId = 'nexus-mobile-reveal-toolbar';
+                let reveal = document.getElementById(revealId);
+                const isMobileLandscape = window.innerWidth < 640 && window.matchMedia('(orientation: landscape)').matches;
+                if (isHidden) {
+                    if (!reveal) {
+                        reveal = document.createElement('button');
+                        reveal.id = revealId;
+                        reveal.type = 'button';
+                        reveal.title = 'Show toolbar';
+                        reveal.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
+                        reveal.style.position = 'fixed';
+                        reveal.style.zIndex = '13001';
+                        reveal.style.right = '10px';
+                        reveal.style.top = '12px';
+                        reveal.style.width = '44px';
+                        reveal.style.height = '44px';
+                        reveal.style.borderRadius = '10px';
+                        reveal.style.background = 'rgba(0,0,0,0.5)';
+                        reveal.style.color = '#fff';
+                        reveal.style.border = '1px solid rgba(255,255,255,0.06)';
+                        reveal.style.display = 'flex';
+                        reveal.style.alignItems = 'center';
+                        reveal.style.justifyContent = 'center';
+                        reveal.style.backdropFilter = 'blur(6px)';
+                        reveal.className = '';
+                        reveal.addEventListener('click', (ev) => {
+                            ev.preventDefault();
+                            ev.stopPropagation();
+                            try {
+                                gameLayerToolbar.classList.remove('hidden');
+                                gameLayerToolbar.removeAttribute('aria-hidden');
+                                btnHideToolbar.innerHTML = '<i class="fas fa-eye-slash text-sm sm:text-lg"></i>';
+                                // hide this reveal button
+                                try { reveal.classList.add('hidden'); } catch (ee) {}
+                            } catch (err) {}
+                        }, { passive: false });
+                        document.body.appendChild(reveal);
+                    } else {
+                        reveal.classList.remove('hidden');
+                        reveal.style.display = 'flex';
+                    }
+                } else {
+                    if (reveal) {
+                        try { reveal.classList.add('hidden'); reveal.style.display = 'none'; } catch (e) {}
+                    }
+                }
+            } catch (e) {
+                console.warn('mobile reveal toolbar handling failed', e);
+            }
         });
     }
 
@@ -4657,3 +4709,127 @@ function showToast(message, { icon = 'fas fa-check-circle' } = {}) {
         }, { passive: true });
     }
 })();
+
+// --- SCROLL GUARD: continuously enforce no-page-scroll while a game is active ---
+// This protects against injected elements or styles that re-enable scrolling during a session.
+let _scrollGuardInterval = null;
+let _scrollGuardObserver = null;
+
+function startScrollGuard() {
+    try {
+        // Immediate enforcement
+        document.documentElement.classList.add('no-game-scroll');
+        document.documentElement.style.overflow = 'hidden';
+        if (document.body) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none';
+        }
+        // Periodic guard to catch new mutations or style changes that re-enable scroll
+        if (_scrollGuardInterval) clearInterval(_scrollGuardInterval);
+        _scrollGuardInterval = setInterval(() => {
+            try {
+                // If no active game, stop guard
+                if (!activeGame) return stopScrollGuard();
+
+                // Force inline overflow hidden to override injected rules
+                const docEl = document.documentElement;
+                if (getComputedStyle(docEl).overflow !== 'hidden') docEl.style.overflow = 'hidden';
+                if (document.body && getComputedStyle(document.body).overflow !== 'hidden') document.body.style.overflow = 'hidden';
+
+                // If any element pushes page to scroll (height > viewport), try to clamp it
+                if (document.documentElement.scrollHeight > (window.innerHeight + 4)) {
+                    // try to find elements with large bottom margins or absolute positioned bottoms and hide overflow on them
+                    Array.from(document.querySelectorAll('body > *')).forEach(el => {
+                        try {
+                            const cs = getComputedStyle(el);
+                            if (cs.position === 'fixed' || cs.position === 'absolute' || cs.overflow === 'auto' || cs.overflowY === 'auto') {
+                                el.style.overflow = 'hidden';
+                                el.style.maxHeight = '100vh';
+                            }
+                        } catch (e){}
+                    });
+                    // also nudge scroll back to top-left to avoid accidental page scroll
+                    try { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); } catch (e) {}
+                }
+            } catch (e) {
+                // swallow to avoid interrupting gameplay
+            }
+        }, 800);
+
+        // MutationObserver: watch for attribute/style changes that might re-enable scroll
+        try {
+            if (_scrollGuardObserver) _scrollGuardObserver.disconnect();
+            _scrollGuardObserver = new MutationObserver((mutations) => {
+                try {
+                    if (!activeGame) return;
+                    let needFix = false;
+                    for (const m of mutations) {
+                        if (m.type === 'attributes') {
+                            const target = m.target;
+                            if (target === document.documentElement || target === document.body) {
+                                needFix = true;
+                                break;
+                            }
+                            // if any node gets appended with inline height/overflow that could produce scroll, mark for fix
+                            const cs = getComputedStyle(m.target);
+                            if (cs && (cs.overflow === 'auto' || cs.overflowY === 'auto' || parseInt(cs.height) > window.innerHeight)) {
+                                needFix = true;
+                                break;
+                            }
+                        } else if (m.addedNodes && m.addedNodes.length) {
+                            needFix = true;
+                            break;
+                        }
+                    }
+                    if (needFix) {
+                        // reapply inline clamp quickly
+                        try {
+                            document.documentElement.style.overflow = 'hidden';
+                            if (document.body) document.body.style.overflow = 'hidden';
+                            window.scrollTo(0,0);
+                        } catch (e){}
+                    }
+                } catch (e){}
+            });
+            _scrollGuardObserver.observe(document.documentElement || document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ['style', 'class'] });
+        } catch (e) {
+            // If observer fails, interval-only guard is still helpful
+        }
+    } catch (e) {
+        console.warn('startScrollGuard failed', e);
+    }
+}
+
+function stopScrollGuard() {
+    try {
+        if (_scrollGuardInterval) {
+            clearInterval(_scrollGuardInterval);
+            _scrollGuardInterval = null;
+        }
+        if (_scrollGuardObserver) {
+            try { _scrollGuardObserver.disconnect(); } catch (e) {}
+            _scrollGuardObserver = null;
+        }
+        // restore only if no other active game session
+        if (!activeGame) {
+            try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+            try { document.documentElement.style.overflow = ''; } catch (e) {}
+            if (document.body) {
+                try { document.body.style.overflow = ''; } catch (e) {}
+                try { document.body.style.touchAction = ''; } catch (e) {}
+            }
+            // reveal mobile bar if appropriate
+            try {
+                const mobileBar = document.querySelector('.mobile-bottom-bar');
+                if (mobileBar) mobileBar.style.removeProperty('display');
+            } catch (e) {}
+            // remove any mobile reveal button left behind
+            try {
+                const reveal = document.getElementById('nexus-mobile-reveal-toolbar');
+                if (reveal && reveal.parentNode) reveal.parentNode.removeChild(reveal);
+            } catch (e) {}
+        }
+    } catch (e) {
+        console.warn('stopScrollGuard failed', e);
+    }
+}
