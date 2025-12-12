@@ -1,46 +1,46 @@
 // --- DATABASE ---
 const DB = [
-    { id: 'subway', title: 'Subway Surfers', cat: 'Runner', img: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', banner: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', url: 'https://g.igroutka.ru/games/164/Xm2W5MIcPqrF1Y90/12/subway_surfers_easter_edinburgh/', desc: 'The classic endless runner — dash along the tracks, dodge trains and outrun the grumpy inspector in this global reflex hit.', controls: 'Arrows: Move/Jump/Roll | Space: Skate', feat: true, color: 'blue-500' },
-    { id: 'fnf', title: 'Friday Night Funkin\'', cat: 'Rhythm', img: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', banner: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', url: 'https://raw.githack.com/genizy/fridayfunk/master/index.html', desc: 'Feel the beat in this indie rhythm game — hit the arrows to the beat and win intense rap battles.', controls: 'Arrows / Keys: Rhythm | Space: Pause', feat: true, color: 'purple-500' },
-    { id: 'krunker', title: 'Krunker.io', cat: 'FPS', img: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://krunker.io/?game=PARK_0', desc: 'Fast-paced voxel FPS. Move quickly using bunny hops and slide jumps to dominate the arena.', controls: 'WASD: Move | Mouse: Aim/Shoot', feat: true, color: 'cyan-500' },
-    { id: 'venge', title: 'Venge.io', cat: 'FPS', img: 'https://venge.io/thumbnail.jpg', banner: 'https://venge.io/thumbnail.jpg', url: 'https://venge.io/', desc: 'Tactical multiplayer shooter — pick a hero, control objectives and use card-based abilities.', controls: 'WASD: Move | Mouse: Grenades', feat: false, color: 'red-500' },
-    { id: 'shellshockers', title: 'Shell Shockers', cat: 'FPS', img: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', banner: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', url: 'https://shellshock.io', desc: 'Multiplayer FPS where you play as an armed egg — shoot, dodge and rule the eggverse in frantic matches.', controls: 'WASD: Move | Mouse: Aim/Shoot | Space: Jump', feat: false, color: 'lime-400' },
-    { id: 'smash', title: 'Smash Karts', cat: 'Arcade', img: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', banner: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', url: 'https://smashkarts.io/', desc: 'Chaotic 3D kart battles — grab surprise boxes, equip wild weapons and wreck opponents in the arena.', controls: 'WASD: Drive | Space: Use Item', feat: true, color: 'pink-500' },
-    { id: 'tomb', title: 'Tomb of the Mask', cat: 'Arcade', img: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', banner: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', url: 'https://kdata1.com/2023/10/tomb-of-the-mask/', desc: 'Addictive vertical arcade — scale walls, avoid deadly traps and collect coins at breakneck speed.', controls: 'Arrows: Move', feat: false, color: 'orange-500' },
-    { id: 'ev', title: 'Ev.io', cat: 'FPS', img: 'https://ev.io/themes/ev/images/ev-io-og-image.png', banner: 'https://ev.io/themes/ev/images/ev-io-og-image.png', url: 'https://ev.io/', desc: 'Futuristic FPS inspired by Halo and Destiny — use jetpacks, double jumps and energy weapons in fast fights.', controls: 'WASD: Move | Q: Teleport | G: Grenade', feat: false, color: 'yellow-500' },
-    { id: 'minecraft', title: 'Minecraft Web', cat: 'Simulation', img: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', url: 'https://eaglercraft.com/play/?version=1.12.2-wasm', desc: 'Classic survival and building experience in the browser — create, explore and survive.', controls: 'WASD: Move | Mouse: Interact', feat: true, color: 'green-500' },
-    { id: 'fnaf1', title: 'FNAF 1', cat: 'Horror', img: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', banner: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', url: 'https://lagged.com/games/fnaf/', desc: 'The original horror classic — survive five nights watching terrifying animatronics with limited power.', controls: 'Mouse: Cameras and Lights', feat: false, color: 'red-800' },
-    { id: 'fnaf2', title: 'FNAF 2', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf2.html', desc: 'No doors to protect you — use a mask and keep the music box wound to survive.', controls: 'Mouse: Interact | Space: Pause', feat: false, color: 'red-700' },
-    { id: 'fnaf3', title: 'FNAF 3', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf3.html', desc: 'Thirty years later, one animatronic remains — use audio to lure it away from you.', controls: 'Mouse: Panels', feat: false, color: 'red-600' },
-    { id: 'fnaf4', title: 'FNAF 4', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf4.html', desc: 'Horror follows you home — listen for their breath before you turn on the light.', controls: 'Mouse: Interact', feat: false, color: 'red-500' },
-    { id: 'fnafsl', title: 'Sister Location', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnafsl.html', desc: 'Dive into the depths of Circus Baby\'s Pizza World — don\'t hold your breath.', controls: 'Mouse: Interact', feat: false, color: 'red-400' },
+    { id: 'subway', title: 'Subway Surfers', cat: 'Runner', img: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', banner: 'https://gamingonphone.com/wp-content/uploads/2022/06/Subway-Surfers-Characters-Guide-Cover.jpg', url: 'https://g.igroutka.ru/games/164/Xm2W5MIcPqrF1Y90/12/subway_surfers_easter_edinburgh/', desc: 'The classic endless runner — dash along the tracks, dodge trains and outrun the grumpy inspector in this global reflex hit.', controls: '← move left | → move right | ↑ jump | ↓ slide | Space hoverboard', feat: true, color: 'blue-500' },
+    { id: 'fnf', title: 'Friday Night Funkin\'', cat: 'Rhythm', img: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', banner: 'https://cdn.aptoide.com/imgs/7/6/9/769f9db715608f22e9174283d0f050e0_fgraphic.jpg', url: 'https://raw.githack.com/genizy/fridayfunk/master/index.html', desc: 'Feel the beat in this indie rhythm game — hit the arrows to the beat and win intense rap battles.', controls: '↑ | ↓ | ← | → (notes) | WASD (alternative) | DFJK (alternative)', feat: true, color: 'purple-500' },
+    { id: 'krunker', title: 'Krunker.io', cat: 'FPS', img: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/games/krunker-io/cover-1591336739727.png?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://krunker.io/?game=PARK_0', desc: 'Fast-paced voxel FPS. Move quickly using bunny hops and slide jumps to dominate the arena.', controls: 'WASD move | Mouse look | Left click shoot | Right click aim | Space jump | Shift run | R reload', feat: true, color: 'cyan-500' },
+    { id: 'venge', title: 'Venge.io', cat: 'FPS', img: 'https://venge.io/thumbnail.jpg', banner: 'https://venge.io/thumbnail.jpg', url: 'https://venge.io/', desc: 'Tactical multiplayer shooter — pick a hero, control objectives and use card-based abilities.', controls: 'WASD move | Mouse look | Left click shoot | Right click ability/aim | Space jump | Shift run | R reload', feat: false, color: 'red-500' },
+    { id: 'shellshockers', title: 'Shell Shockers', cat: 'FPS', img: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', banner: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', url: 'https://shellshock.io', desc: 'Multiplayer FPS where you play as an armed egg — shoot, dodge and rule the eggverse in frantic matches.', controls: 'WASD move | Mouse look | Left click shoot | R reload | Q grenade | E switch weapon | F melee | Space jump | Shift scope/aim', feat: false, color: 'lime-400' },
+    { id: 'smash', title: 'Smash Karts', cat: 'Arcade', img: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', banner: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', url: 'https://smashkarts.io/', desc: 'Chaotic 3D kart battles — grab surprise boxes, equip wild weapons and wreck opponents in the arena.', controls: 'WASD drive | Arrow keys drive | Space use item', feat: true, color: 'pink-500' },
+    { id: 'tomb', title: 'Tomb of the Mask', cat: 'Arcade', img: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', banner: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', url: 'https://kdata1.com/2023/10/tomb-of-the-mask/', desc: 'Addictive vertical arcade — scale walls, avoid deadly traps and collect coins at breakneck speed.', controls: 'Swipe (mobile) | WASD move (web) | Arrow keys move (web)', feat: false, color: 'orange-500' },
+    { id: 'ev', title: 'Ev.io', cat: 'FPS', img: 'https://ev.io/themes/ev/images/ev-io-og-image.png', banner: 'https://ev.io/themes/ev/images/ev-io-og-image.png', url: 'https://ev.io/', desc: 'Futuristic FPS inspired by Halo and Destiny — use jetpacks, double jumps and energy weapons in fast fights.', controls: 'WASD move | Mouse look | Left click shoot | Right click aim | Space jump | Shift sprint | Q teleport | R reload | G grenade | C crouch | 1–8 change weapon', feat: false, color: 'yellow-500' },
+    { id: 'minecraft', title: 'Minecraft Web', cat: 'Simulation', img: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', url: 'https://eaglercraft.com/play/?version=1.12.2-wasm', desc: 'Classic survival and building experience in the browser — create, explore and survive.', controls: 'WASD move | Mouse look | Left click break | Right click use/place | Space jump | Shift sneak | Ctrl sprint | E inventory', feat: true, color: 'green-500' },
+    { id: 'fnaf1', title: 'FNAF 1', cat: 'Horror', img: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', banner: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', url: 'https://lagged.com/games/fnaf/', desc: 'The original horror classic — survive five nights watching terrifying animatronics with limited power.', controls: 'Mouse look | Mouse click | ESC menu', feat: false, color: 'red-800' },
+    { id: 'fnaf2', title: 'FNAF 2', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307syzz9EVqI_Th4JUed7lsCaE5s7_VpiP5_U8zSKPRWy4bMPMon9LUEkUZjo-5wWT-AMLNDye41XzwezYREI5WK4JXVMK.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf2.html', desc: 'No doors to protect you — use a mask and keep the music box wound to survive.', controls: 'Mouse look | Mouse click | Space mask (in some versions)', feat: false, color: 'red-700' },
+    { id: 'fnaf3', title: 'FNAF 3', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307Xys6bSNoFWX-7VqGlbM2kNBzQR_jA9nGq9jrUg5vpC8DP7FkquNIjqCFgVTkmgYmHYTCXp6RQ_C4wSVSZpqhSYAm3z4.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf3.html', desc: 'Thirty years later, one animatronic remains — use audio to lure it away from you.', controls: 'Mouse look | Mouse click | System panels via click', feat: false, color: 'red-600' },
+    { id: 'fnaf4', title: 'FNAF 4', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307bWt6Efk_dMWiyFIaqI-aw114d9c4W2zKGKM9dFL7IU87vP71JoYIzK1DgbV4lcBSIXuTUzlrA_tAuO9dsyguoU9pnlb.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnaf4.html', desc: 'Horror follows you home — listen for their breath before you turn on the light.', controls: 'Mouse look | Click doors | Ctrl/Shift/Space (varies by version)', feat: false, color: 'red-500' },
+    { id: 'fnafsl', title: 'Sister Location', cat: 'Horror', img: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/img/cfn/11307C62Vucq_3cIDwmFRuIJ2id6-vETbDxR4hDh0-WzA_kwbmi_oFXK7YzjsoGHL7uwypw8S-WGE-Jyjg_QQyO2kmY2aacP.png?w=1920&thumb=false', url: 'https://run3.io/popgame/fnaf/fnafsl.html', desc: 'Dive into the depths of Circus Baby\'s Pizza World — don\'t hold your breath.', controls: 'Mouse look | Mouse click | Keyboard actions vary by minigame', feat: false, color: 'red-400' },
 
     // Added Baldi's Basics in Education and Learning (Unity embed via srcdoc)
-    { id: 'baldi', title: "Baldi's Basics in Education and Learning", cat: 'Horror', img: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1712830/header.jpg', banner: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1712830/header.jpg', url: '<unity-srcdoc-placeholder>', desc: "Explore a strange school — learn rules, explore classrooms and try to survive the peculiar teacher.", controls: 'WASD / Mouse: Move and look | Space: Interact', feat: false, color: 'yellow-300', custom_render: 'unity' },
+    { id: 'baldi', title: "Baldi's Basics in Education and Learning", cat: 'Horror', img: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1712830/header.jpg', banner: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1712830/header.jpg', url: '<unity-srcdoc-placeholder>', desc: "Explore a strange school — learn rules, explore classrooms and try to survive the peculiar teacher.", controls: 'WASD move | Mouse look | Left click interact | Right click use item | Scroll switch item | Shift run | Space look back | Esc pause', feat: false, color: 'yellow-300', custom_render: 'unity' },
 
     // Added: Imagine Island (Social / Party)
-    { id: 'imagineisland', title: 'Imagine Island', cat: 'Social', type: 'Party', img: 'https://imagineisland.game/wp-content/uploads/2025/10/imagine-island-social-share-1.jpg', banner: 'https://imagineisland.game/wp-content/uploads/2025/10/imagine-island-social-share-1.jpg', url: 'https://play.imagineisland.game/play/index.html', desc: 'Join other players on social islands for events, minigames and parties — socialize, customize and celebrate.', controls: 'Mouse / Touch: Navigate and interact', feat: false, color: 'pink-500' },
+    { id: 'imagineisland', title: 'Imagine Island', cat: 'Social', type: 'Party', img: 'https://imagineisland.game/wp-content/uploads/2025/10/imagine-island-social-share-1.jpg', banner: 'https://imagineisland.game/wp-content/uploads/2025/10/imagine-island-social-share-1.jpg', url: 'https://play.imagineisland.game/play/index.html', desc: 'Join other players on social islands for events, minigames and parties — socialize, customize and celebrate.', controls: 'WASD move | Arrow keys move | Space jump | Enter chat | F interact | I inventory | M map', feat: false, color: 'pink-500' },
 
     // Added Rumble Rush (Party Royale)
-    { id: 'rumblerush', title: 'Rumble Rush', cat: 'FPS', type: 'Party Royale', img: 'https://rumblerush.io/og-image.jpg', banner: 'https://rumblerush.io/og-image.jpg', url: 'https://rumblerush.io', desc: 'A chaotic party royale — fight, survive and have fun in fast, unpredictable arenas.', controls: 'WASD: Move | Mouse: Aim/Attack', feat: false, color: 'pink-500' },
+    { id: 'rumblerush', title: 'Rumble Rush', cat: 'FPS', type: 'Party Royale', img: 'https://rumblerush.io/og-image.jpg', banner: 'https://rumblerush.io/og-image.jpg', url: 'https://rumblerush.io', desc: 'A chaotic party royale — fight, survive and have fun in fast, unpredictable arenas.', controls: 'Tap to move | Tap to attack | Tap to jump (mobile)', feat: false, color: 'pink-500' },
 
     // New: Star Stuff (Puzzle) - embedded via controlled srcdoc iframe with crop to hide bottom area
-    { id: 'starstuff', title: 'Star Stuff', cat: 'Puzzle', type: 'Puzzle', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', url: 'https://www.crazygames.com/embed/star-stuff', desc: 'Casual space puzzle — connect stars and solve gravitational challenges.', controls: 'Mouse / Touch: Interact', feat: false, color: 'indigo-400', custom_render: 'embed' },
+    { id: 'starstuff', title: 'Star Stuff', cat: 'Puzzle', type: 'Puzzle', img: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', banner: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1955110/header.jpg?t=1747767646', url: 'https://www.crazygames.com/embed/star-stuff', desc: 'Casual space puzzle — connect stars and solve gravitational challenges.', controls: 'WASD or arrow keys move | Space interact | Tab switch bots | P pause | Shift/Z fast-forward/rewind', feat: false, color: 'indigo-400', custom_render: 'embed' },
 
     // New: Toodee and Topdee (Puzzle-Platformer) - uses CrazyGames embed with bottom black bar mask
-    { id: 'toodee', title: 'Toodee and Topdee', cat: 'Puzzle-Platformer', img: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', banner: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', url: 'https://www.crazygames.com/embed/toodee-and-topdee-demo', desc: 'A charming puzzle-platformer where two characters cooperate to solve levels.', controls: 'WASD / Arrow keys + Space: Jump | Mouse / Touch: Interact', feat: false, color: 'indigo-400', custom_render: 'embed' },
+    { id: 'toodee', title: 'Toodee and Topdee', cat: 'Puzzle', img: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', banner: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/store/software/switch/70010000049111/2a29428b4833922a7354a5ed529266517af4054b2c68750470bd3f43dd972467', url: 'https://www.crazygames.com/embed/toodee-and-topdee-demo', desc: 'A charming puzzle-platformer where two characters cooperate to solve levels.', controls: 'Arrow keys move | Z action | X switch character | R restart | Esc menu', feat: false, color: 'indigo-400', custom_render: 'embed' },
 
     // New: Duo (Co-op) - CrazyGames embed with bottom black bar cut (same method as Star Stuff)
-    { id: 'duo', title: 'Duo', cat: 'Co-op', type: 'Co-op', img: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', banner: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', url: 'https://www.crazygames.com/embed/duo-kjn', desc: 'Cooperative game: work with a partner to solve puzzles and progress through levels.', controls: 'Mouse / Touch: Navigate and interact', feat: false, color: 'teal-400', custom_render: 'embed' },
+    { id: 'duo', title: 'Duo', cat: 'Co-op', type: 'Co-op', img: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', banner: 'https://imgs.crazygames.com/duo-kjn_16x9/20250530054118/duo-kjn_16x9-cover?metadata=none&quality=60&height=2325', url: 'https://www.crazygames.com/embed/duo-kjn', desc: 'Cooperative game: work with a partner to solve puzzles and progress through levels.', controls: 'P1: WASD move | Space jump | B interact | V use item | Tab switch item; P2: Arrow keys move | Right Shift jump', feat: false, color: 'teal-400', custom_render: 'embed' },
 
     // New: Stumble Guys (Custom WebGL Scaling)
-    { id: 'stumbleguys', title: 'Stumble Guys', cat: 'Party Royale', img: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', banner: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', url: 'https://www.stumbleguys.com/pt-BR/play', desc: 'A massive multiplayer party-elimination game — race, stumble and fight to reach the finish line!', controls: 'WASD: Move | Mouse: Look | Space: Jump/Dive', feat: true, color: 'yellow-300', custom_render: 'stumbleguys' },
+    { id: 'stumbleguys', title: 'Stumble Guys', cat: 'Party Royale', img: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', banner: 'https://www.gamerscore.com.br/wp-content/uploads/2023/07/Stumble-Guys.jpg', url: 'https://www.stumbleguys.com/pt-BR/play', desc: 'A massive multiplayer party-elimination game — race, stumble and fight to reach the finish line!', controls: 'Mobile: tap move | tap jump; PC: WASD move | Space jump', feat: true, color: 'yellow-300', custom_render: 'stumbleguys' },
 
     // New: Piece of Cake - Merge & Bake (Puzzle)
-    { id: 'pieceofcake', title: 'Piece of Cake: Merge & Bake', cat: 'Puzzle', cat: 'Puzzle', img: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://cdn.mergecakegame.com/html5/cg/index.html', desc: 'A casual, addictive puzzle where you merge pieces to bake cakes and beat levels.', controls: 'Touch / Mouse: Interact | Drag: Merge', feat: false, color: 'amber-400' },
+    { id: 'pieceofcake', title: 'Piece of Cake: Merge & Bake', cat: 'Puzzle', cat: 'Puzzle', img: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', banner: 'https://imgs.crazygames.com/piece-of-cake-merge-and-bake_16x9/20251202050421/piece-of-cake-merge-and-bake_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop', url: 'https://cdn.mergecakegame.com/html5/cg/index.html', desc: 'A casual, addictive puzzle where you merge pieces to bake cakes and beat levels.', controls: 'Click select | Click drag | Tap select (mobile) | Tap drag', feat: false, color: 'amber-400' },
 
     // Added Cut The Rope Magic (Puzzle)
-    { id: 'cuttheropemagic', title: 'Cut The Rope Magic', cat: 'Puzzle', img: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', banner: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', url: 'https://play.famobi.com/cut-the-rope-magic/A-MINIJUEGOS', desc: 'Help Om Nom recover magic and solve puzzles by cutting ropes and using special items to feed the candy.', controls: 'Mouse / Touch: Cut ropes and interact', feat: false, color: 'emerald-400' },
+    { id: 'cuttheropemagic', title: 'Cut The Rope Magic', cat: 'Puzzle', img: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', banner: 'https://img.gamepix.com/games/cut-the-rope-magic/cover/cut-the-rope-magic.png', url: 'https://play.famobi.com/cut-the-rope-magic/A-MINIJUEGOS', desc: 'Help Om Nom recover magic and solve puzzles by cutting ropes and using special items to feed the candy.', controls: 'Click select | Click drag | Tap select (mobile) | Tap drag', feat: false, color: 'emerald-400' },
 
     // Added Vectaria (Simulation)
     { id: 'vectaria', title: 'Vectaria', cat: 'Simulation', type: 'Simulation', img: 'https://vectaria.io/preview-og.webp', banner: 'https://vectaria.io/preview-og.webp', url: 'https://vectaria.io/home', desc: 'Web simulation: explore environments and resources with rich simulation mechanics.', controls: 'Mouse / Touch: Navigate and interact', feat: false, color: 'sky-400' },
@@ -3805,10 +3805,10 @@ loginSubmit.addEventListener('click', handleLoginSubmit);
 // --- PROFILE AVATAR LOGOUT (click to sign out) ---
 (function wireLogoutOnAvatar() {
     try {
-        // target either avatar variant used in navbar or mobile account button
-        const avatarEl = document.querySelector('#navbar .w-8, #navbar .w-9, #mobile-account-btn, #navbar .user-avatar-mobile-hide');
+        // target avatar variants, mobile account button, and display name elements (desktop + mobile)
+        const profileEls = Array.from(document.querySelectorAll('#navbar .w-8, #navbar .w-9, #mobile-account-btn, #navbar .user-avatar-mobile-hide, #user-display-name, #user-display-name-mobile'));
 
-        if (!avatarEl) return;
+        if (!profileEls || profileEls.length === 0) return;
 
         // Confirmed logout flow
         async function handleLogoutClick(e) {
@@ -3848,6 +3848,9 @@ loginSubmit.addEventListener('click', handleLoginSubmit);
                         if (pwd) pwd.value = '';
                         // update top UI
                         userDisplayName.textContent = 'Guest';
+                        // also update mobile display name
+                        const mobileName = document.getElementById('user-display-name-mobile');
+                        if (mobileName) mobileName.textContent = 'Guest';
                     } catch (e) {}
                 }, 260);
 
@@ -3858,10 +3861,18 @@ loginSubmit.addEventListener('click', handleLoginSubmit);
             }
         }
 
-        // Use pointerdown for snappy response on touch devices
-        avatarEl.addEventListener('pointerdown', handleLogoutClick, { passive: false });
-        // click fallback
-        avatarEl.addEventListener('click', handleLogoutClick, { passive: true });
+        // Attach handlers to all matching profile elements (pointerdown for snappy touch, click fallback)
+        profileEls.forEach((el) => {
+            try {
+                // Avoid duplicate binding
+                if (el.__nexus_logout_bound) return;
+                el.addEventListener('pointerdown', handleLogoutClick, { passive: false });
+                el.addEventListener('click', handleLogoutClick, { passive: true });
+                el.__nexus_logout_bound = true;
+            } catch (e) {
+                try { el.addEventListener('click', handleLogoutClick, { passive: true }); } catch (ee) {}
+            }
+        });
     } catch (e) {
         console.warn('wireLogoutOnAvatar failed', e);
     }
@@ -4051,6 +4062,49 @@ function showToast(message, { icon = 'fas fa-check-circle' } = {}) {
             }
         }, { passive: false });
     })();
+
+    // Block pinch/zoom via Ctrl+wheel (desktop + some mobile browsers with keyboards)
+    window.addEventListener('wheel', function (e) {
+        try {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        } catch (err) {}
+    }, { passive: false });
+
+    // Ensure mobile bottom tabs (compact tab-chip buttons) reliably switch tabs on touch/pointer devices.
+    // Some devices synthesize click differently; bind pointerdown/touchend explicitly to mobile tab controls.
+    (function wireMobileBottomTabs() {
+        try {
+            function bindTabButton(selector) {
+                const el = document.querySelector(selector);
+                if (!el) return;
+                // prevent duplicate bindings
+                if (el.__nexus_mobile_tab_bound) return;
+                const handler = (ev) => {
+                    try {
+                        if (ev && ev.isPrimary === false) return;
+                        ev.preventDefault && ev.preventDefault();
+                        ev.stopPropagation && ev.stopPropagation();
+                        const tab = el.getAttribute('data-tab');
+                        if (tab) switchTab(tab);
+                    } catch (err) {}
+                };
+                el.addEventListener('pointerdown', handler, { passive: false });
+                el.addEventListener('touchend', handler, { passive: false });
+                // click fallback
+                el.addEventListener('click', handler, { passive: true });
+                el.__nexus_mobile_tab_bound = true;
+            }
+            // selectors for mobile tabs (existing markup)
+            bindTabButton('#mobile-tab-home');
+            bindTabButton('#mobile-tab-favorites');
+        } catch (e) {
+            console.warn('wireMobileBottomTabs failed', e);
+        }
+    })();
+
  // --- DevTools detection (disabled) ---
     (function devtoolsReliableDetectNoop() {
         // Devtools auto-unload/protection disabled to avoid interrupting gameplay and iframe loading.
