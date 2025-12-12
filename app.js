@@ -2702,6 +2702,9 @@ function playGame(id) {
     const game = getGameById(id);
     if (!game) return;
 
+    // NEW: always create/ensure a fresh iframe before configuring/loading a game
+    try { resetGameFrame(); } catch (e) { console.warn('resetGameFrame pre-play failed', e); }
+
     activeGame = game;
     activeGameUsedBottomCut = false; // reset flag each launch
 
@@ -3278,9 +3281,10 @@ function closeGame() {
                 // ignore
             }
 
-            // Reset custom rendering styles and replace the iframe element to avoid stale/cross-origin references
+            // Reset custom rendering styles. DO NOT call resetGameFrame() here, as this runs asynchronously
+            // after the game layer hides and can interfere with the next playGame() call (race condition).
             try {
-                gameFrame.classList.remove('custom-render-stumbleguys-frame');
+                gameFrame.classList.remove('custom-render-stumbleguys-frame', 'custom-render-pieceofcake-frame');
                 gameFrame.classList.add('w-full', 'h-full');
             } catch (e) {}
             try {
@@ -3293,14 +3297,12 @@ function closeGame() {
                     }
                 } catch (e) {}
             } catch (e) {}
+
             try {
-                resetGameFrame();
-            } catch (e) {
-                console.warn('Failed to reset iframe during cleanup', e);
-            }
-            try {
-                gameFrameWrapper.classList.remove('custom-render-stumbleguys-wrapper');
+                gameFrameWrapper.classList.remove('custom-render-stumbleguys-wrapper', 'custom-render-pieceofcake-wrapper');
                 gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
+                // Ensure iOS minimal toolbar class is cleared when exiting
+                document.documentElement.classList.remove('ios-minimal-toolbar');
             } catch (e) {}
 
             // remove any fnf overlay if present
@@ -3321,6 +3323,53 @@ function closeGame() {
             // CENTRAL CLEANUP: free any tracked resources (timers, observers, registered listeners)
             try { ResourceTracker.cleanupAll(); } catch (e) {}
 
+            // Final iframe cleanup: ensure the current frame is completely inert and has no active handlers/sources.
+            // Note: The frame is physically replaced on the next call to playGame().
+            try {
+                if (gameFrame) {
+                    try { gameFrame.onload = null; } catch (e) {}
+                    try { gameFrame.onerror = null; } catch (e) {}
+                    // ensure the iframe is inert until next play to avoid background loads
+                    try { gameFrame.src = 'about:blank'; } catch (e) {}
+                }
+            } catch (e) {
+                // ignore any cleanup errors
+            }
+
+            // --- NEW: ensure UI visual state fully restored to avoid leftover gray overlays ---
+            try {
+                // restore wrapper visual styles that may have been altered during close animation
+                if (gameFrameWrapper) {
+                    gameFrameWrapper.style.opacity = '';
+                    gameFrameWrapper.style.filter = '';
+                }
+                // hide in-layer loader & status
+                if (gameLoader) {
+                    gameLoader.style.display = 'none';
+                    gameLoader.style.opacity = '0';
+                }
+                if (loadingStatus) {
+                    loadingStatus.textContent = '';
+                    loadingStatus.style.opacity = '0';
+                }
+                // hide global loader if any left
+                try { hideGlobalLoader(); } catch (e) {}
+                // ensure any forced visual fullscreen is removed so CSS masks don't persist
+                document.documentElement.classList.remove('forced-fullscreen');
+                // restore scroll lock as a final guard
+                document.documentElement.classList.remove('no-game-scroll');
+                try { document.documentElement.style.overflow = ''; if (document.body) { document.body.style.overflow = ''; document.body.style.touchAction = ''; } } catch (e) {}
+            } catch (e) {
+                // non-fatal
+            }
+
+            // Replace the iframe with a fresh one shortly after cleanup to avoid leaving stale/cross-origin iframe nodes
+            // This delayed reset avoids race conditions with animations and ensures the next playGame() gets a clean iframe.
+            try {
+                setTimeout(() => {
+                    try { resetGameFrame(); } catch (e) {}
+                }, 120);
+            } catch (e) {}
 
         };
 
