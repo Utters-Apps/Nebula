@@ -40,15 +40,6 @@
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
         }
-        /* Ensure page content has enough safe padding so the bottom bar doesn't overlap scrollable content */
-        /* Apply to app container and main areas so scrolling content won't hide behind the bar */
-        body, #app-container, main {
-          padding-bottom: calc(env(safe-area-inset-bottom) + 84px);
-        }
-        /* Keep the loader and modals above the mobile bar */
-        #global-loader, #details-modal {
-          z-index: 11000 !important;
-        }
         .mobile-bottom-bar .mobile-tab-btn{
           min-width:56px;
           height:48px;
@@ -73,11 +64,8 @@
         .sm\\:hidden { display:none !important; }
 
         /* Hide the duplicate right-side navbar avatar on mobile to keep only the mobile account button */
-        /* Keep navbar avatars visible on mobile so the account button remains accessible.
-           We only hide any explicitly marked duplicate avatars, not default avatar classes. */
-        #navbar .user-avatar-mobile-hide {
-          display: none !important;
-        }
+        /* Keep navbar avatars visible on mobile; duplicates should be marked with a different class if they must be hidden. */
+        /* Previously hid the avatar on mobile which caused the profile icon to disappear; rule removed. */
 
         /* Ensure the details modal appears above the mobile bottom bar and has breathing room on small screens */
         #details-modal {
@@ -200,12 +188,10 @@
                 </div>
 
                 <div class="flex sm:hidden items-center gap-1 mr-1">
-                    <!-- Mobile: show account/avatar instead of Home/Favorites chips -->
+                    <!-- Mobile: show account name instead of duplicate avatar -->
                     <div class="flex sm:hidden items-center gap-2 mr-1">
-                      <button id="mobile-account-btn" class="mobile-account-btn" aria-label="Account" title="Account">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xs sm:text-sm shadow-inner border border-white/20">
-                          <i class="fas fa-user"></i>
-                        </div>
+                      <button id="mobile-account-btn" class="mobile-account-btn px-2 py-1 rounded-md text-xs font-semibold text-gray-200" aria-label="Account" title="Account">
+                        <span id="user-display-name-mobile" class="truncate max-w-[120px]">Guest</span>
                       </button>
                     </div>
                 </div>
@@ -215,7 +201,7 @@
                           class="text-xs sm:text-sm font-semibold text-gray-300 hidden sm:block">Guest</span>
 
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xs sm:text-sm shadow-inner border border-white/20">
+                        <div class="w-8 h-8 sm:w-9 sm:h-9 user-avatar-mobile-hide rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xs sm:text-sm shadow-inner border border-white/20">
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
