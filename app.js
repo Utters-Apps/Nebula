@@ -2498,6 +2498,14 @@ function playGame(id) {
         const mobileBar = document.querySelector('.mobile-bottom-bar');
         if (mobileBar) mobileBar.style.display = 'none';
     } catch (e) {}
+
+    // NEW: explicitly hide/lock scroll on root and body to ensure mobile browsers stop scrolling immediately
+    try {
+        document.documentElement.style.overflow = 'hidden';
+        document.body && (document.body.style.overflow = 'hidden');
+        // also disable touch-action on body as extra guard on some browsers
+        document.body && (document.body.style.touchAction = 'none');
+    } catch (e) {}
     playingTitle.textContent = game.title;
 
     // NEW: enable keyboard isolation to reduce interference from extensions
@@ -2916,6 +2924,15 @@ function closeGame() {
         // Restore page scrolling and touch behavior now that game session ended
         try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
 
+        // NEW: explicitly restore overflow/touch styles on html/body so mobile scroll returns reliably
+        try {
+            document.documentElement.style.overflow = '';
+            if (document.body) {
+                document.body.style.overflow = '';
+                document.body.style.touchAction = '';
+            }
+        } catch (e) {}
+
         // Attempt to gently stop audio/video inside the iframe (best-effort for same-origin; postMessage for cross-origin)
         try {
             // Try same-origin direct pause
@@ -3063,6 +3080,16 @@ function closeGame() {
 
         gameLayer.classList.add('hidden');
         gameLayer.classList.remove('flex', 'game-enter', 'game-exit');
+
+        // ensure overflow restored in error path as well
+        try {
+            document.documentElement.style.overflow = '';
+            if (document.body) {
+                document.body.style.overflow = '';
+                document.body.style.touchAction = '';
+            }
+        } catch (e) {}
+
         if (document.fullscreenElement) {
             document.exitFullscreen().catch(() => {});
         }
