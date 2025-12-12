@@ -3053,6 +3053,33 @@ function playGame(id) {
     // Reset iframe styling for standard mode
     gameFrame.className = 'w-full h-full border-none z-10';
     gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
+
+    // Mobile-specific fix: apply a gentle negative zoom + left shift for BitLife to counter right-side cropping
+    // Only apply on narrow viewports (mobile) to avoid impacting desktop layout.
+    try {
+        if (game.id === 'bitlife' && window.innerWidth && window.innerWidth < 640) {
+            // use transform origin left so scale pulls content toward the left, then translate left a bit
+            gameFrame.style.transformOrigin = 'left center';
+            gameFrame.style.transform = 'scale(0.92) translateX(-8%)';
+            // make iframe slightly larger to avoid letterboxing/cropping artifacts
+            gameFrame.style.width = '110%';
+            gameFrame.style.height = '110%';
+            // ensure it stays above overlays
+            gameFrame.style.zIndex = '30';
+            // mark dataset for cleanup awareness
+            try { gameFrame.dataset.nexusBitlifeTransform = '1'; } catch (e) {}
+        } else {
+            // ensure defaults removed if not bitlife
+            try {
+                if (gameFrame && gameFrame.dataset && gameFrame.dataset.nexusBitlifeTransform) {
+                    delete gameFrame.dataset.nexusBitlifeTransform;
+                }
+            } catch (e) {}
+        }
+    } catch (e) {
+        // non-fatal; continue normal flow
+        console.warn('bitlife mobile transform application failed', e);
+    }
     
     if (isStumbleGuys) {
         // Apply custom rendering styles
@@ -3828,8 +3855,23 @@ function closeGame() {
             // Reset custom rendering styles. DO NOT call resetGameFrame() here, as this runs asynchronously
             // after the game layer hides and can interfere with the next playGame() call (race condition).
             try {
+                // remove custom classes
                 gameFrame.classList.remove('custom-render-stumbleguys-frame', 'custom-render-pieceofcake-frame');
                 gameFrame.classList.add('w-full', 'h-full');
+
+                // Remove any BitLife mobile transform/override if applied
+                try {
+                    if (gameFrame && gameFrame.dataset && gameFrame.dataset.nexusBitlifeTransform) {
+                        gameFrame.style.transform = '';
+                        gameFrame.style.transformOrigin = '';
+                        gameFrame.style.width = '';
+                        gameFrame.style.height = '';
+                        gameFrame.style.zIndex = '';
+                        delete gameFrame.dataset.nexusBitlifeTransform;
+                    }
+                } catch (e) {
+                    // ignore cleanup errors
+                }
             } catch (e) {}
             try {
                 // attempt to clear inner embeds if same-origin
