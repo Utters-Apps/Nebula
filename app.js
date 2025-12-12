@@ -3054,43 +3054,7 @@ function playGame(id) {
     gameFrame.className = 'w-full h-full border-none z-10';
     gameFrameWrapper.classList.add('flex', 'items-center', 'justify-center');
 
-    // Mobile-specific fix: apply a gentle negative zoom + left shift for BitLife to counter right-side cropping
-    // Only apply on narrow viewports (mobile) to avoid impacting desktop layout.
-    try {
-        // Only apply this positional fix on small viewports (mobile) to avoid affecting desktop layout.
-        if (game.id === 'bitlife' && window.innerWidth && window.innerWidth < 640) {
-            // use transform-origin at left so scaling keeps content anchored, then shift further left for better centering
-            gameFrame.style.transformOrigin = 'left center';
-            // stronger left shift for mobile to correct right-side cropping
-            gameFrame.style.transform = 'scale(0.92) translateX(-14%)';
-            // slightly enlarge to avoid letterboxing/cropping artifacts while shifted
-            gameFrame.style.width = '112%';
-            gameFrame.style.height = '112%';
-            // ensure it sits above overlays during play
-            gameFrame.style.zIndex = '30';
-            // mark dataset for cleanup awareness
-            try { gameFrame.dataset.nexusBitlifeTransform = '1'; } catch (e) {}
-        } else {
-            // remove any previously applied mobile-only bitlife adjustments
-            try {
-                if (gameFrame && gameFrame.dataset && gameFrame.dataset.nexusBitlifeTransform) {
-                    delete gameFrame.dataset.nexusBitlifeTransform;
-                }
-                // clear inline transform/size only when not on mobile bitlife to avoid stomping other custom renderers
-                if (game.id !== 'bitlife' || (window.innerWidth && window.innerWidth >= 640)) {
-                    gameFrame.style.transform = '';
-                    gameFrame.style.transformOrigin = '';
-                    gameFrame.style.width = '';
-                    gameFrame.style.height = '';
-                    gameFrame.style.zIndex = '';
-                }
-            } catch (e) {}
-        }
-    } catch (e) {
-        // non-fatal; continue normal flow
-        console.warn('bitlife mobile transform application failed', e);
-    }
-    
+    // No per-game mobile transform applied here (BitLife transform removed to keep iframe unmodified)
     if (isStumbleGuys) {
         // Apply custom rendering styles
         gameFrame.classList.add('custom-render-stumbleguys-frame');
@@ -3671,6 +3635,11 @@ function playGame(id) {
     } catch (err) {
         console.warn('FNF touch mapping setup failed', err);
     }
+
+    // NEW: enable Tomb touch swipe controls
+    try {
+        setupTombTouchControls(game);
+    } catch (e) { console.warn('setupTombTouchControls error', e); }
 }
 
 function closeGame() {
@@ -4030,6 +3999,134 @@ function setupFNFTouchMappingIfNeeded(game) {
 function removeFNFTouchOverlay() {
     // no-op since overlay is disabled
     return;
+}
+
+// --- Tomb of the Mask: mobile swipe controls (added) ---
+let __nexus_tomb_touch = {
+    overlay: null,
+    startX: 0,
+    startY: 0,
+    active: false,
+    boundHandlers: null
+};
+
+function setupTombTouchControls(game) {
+    try {
+        // only enable on mobile-ish viewports
+        if (!game || game.id !== 'tomb' || window.innerWidth > 900) return;
+        // avoid double-init
+        if (__nexus_tomb_touch.active) return;
+        const wrapper = document.getElementById('game-frame-wrapper') || document.body;
+        const overlay = document.createElement('div');
+        overlay.id = 'nexus-tomb-touch-overlay';
+        overlay.style.position = 'absolute';
+        overlay.style.inset = '0';
+        overlay.style.zIndex = '13000';
+        overlay.style.touchAction = 'none';
+        overlay.style.background = 'transparent';
+        overlay.setAttribute('aria-hidden', 'true');
+
+        // handlers
+        function onStart(e) {
+            try {
+                const p = (e.touches && e.touches[0]) || (e.pointerType ? e : e);
+                __nexus_tomb_touch.startX = p.clientX;
+                __nexus_tomb_touch.startY = p.clientY;
+                __nexus_tomb_touch.active = true;
+            } catch (err) {}
+        }
+        function onMove(e) {
+            try {
+                if (!__nexus_tomb_touch.active) return;
+                // prevent page gestures while swiping
+                e.preventDefault && e.preventDefault();
+            } catch (err) {}
+        }
+        function onEnd(e) {
+            try {
+                if (!__nexus_tomb_touch.active) return;
+                const p = (e.changedTouches && e.changedTouches[0]) || (e.pointerType ? e : e);
+                const dx = (p.clientX || 0) - (__nexus_tomb_touch.startX || 0);
+                const dy = (p.clientY || 0) - (__nexus_tomb_touch.startY || 0);
+
+                const absX = Math.abs(dx);
+                const absY = Math.abs(dy);
+                const threshold = 30; // minimal swipe length to count
+
+                let dir = null;
+                if (absX > absY && absX > threshold) {
+                    dir = dx > 0 ? 'ArrowRight' : 'ArrowLeft';
+                } else if (absY > absX && absY > threshold) {
+                    dir = dy > 0 ? 'ArrowDown' : 'ArrowUp';
+                }
+
+                if (dir) {
+                    // Try same-origin keyboard dispatch
+                    try {
+                        const wf = window.gameFrame && window.gameFrame.contentWindow;
+                        if (wf && wf.document) {
+                            // synthesize KeyboardEvent inside iframe (best-effort)
+                            try {
+                                const ev = new wf.KeyboardEvent('keydown', { key: dir, code: dir, bubbles: true, cancelable: true });
+                                wf.document.dispatchEvent(ev);
+                            } catch (e) {
+                                // fallback to postMessage below
+                            }
+                        } else if (window.gameFrame && typeof window.gameFrame.contentWindow.postMessage === 'function') {
+                            window.gameFrame.contentWindow.postMessage({ type: 'nexus:arrow', key: dir }, '*');
+                        }
+                    } catch (e) {
+                        // final fallback: postMessage
+                        try { window.gameFrame && window.gameFrame.contentWindow && window.gameFrame.contentWindow.postMessage({ type: 'nexus:arrow', key: dir }, '*'); } catch (ee) {}
+                    }
+                }
+
+                __nexus_tomb_touch.active = false;
+            } catch (err) {
+                __nexus_tomb_touch.active = false;
+            }
+        }
+
+        // pointer events preferred
+        overlay.addEventListener('pointerdown', onStart, { passive: false });
+        overlay.addEventListener('pointermove', onMove, { passive: false });
+        overlay.addEventListener('pointerup', onEnd, { passive: false });
+        overlay.addEventListener('touchstart', onStart, { passive: false });
+        overlay.addEventListener('touchmove', onMove, { passive: false });
+        overlay.addEventListener('touchend', onEnd, { passive: false });
+
+        // insert overlay into wrapper (positioned absolute so wrapper must be positioned)
+        // ensure wrapper is relatively positioned to allow overlay to align
+        try {
+            const computed = getComputedStyle(wrapper);
+            if (computed.position === 'static') wrapper.style.position = 'relative';
+        } catch (e) {}
+        wrapper.appendChild(overlay);
+
+        __nexus_tomb_touch.overlay = overlay;
+        __nexus_tomb_touch.boundHandlers = { onStart, onMove, onEnd };
+        __nexus_tomb_touch.active = false;
+    } catch (e) { console.warn('setupTombTouchControls failed', e); }
+}
+
+function removeTombTouchControls() {
+    try {
+        if (!__nexus_tomb_touch || !__nexus_tomb_touch.overlay) return;
+        const ov = __nexus_tomb_touch.overlay;
+        // remove listeners by cloning to be safe
+        try { ov.removeEventListener('pointerdown', __nexus_tomb_touch.boundHandlers?.onStart); } catch (e) {}
+        try { ov.removeEventListener('pointermove', __nexus_tomb_touch.boundHandlers?.onMove); } catch (e) {}
+        try { ov.removeEventListener('pointerup', __nexus_tomb_touch.boundHandlers?.onEnd); } catch (e) {}
+        try { ov.removeEventListener('touchstart', __nexus_tomb_touch.boundHandlers?.onStart); } catch (e) {}
+        try { ov.removeEventListener('touchmove', __nexus_tomb_touch.boundHandlers?.onMove); } catch (e) {}
+        try { ov.removeEventListener('touchend', __nexus_tomb_touch.boundHandlers?.onEnd); } catch (e) {}
+        if (ov.parentNode) ov.parentNode.removeChild(ov);
+    } catch (e) {}
+    __nexus_tomb_touch.overlay = null;
+    __nexus_tomb_touch.boundHandlers = null;
+    __nexus_tomb_touch.active = false;
+    __nexus_tomb_touch.startX = 0;
+    __nexus_tomb_touch.startY = 0;
 }
 
 /* --- Generic iframe element remover: robustly attempts to remove specific elements inside
