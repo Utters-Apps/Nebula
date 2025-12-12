@@ -2297,3 +2297,14 @@ button:focus, .compact-card:focus, .card-play:focus {
 }
 #hero-section.sheen-surface, .game-card.sheen-surface, .loader-card.sheen-surface { position: relative; }
 
+/* While a game session is active, ensure main app panes are visually inert and cannot scroll or receive input.
+   This complements the inline JS changes that set pane styles when entering/exiting a game. */
+.no-game-scroll #home-content,
+.no-game-scroll #favorites-content,
+.no-game-scroll #search-results-content {
+  overflow: hidden !important;
+  pointer-events: none !important;
+  touch-action: none !important;
+  height: 100% !important;
+}
+
