@@ -5,7 +5,7 @@
     <!-- Mobile-first, no zoom to keep cloud gaming controls stable -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>Nexus Cloud - Premium Gaming</title>
+    <title>Nebula Nexus - Cloud</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="ICON.png">
@@ -18,7 +18,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <style>
       /* Mobile bottom nav: visible only on small screens */
       .mobile-bottom-bar{
@@ -32,8 +32,12 @@
           position:fixed;
           left:0;
           right:0;
-          bottom: calc(env(safe-area-inset-bottom, 0px) + 6px);
-          padding:8px calc(env(safe-area-inset-left, 0px) + 12px) calc(env(safe-area-inset-bottom, 0px) + 12px) calc(env(safe-area-inset-right, 0px) + 12px);
+          /* anchor flush to bottom edge so bar visually reaches the screen limit */
+          bottom: 0;
+          /* include safe-area inset inside padding so visual content sits above OS chrome while the bar itself extends to the edge */
+          padding: 8px calc(env(safe-area-inset-left, 0px) + 12px) calc(env(safe-area-inset-bottom, 0px) + 12px) calc(env(safe-area-inset-right, 0px) + 12px);
+          margin: 0;
+          border-radius: 0;
           gap:10px;
           justify-content:center;
           z-index:9999;
@@ -439,18 +443,7 @@
     <!-- Toast container -->
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- iOS fullscreen helper -->
-    <div id="ios-fullscreen-banner" class="ios-fullscreen-banner hidden" role="dialog" aria-hidden="true">
-        <div class="ios-fullscreen-banner-card">
-            <div class="ios-fullscreen-banner-text">
-                Safari on iOS does not allow native fullscreen outside of PWAs — try the visual "fullscreen" option.
-            </div>
-            <div class="ios-fullscreen-banner-actions">
-                <button id="ios-fullscreen-try" class="ios-btn ios-btn-primary">Try Fullscreen</button>
-                <button id="ios-fullscreen-dismiss" class="ios-btn ios-btn-secondary">Dismiss</button>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Mobile bottom nav (Home / Favorites) -->
     <div class="mobile-bottom-bar" aria-hidden="false" role="navigation">
@@ -472,7 +465,7 @@
     <meta name="apple-mobile-web-app-title" content="Nexus Cloud">
     <!-- iOS splash / home icon (fallback to ICON.png) -->
     <link rel="apple-touch-icon" href="/ICON.png">
-    <script src="app.js" type="module" defer></script>
+    <script src="js/app.js" type="module" defer></script>
     <!-- Register service worker (registered from app.js) -->
 </body>
 </html>
