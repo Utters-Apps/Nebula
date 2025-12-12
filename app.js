@@ -1247,10 +1247,65 @@ function initApp() {
         // iOS-specific adjustments: allow hiding the in-game toolbar without entering fullscreen and remove the fullscreen button for iOS.
         try {
             if (isIos()) {
-                // ensure hide-toolbar control is available on iOS so users can hide toolbar while not in fullscreen
+                // ensure hide-toolbar control is always visible on iOS so users can hide toolbar while not in fullscreen
                 if (btnHideToolbar) btnHideToolbar.classList.remove('hidden');
                 // remove the fullscreen button on iOS to prevent broken native fullscreen attempts
                 if (btnFullscreen) btnFullscreen.classList.add('hidden');
+
+                // Inject lightweight CSS for the iOS small close button if not already present
+                if (!document.getElementById('nexus-ios-close-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'nexus-ios-close-style';
+                    style.textContent = `
+                        #nexus-ios-small-close {
+                            position: fixed;
+                            left: 10px;
+                            top: calc(env(safe-area-inset-top, 12px) + 12px);
+                            z-index: 13000;
+                            width: 44px;
+                            height: 44px;
+                            border-radius: 10px;
+                            background: rgba(0,0,0,0.5);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: #fff;
+                            box-shadow: 0 8px 22px rgba(0,0,0,0.5);
+                            border: 1px solid rgba(255,255,255,0.06);
+                            backdrop-filter: blur(6px);
+                            -webkit-backdrop-filter: blur(6px);
+                            touch-action: manipulation;
+                        }
+                        /* hidden by default */
+                        #nexus-ios-small-close.hidden { display: none !important; }
+                        /* slightly larger hit area on very small phones */
+                        @media(max-width:420px){ #nexus-ios-small-close { width:48px;height:48px;left:8px; } }
+                    `;
+                    document.head.appendChild(style);
+                }
+
+                // Create the small close button (if missing) and keep it hidden until toolbar is hidden
+                if (!document.getElementById('nexus-ios-small-close')) {
+                    const closeBtn = document.createElement('button');
+                    closeBtn.id = 'nexus-ios-small-close';
+                    closeBtn.className = 'hidden';
+                    closeBtn.type = 'button';
+                    closeBtn.title = 'Close';
+                    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    // ensure tap is handled and closes game
+                    closeBtn.addEventListener('click', (ev) => {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        try { closeGame(); } catch (e) {}
+                    }, { passive: false });
+                    document.body.appendChild(closeBtn);
+                }
+
+                // ensure toolbar is visible initially (do not auto-hide) and small close remains hidden
+                try {
+                    const smallClose = document.getElementById('nexus-ios-small-close');
+                    if (smallClose) smallClose.classList.add('hidden');
+                } catch (e) {}
             }
         } catch (e) {
             // non-fatal
@@ -2272,17 +2327,38 @@ function wireGameControls() {
     if (btnHideToolbar && gameLayerToolbar) {
         btnHideToolbar.addEventListener('click', (e) => {
             e.preventDefault();
+
             // toggle hidden state for toolbar
             const isHidden = gameLayerToolbar.classList.toggle('hidden');
+
             // reflect state visually on button (icon swap)
             btnHideToolbar.innerHTML = isHidden
                 ? '<i class="fas fa-eye text-sm sm:text-lg"></i>'
                 : '<i class="fas fa-eye-slash text-sm sm:text-lg"></i>';
+
             // when hiding toolbar, also ensure it won't interfere with fullscreen layout
             if (isHidden) {
                 gameLayerToolbar.setAttribute('aria-hidden', 'true');
             } else {
                 gameLayerToolbar.removeAttribute('aria-hidden');
+            }
+
+            // iOS-specific behavior: when toolbar is hidden, show a small left-side close button; hide it when toolbar visible.
+            try {
+                if (isIos()) {
+                    const smallClose = document.getElementById('nexus-ios-small-close');
+                    if (smallClose) {
+                        if (isHidden) {
+                            smallClose.classList.remove('hidden');
+                        } else {
+                            smallClose.classList.add('hidden');
+                        }
+                    }
+                    // Keep hide-toolbar control always visible on iOS (do not hide the button itself)
+                    btnHideToolbar.classList.remove('hidden');
+                }
+            } catch (e) {
+                // non-fatal
             }
         });
     }
