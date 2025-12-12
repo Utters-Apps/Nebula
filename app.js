@@ -3057,22 +3057,32 @@ function playGame(id) {
     // Mobile-specific fix: apply a gentle negative zoom + left shift for BitLife to counter right-side cropping
     // Only apply on narrow viewports (mobile) to avoid impacting desktop layout.
     try {
+        // Only apply this positional fix on small viewports (mobile) to avoid affecting desktop layout.
         if (game.id === 'bitlife' && window.innerWidth && window.innerWidth < 640) {
-            // use transform origin left so scale pulls content toward the left, then translate left a bit
+            // use transform-origin at left so scaling keeps content anchored, then shift further left for better centering
             gameFrame.style.transformOrigin = 'left center';
-            gameFrame.style.transform = 'scale(0.92) translateX(-8%)';
-            // make iframe slightly larger to avoid letterboxing/cropping artifacts
-            gameFrame.style.width = '110%';
-            gameFrame.style.height = '110%';
-            // ensure it stays above overlays
+            // stronger left shift for mobile to correct right-side cropping
+            gameFrame.style.transform = 'scale(0.92) translateX(-14%)';
+            // slightly enlarge to avoid letterboxing/cropping artifacts while shifted
+            gameFrame.style.width = '112%';
+            gameFrame.style.height = '112%';
+            // ensure it sits above overlays during play
             gameFrame.style.zIndex = '30';
             // mark dataset for cleanup awareness
             try { gameFrame.dataset.nexusBitlifeTransform = '1'; } catch (e) {}
         } else {
-            // ensure defaults removed if not bitlife
+            // remove any previously applied mobile-only bitlife adjustments
             try {
                 if (gameFrame && gameFrame.dataset && gameFrame.dataset.nexusBitlifeTransform) {
                     delete gameFrame.dataset.nexusBitlifeTransform;
+                }
+                // clear inline transform/size only when not on mobile bitlife to avoid stomping other custom renderers
+                if (game.id !== 'bitlife' || (window.innerWidth && window.innerWidth >= 640)) {
+                    gameFrame.style.transform = '';
+                    gameFrame.style.transformOrigin = '';
+                    gameFrame.style.width = '';
+                    gameFrame.style.height = '';
+                    gameFrame.style.zIndex = '';
                 }
             } catch (e) {}
         }
