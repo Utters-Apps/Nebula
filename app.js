@@ -6,7 +6,7 @@ const DB = [
     { id: 'venge', title: 'Venge.io', cat: 'FPS', img: 'https://venge.io/thumbnail.jpg', banner: 'https://venge.io/thumbnail.jpg', url: 'https://venge.io/', desc: 'Tactical multiplayer shooter — pick a hero, control objectives and use card-based abilities.', controls: 'WASD move | Mouse look | Left click shoot | Right click ability/aim | Space jump | Shift run | R reload', feat: false, color: 'red-500' },
     { id: 'shellshockers', title: 'Shell Shockers', cat: 'FPS', img: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', banner: 'https://www.shellshock.io/img/previewImage_shellShockers.webp', url: 'https://shellshock.io', desc: 'Multiplayer FPS where you play as an armed egg — shoot, dodge and rule the eggverse in frantic matches.', controls: 'WASD move | Mouse look | Left click shoot | R reload | Q grenade | E switch weapon | F melee | Space jump | Shift scope/aim', feat: false, color: 'lime-400' },
     { id: 'smash', title: 'Smash Karts', cat: 'Arcade', img: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', banner: 'https://images.squarespace-cdn.com/content/v1/598b1d4ef9a61e39d195e6e1/1674214584671-W7W2V440CZIOTOJXBF3H/maxresdefault.jpg', url: 'https://smashkarts.io/', desc: 'Chaotic 3D kart battles — grab surprise boxes, equip wild weapons and wreck opponents in the arena.', controls: 'WASD drive | Arrow keys drive | Space use item', feat: true, color: 'pink-500' },
-    { id: 'tomb', title: 'Tomb of the Mask', cat: 'Arcade', img: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', banner: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', url: 'https://kdata1.com/2023/10/tomb-of-the-mask/', desc: 'Addictive vertical arcade — scale walls, avoid deadly traps and collect coins at breakneck speed.', controls: 'Swipe (mobile) | WASD move (web) | Arrow keys move (web)', feat: false, color: 'orange-500' },
+    { id: 'tomb', title: 'Tomb of the Mask', cat: 'Arcade', img: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', banner: 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000046832/94c118850d331193dc4a6f16f9242daedb1bb79fe6449d03e1c7da3969942ad7', url: 'https://kdata1.com/2023/10/tomb-of-the-mask', desc: 'Addictive vertical arcade — scale walls, avoid deadly traps and collect coins at breakneck speed.', controls: 'Swipe (mobile) | WASD move (web) | Arrow keys move (web)', feat: false, color: 'orange-500' },
     { id: 'ev', title: 'Ev.io', cat: 'FPS', img: 'https://ev.io/themes/ev/images/ev-io-og-image.png', banner: 'https://ev.io/themes/ev/images/ev-io-og-image.png', url: 'https://ev.io/', desc: 'Futuristic FPS inspired by Halo and Destiny — use jetpacks, double jumps and energy weapons in fast fights.', controls: 'WASD move | Mouse look | Left click shoot | Right click aim | Space jump | Shift sprint | Q teleport | R reload | G grenade | C crouch | 1–8 change weapon', feat: false, color: 'yellow-500' },
     { id: 'minecraft', title: 'Minecraft Web', cat: 'Simulation', img: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', banner: 'https://image.api.playstation.com/vulcan/ap/rnd/202407/1020/91fe046f742042e3b31e57f7731dbe2226e1fd1e02a36223.jpg?w=1920&thumb=false', url: 'https://eaglercraft.com/play/?version=1.12.2-wasm', desc: 'Classic survival and building experience in the browser — create, explore and survive.', controls: 'WASD move | Mouse look | Left click break | Right click use/place | Space jump | Shift sneak | Ctrl sprint | E inventory', feat: true, color: 'green-500' },
     { id: 'fnaf1', title: 'FNAF 1', cat: 'Horror', img: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', banner: 'https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_FiveNightsAtFreddys_image1600w.jpg', url: 'https://lagged.com/games/fnaf/', desc: 'The original horror classic — survive five nights watching terrifying animatronics with limited power.', controls: 'Mouse look | Mouse click | ESC menu', feat: false, color: 'red-800' },
@@ -4022,37 +4022,95 @@ function setupTombTouchControls(game) {
         overlay.style.position = 'absolute';
         overlay.style.inset = '0';
         overlay.style.zIndex = '13000';
+        // Important: allow pointer events but handle them to differentiate taps vs swipes
         overlay.style.touchAction = 'none';
         overlay.style.background = 'transparent';
         overlay.setAttribute('aria-hidden', 'true');
+
+        // internal state for this overlay instance
+        let startX = 0, startY = 0, isSwiping = false, pointerId = null;
+
+        // helpers to forward a tap to the iframe (best-effort)
+        function forwardTapToIframe(clientX, clientY) {
+            try {
+                // temporarily let pointer-events pass through so the browser can route the pointer to the iframe element
+                overlay.style.pointerEvents = 'none';
+                // short delay to allow browser to process hit-test
+                setTimeout(() => {
+                    try {
+                        // Focus the iframe element to encourage it to receive input
+                        if (window.gameFrame && typeof window.gameFrame.focus === 'function') {
+                            try { window.gameFrame.focus(); } catch (e) {}
+                        }
+                        // Also send a normalized tap message so same-origin or cooperative embeds can react
+                        try {
+                            const rect = window.gameFrame && window.gameFrame.getBoundingClientRect ? window.gameFrame.getBoundingClientRect() : null;
+                            if (window.gameFrame && window.gameFrame.contentWindow && typeof window.gameFrame.contentWindow.postMessage === 'function') {
+                                if (rect) {
+                                    // send normalized coordinates (0..1)
+                                    const nx = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+                                    const ny = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+                                    window.gameFrame.contentWindow.postMessage({ type: 'nexus:tap', x: nx, y: ny }, '*');
+                                } else {
+                                    window.gameFrame.contentWindow.postMessage({ type: 'nexus:tap' }, '*');
+                                }
+                            }
+                        } catch (e) {}
+                    } catch (e) {}
+                    // restore overlay hit-testing shortly after allowing the click to go through
+                    setTimeout(() => { try { overlay.style.pointerEvents = 'auto'; } catch (e) {} }, 80);
+                }, 6);
+            } catch (e) {}
+        }
 
         // handlers
         function onStart(e) {
             try {
                 const p = (e.touches && e.touches[0]) || (e.pointerType ? e : e);
-                __nexus_tomb_touch.startX = p.clientX;
-                __nexus_tomb_touch.startY = p.clientY;
+                pointerId = p && p.pointerId ? p.pointerId : pointerId;
+                startX = p.clientX || 0;
+                startY = p.clientY || 0;
+                isSwiping = false;
                 __nexus_tomb_touch.active = true;
             } catch (err) {}
         }
         function onMove(e) {
             try {
                 if (!__nexus_tomb_touch.active) return;
+                const p = (e.touches && e.touches[0]) || (e.pointerType ? e : e);
+                const dx = (p.clientX || 0) - startX;
+                const dy = (p.clientY || 0) - startY;
+                const absX = Math.abs(dx);
+                const absY = Math.abs(dy);
+                // If movement exceeds a moderate threshold, mark as swipe so we won't treat it as a tap
+                if (absX > 14 || absY > 14) {
+                    isSwiping = true;
+                }
                 // prevent page gestures while swiping
-                e.preventDefault && e.preventDefault();
+                if (isSwiping) {
+                    e.preventDefault && e.preventDefault();
+                }
             } catch (err) {}
         }
         function onEnd(e) {
             try {
                 if (!__nexus_tomb_touch.active) return;
                 const p = (e.changedTouches && e.changedTouches[0]) || (e.pointerType ? e : e);
-                const dx = (p.clientX || 0) - (__nexus_tomb_touch.startX || 0);
-                const dy = (p.clientY || 0) - (__nexus_tomb_touch.startY || 0);
-
+                const dx = (p.clientX || 0) - startX;
+                const dy = (p.clientY || 0) - startY;
                 const absX = Math.abs(dx);
                 const absY = Math.abs(dy);
                 const threshold = 30; // minimal swipe length to count
 
+                // If it was a short movement (tap), forward it to iframe and avoid synthesizing arrow
+                if (!isSwiping && absX < threshold && absY < threshold) {
+                    // forward a tap to the iframe (focus + postMessage + temporary hit-test bypass)
+                    forwardTapToIframe(p.clientX || 0, p.clientY || 0);
+                    __nexus_tomb_touch.active = false;
+                    return;
+                }
+
+                // Otherwise interpret as swipe direction if it exceeds threshold
                 let dir = null;
                 if (absX > absY && absX > threshold) {
                     dir = dx > 0 ? 'ArrowRight' : 'ArrowLeft';
@@ -4061,22 +4119,21 @@ function setupTombTouchControls(game) {
                 }
 
                 if (dir) {
-                    // Try same-origin keyboard dispatch
+                    // Try same-origin keyboard dispatch first
                     try {
                         const wf = window.gameFrame && window.gameFrame.contentWindow;
                         if (wf && wf.document) {
-                            // synthesize KeyboardEvent inside iframe (best-effort)
                             try {
                                 const ev = new wf.KeyboardEvent('keydown', { key: dir, code: dir, bubbles: true, cancelable: true });
                                 wf.document.dispatchEvent(ev);
                             } catch (e) {
                                 // fallback to postMessage below
+                                try { wf.postMessage({ type: 'nexus:arrow', key: dir }, '*'); } catch (ee) {}
                             }
-                        } else if (window.gameFrame && typeof window.gameFrame.contentWindow.postMessage === 'function') {
+                        } else if (window.gameFrame && window.gameFrame.contentWindow && typeof window.gameFrame.contentWindow.postMessage === 'function') {
                             window.gameFrame.contentWindow.postMessage({ type: 'nexus:arrow', key: dir }, '*');
                         }
                     } catch (e) {
-                        // final fallback: postMessage
                         try { window.gameFrame && window.gameFrame.contentWindow && window.gameFrame.contentWindow.postMessage({ type: 'nexus:arrow', key: dir }, '*'); } catch (ee) {}
                     }
                 }
