@@ -5,7 +5,7 @@
     <!-- Mobile-first, no zoom to keep cloud gaming controls stable -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>Nexus Cloud</title>
+    <title>Nexus Cloud - Premium Gaming</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="ICON.png">
@@ -18,7 +18,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <style>
       /* Mobile bottom nav: visible only on small screens */
       .mobile-bottom-bar{
@@ -39,6 +39,15 @@
           border-top:1px solid rgba(255,255,255,0.04);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
+        }
+        /* Ensure page content has enough safe padding so the bottom bar doesn't overlap scrollable content */
+        /* Apply to app container and main areas so scrolling content won't hide behind the bar */
+        body, #app-container, main {
+          padding-bottom: calc(env(safe-area-inset-bottom) + 84px);
+        }
+        /* Keep the loader and modals above the mobile bar */
+        #global-loader, #details-modal {
+          z-index: 11000 !important;
         }
         .mobile-bottom-bar .mobile-tab-btn{
           min-width:56px;
@@ -461,6 +470,6 @@
       </button>
     </div>
 
-    <script src="app.js" type="module" defer></script>
+    <script src="js/app.js" type="module" defer></script>
 </body>
 </html>
