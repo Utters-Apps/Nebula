@@ -19,6 +19,68 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+      /* Mobile bottom nav: visible only on small screens */
+      .mobile-bottom-bar{
+        display:none;
+      }
+      @media(max-width:640px){
+        .mobile-bottom-bar{
+          display:flex;
+          position:fixed;
+          left:0;
+          right:0;
+          bottom:0;
+          padding:8px calc(env(safe-area-inset-left) + 12px) calc(env(safe-area-inset-bottom) + 12px) calc(env(safe-area-inset-right) + 12px);
+          gap:10px;
+          justify-content:center;
+          z-index:9999;
+          background: linear-gradient(180deg, rgba(6,8,14,0.98), rgba(3,5,11,0.92));
+          border-top:1px solid rgba(255,255,255,0.04);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+        }
+        .mobile-bottom-bar .mobile-tab-btn{
+          min-width:56px;
+          height:48px;
+          border-radius:999px;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          gap:8px;
+          padding:0 14px;
+          font-weight:700;
+          color:rgb(148,163,184);
+          background: rgba(255,255,255,0.02);
+          border:1px solid rgba(255,255,255,0.04);
+          box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+        }
+        .mobile-bottom-bar .mobile-tab-btn.tab-btn-active{
+          color:#fff;
+          background: linear-gradient(90deg, rgba(99,102,241,0.95), rgba(124,58,237,0.95));
+          transform: translateY(-2px);
+        }
+        /* hide the small top mobile chips to avoid duplicate UI */
+        .sm\\:hidden { display:none !important; }
+
+        /* Hide the duplicate right-side navbar avatar on mobile to keep only the mobile account button */
+        #navbar .w-8,
+        #navbar .w-9,
+        #navbar .user-avatar-mobile-hide {
+          display: none !important;
+        }
+
+        /* Ensure the details modal appears above the mobile bottom bar and has breathing room on small screens */
+        #details-modal {
+          z-index: 11001 !important;
+          padding-bottom: calc(env(safe-area-inset-bottom) + 84px); /* ensure modal sits above bottom bar */
+        }
+        /* If modal card is anchored to bottom (mobile), lift it visually above the mobile bar */
+        #details-modal #modal-card {
+          margin-bottom: calc(env(safe-area-inset-bottom) + 12px);
+        }
+      }
+    </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col" oncontextmenu="return false;">
 
@@ -108,35 +170,35 @@
                 </a>
             </div>
             <div class="flex items-center gap-3 w-full justify-end">
-                <div class="flex items-center gap-2 sm:gap-3 flex-1 justify-end max-w-md">
-                    <div class="flex items-center bg-[#0b1220] rounded-full px-3 py-1.5 border border-gray-700/60 w-40 xs:w-52 sm:w-64 lg:w-72 shadow-sm shadow-black/50">
-                        <i class="fas fa-search text-gray-400 text-xs mr-2"></i>
-                        <input type="text"
-                               id="search-input"
-                               placeholder="Search games..."
-                               class="bg-transparent border-none text-xs sm:text-sm text-gray-300 focus:outline-none w-full"
-                               autocomplete="off">
-                    </div>
+                <div class="flex items-center bg-[#0b1220] rounded-full px-3 py-1.5 border border-gray-700/60 w-40 xs:w-52 sm:w-64 lg:w-72 shadow-sm shadow-black/50">
+                    <i class="fas fa-search text-gray-400 text-xs mr-2"></i>
+                    <input type="text"
+                           id="search-input"
+                           placeholder="Search games..."
+                           class="bg-transparent border-none text-xs sm:text-sm text-gray-300 focus:outline-none w-full"
+                           autocomplete="off">
+                </div>
 
-                    <div class="hidden sm:flex items-center bg-[#020617]/60 border border-gray-700/60 rounded-full px-1.5 py-0.5 shadow-sm shadow-black/50">
-                        <button id="tab-home" class="tab-btn tab-btn-active" data-tab="home">
-                            <i class="fas fa-house-chimney"></i>
-                            <span>Home</span>
-                        </button>
-                        <button id="tab-favorites" class="tab-btn" data-tab="favorites">
-                            <i class="fas fa-heart"></i>
-                            <span>Favorites</span>
-                        </button>
-                    </div>
+                <div class="hidden sm:flex items-center bg-[#020617]/60 border border-gray-700/60 rounded-full px-1.5 py-0.5 shadow-sm shadow-black/50">
+                    <button id="tab-home" class="tab-btn tab-btn-active" data-tab="home">
+                        <i class="fas fa-house-chimney"></i>
+                        <span>Home</span>
+                    </button>
+                    <button id="tab-favorites" class="tab-btn" data-tab="favorites">
+                        <i class="fas fa-heart"></i>
+                        <span>Favorites</span>
+                    </button>
                 </div>
 
                 <div class="flex sm:hidden items-center gap-1 mr-1">
-                    <button id="tab-home-mobile" class="tab-chip tab-btn-active" data-tab="home">
-                        <i class="fas fa-house-chimney"></i>
-                    </button>
-                    <button id="tab-favorites-mobile" class="tab-chip" data-tab="favorites">
-                        <i class="fas fa-heart"></i>
-                    </button>
+                    <!-- Mobile: show account/avatar instead of Home/Favorites chips -->
+                    <div class="flex sm:hidden items-center gap-2 mr-1">
+                      <button id="mobile-account-btn" class="mobile-account-btn" aria-label="Account" title="Account">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xs sm:text-sm shadow-inner border border-white/20">
+                          <i class="fas fa-user"></i>
+                        </div>
+                      </button>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-2 pl-3 border-l border-gray-700/50">
@@ -385,6 +447,18 @@
                 <button id="ios-fullscreen-dismiss" class="ios-btn ios-btn-secondary">Dismiss</button>
             </div>
         </div>
+    </div>
+
+    <!-- Mobile bottom nav (Home / Favorites) -->
+    <div class="mobile-bottom-bar" aria-hidden="false" role="navigation">
+      <button class="mobile-tab-btn tab-chip tab-btn-active" data-tab="home" id="mobile-tab-home" aria-label="Home">
+        <i class="fas fa-house-chimney"></i>
+        <span style="display:none">Home</span>
+      </button>
+      <button class="mobile-tab-btn tab-chip" data-tab="favorites" id="mobile-tab-favorites" aria-label="Favorites">
+        <i class="fas fa-heart"></i>
+        <span style="display:none">Favorites</span>
+      </button>
     </div>
 
     <script src="app.js" type="module" defer></script>
