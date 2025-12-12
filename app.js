@@ -723,7 +723,13 @@ function resetGameFrame() {
         fresh.style.width = '100%';
         fresh.style.height = '100%';
         fresh.style.border = 'none';
-        fresh.loading = 'lazy';
+        // On mobile, use eager loading to reduce perceived startup latency for game iframes;
+        // desktop keeps lazy to avoid extra bandwidth.
+        try {
+            fresh.loading = (window.innerWidth && window.innerWidth < 640) ? 'eager' : 'lazy';
+        } catch (e) {
+            fresh.loading = 'lazy';
+        }
 
         // append to wrapper
         if (gameFrameWrapper) {
@@ -785,14 +791,27 @@ function saveList() {
 
 function checkSession() {
     loadState();
-    const savedUser = localStorage.getItem('nexus_user');
-    if (savedUser) {
-        enterApp(savedUser);
-    } else {
-        // keep login visible
-        loginScreen.style.opacity = '1';
-        loginScreen.style.pointerEvents = 'auto';
+    try {
+        const savedRaw = localStorage.getItem('nexus_user');
+        if (savedRaw) {
+            // savedUser may be a JSON string or a simple name; safely parse if possible
+            let parsed = null;
+            try {
+                parsed = JSON.parse(savedRaw);
+            } catch (e) {
+                parsed = savedRaw;
+            }
+            // prefer explicit name field if present; otherwise pass the raw string
+            const nameToUse = parsed && typeof parsed === 'object' && parsed.name ? parsed.name : (typeof parsed === 'string' ? parsed : String(parsed));
+            enterApp(nameToUse);
+            return;
+        }
+    } catch (e) {
+        console.warn('checkSession parsing user failed', e);
     }
+    // keep login visible
+    loginScreen.style.opacity = '1';
+    loginScreen.style.pointerEvents = 'auto';
 }
 
 function handleLoginSubmit(e) {
@@ -880,6 +899,9 @@ function updateUserDisplay(user) {
             const shortName = user.name.length > 12 ? user.name.slice(0, 12) + '…' : user.name;
             display.textContent = shortName;
             display.classList.remove('hidden');
+            // also update mobile account name element when present
+            const mobileName = document.getElementById('user-display-name-mobile');
+            if (mobileName) mobileName.textContent = shortName;
         }
         if (avatar && user && user.initials) {
             avatar.textContent = user.initials.slice(0,2);
@@ -971,6 +993,21 @@ function enterApp(username) {
     currentUser = username;
     const shortName = username.length > 12 ? username.slice(0, 12) + '…' : username;
     userDisplayName.textContent = shortName;
+
+    // NEW: also update mobile display name and navbar avatar initials so mobile shows the signed-in user (not "Guest")
+    try {
+        const mobileName = document.getElementById('user-display-name-mobile');
+        if (mobileName) mobileName.textContent = shortName;
+
+        // update avatar initials in navbar if present
+        const avatar = document.querySelector('#navbar .w-8, #navbar .w-9, #navbar .user-avatar-mobile-hide');
+        if (avatar) {
+            const initials = (username.split(/\s+/).slice(0,2).map(s => s[0]?.toUpperCase() || '').join('').slice(0,2)) || username[0]?.toUpperCase();
+            avatar.textContent = initials;
+            // ensure avatar is visible on mobile (in case any inline styles previously hid it)
+            avatar.style.display = '';
+        }
+    } catch (e) { /* non-fatal */ }
 
     loginScreen.style.opacity = '0';
     loginScreen.style.pointerEvents = 'none';
@@ -1955,7 +1992,37 @@ function wireNavbarScroll() {
 
 // --- GAME PLAYER ---
 function wireGameControls() {
-    btnCloseGame.addEventListener('click', closeGame);
+    // Improved close flow: play a quick exit animation and then perform full cleanup.
+    btnCloseGame.addEventListener('click', (e) => {
+        try {
+            e && e.preventDefault && e.preventDefault();
+            // quick visual: fade+scale the iframe/wrapper to signal exit
+            try {
+                if (gameFrame) {
+                    gameFrame.style.transition = 'transform 260ms cubic-bezier(.22,.9,.35,1), opacity 220ms ease';
+                    gameFrame.style.transformOrigin = 'center center';
+                    gameFrame.style.transform = 'scale(0.98)';
+                    gameFrame.style.opacity = '0.0';
+                }
+                if (gameFrameWrapper) {
+                    gameFrameWrapper.style.transition = 'filter 260ms ease, opacity 220ms ease';
+                    gameFrameWrapper.style.opacity = '0.0';
+                    gameFrameWrapper.style.filter = 'blur(6px)';
+                }
+                // also add the game-exit class to the layer to trigger the existing CSS animation
+                gameLayer.classList.remove('game-enter');
+                gameLayer.classList.add('game-exit');
+            } catch (err) { /* swallow visual errors */ }
+
+            // call closeGame after the small animation delay so user perceives it
+            setTimeout(() => {
+                try { closeGame(); } catch (err) { console.warn('closeGame failed after animation', err); }
+            }, 260);
+        } catch (err) {
+            console.warn('btnCloseGame handler error', err);
+            try { closeGame(); } catch (e) {}
+        }
+    });
     btnFullscreen.addEventListener('click', toggleFullscreen);
 
     // NEW: toggle hide-toolbar when clicked
@@ -2425,6 +2492,12 @@ function playGame(id) {
     activeGame = game;
     // Lock page scrolling and gestures while a game session is active to improve mobile gameplay UX
     try { document.documentElement.classList.add('no-game-scroll'); } catch (e) {}
+    // Also hide mobile bottom bar explicitly as an extra safeguard for some environments
+    try {
+        document.documentElement.classList.add('no-game-scroll'); // ensure class present
+        const mobileBar = document.querySelector('.mobile-bottom-bar');
+        if (mobileBar) mobileBar.style.display = 'none';
+    } catch (e) {}
     playingTitle.textContent = game.title;
 
     // NEW: enable keyboard isolation to reduce interference from extensions
@@ -2826,6 +2899,15 @@ function closeGame() {
     try {
         // determine if we should refresh the page after closing (special-case for some embeds)
         const shouldReloadAfterClose = activeGame && (activeGame.id === 'duo' || activeGame.id === 'starstuff');
+
+        // restore mobile bottom bar when leaving game
+        try {
+            const mobileBar = document.querySelector('.mobile-bottom-bar');
+            if (mobileBar) {
+                // allow CSS to control visibility when no-game-scroll removed; ensure visible now
+                mobileBar.style.removeProperty('display');
+            }
+        } catch (e) {}
 
         // disable keyboard isolation when leaving a game
         try { disableExtensionKeyIsolation(); } catch (e) { console.warn('disableExtensionKeyIsolation failed', e); }
