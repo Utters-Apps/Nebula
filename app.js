@@ -347,6 +347,7 @@ const DB = [
   </body>
 </html>`
     },
+    { id: 'openhouse', title: 'Open House', cat: 'Puzzle', img: 'https://imgs.crazygames.com/open-house_16x9/20250703074341/open-house_16x9-cover?metadata=none&quality=60&height=5331', banner: 'https://imgs.crazygames.com/open-house_16x9/20250703074341/open-house_16x9-cover?metadata=none&quality=60&height=5331', url: 'https://playgama.com/export/game/open-house', desc: 'Open House — a clever puzzle experience where spatial reasoning and planning unlocks rooms and secrets.', controls: 'Mouse / Touch: Interact and solve puzzles', feat: false, color: 'amber-400', year: 2024, developer: 'RED BRIX WALL' },
 ];
 
 // Make the database harder to inspect directly in devtools: keep an internal frozen copy and replace the global `DB` reference
@@ -5230,4 +5231,127 @@ function stopScrollGuard() {
     } catch (e) {
         console.warn('stopScrollGuard failed', e);
     }
+}
+
+/* --- PWA install prompt handling: show mobile install button when applicable --- */
+(function pwaInstallHandler() {
+    try {
+        let deferredPrompt = null;
+        const installBtn = document.getElementById('pwa-install-btn');
+
+        // Utility: mobile detection (consistent with existing isIos helper)
+        function isMobileViewport() {
+            return (window.innerWidth && window.innerWidth < 640) || isIos();
+        }
+
+        // Show/hide the install button depending on environment
+        function updateInstallBtnVisibility() {
+            if (!installBtn) return;
+            // Only show on mobile viewports and when we have a deferred prompt (or event will arrive)
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            if (isMobileViewport() && !isStandalone) {
+                installBtn.classList.remove('hidden');
+                installBtn.setAttribute('aria-hidden', 'false');
+            } else {
+                installBtn.classList.add('hidden');
+                installBtn.setAttribute('aria-hidden', 'true');
+            }
+        }
+
+        // Listen for the browser's beforeinstallprompt and keep the event to trigger later
+        window.addEventListener('beforeinstallprompt', (e) => {
+            try {
+                e.preventDefault();
+                deferredPrompt = e;
+                // If user on mobile/portrait and PWA not installed, reveal install button
+                updateInstallBtnVisibility();
+                // Optionally show a subtle toast nudging install for first-time visits
+                try {
+                    showToast('Você pode instalar o app para uma experiência melhor.', { icon: 'fas fa-download' });
+                } catch (e) {}
+            } catch (err) {}
+        }, { passive: true });
+
+        // If the app is already installed (desktop or mobile), hide the button
+        window.addEventListener('appinstalled', (evt) => {
+            try {
+                deferredPrompt = null;
+                if (installBtn) {
+                    installBtn.classList.add('hidden');
+                    installBtn.setAttribute('aria-hidden', 'true');
+                }
+                showToast('App instalado com sucesso!', { icon: 'fas fa-check-circle' });
+            } catch (e) {}
+        });
+
+        // Click handler for the install button: show the prompt if available
+        if (installBtn) {
+            installBtn.addEventListener('click', async (ev) => {
+                try {
+                    ev.preventDefault();
+                    // If we have a deferred prompt, show it
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        if (outcome === 'accepted') {
+                            showToast('Obrigado! Instalação iniciada.', { icon: 'fas fa-thumbs-up' });
+                        } else {
+                            showToast('Instalação cancelada.', { icon: 'fas fa-times-circle' });
+                        }
+                        deferredPrompt = null;
+                        installBtn.classList.add('hidden');
+                        installBtn.setAttribute('aria-hidden', 'true');
+                    } else {
+                        // no prompt available — show instructions or trigger native share/install hint for iOS
+                        if (isIos()) {
+                            showToast('Toque em "Compartilhar" e escolha "Adicionar à Tela de Início".', { icon: 'fas fa-info-circle' });
+                        } else {
+                            showToast('Instalação não disponível no momento.', { icon: 'fas fa-exclamation-circle' });
+                        }
+                    }
+                } catch (err) {
+                    console.warn('pwa install click error', err);
+                }
+            }, { passive: false });
+        }
+
+        // Update visibility on resize / orientation change
+        window.addEventListener('resize', updateInstallBtnVisibility, { passive: true });
+        window.addEventListener('orientationchange', updateInstallBtnVisibility, { passive: true });
+
+        // Initial visibility check (deferredPrompt might not have fired yet but we still want button hidden until necessary)
+        // If the beforeinstallprompt hasn't fired, updateInstallBtnVisibility still hides on desktop/installed states.
+        updateInstallBtnVisibility();
+
+        // Tidy: when the service worker becomes active and the app is controlled, we can re-evaluate installability
+        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+            setTimeout(updateInstallBtnVisibility, 800);
+        }
+
+    } catch (e) {
+        // non-fatal
+        console.warn('pwaInstallHandler failed', e);
+    }
+})();
+
+// Service worker registration improvements: ensure relative path and retry once if failed
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        const swPath = '/sw.js';
+        navigator.serviceWorker.register(swPath)
+            .then(reg => {
+                console.info('ServiceWorker registered:', reg.scope || 'relative-scope');
+            })
+            .catch(err => {
+                console.warn('ServiceWorker registration failed, retrying once:', err);
+                // retry once after a short delay
+                setTimeout(() => {
+                    navigator.serviceWorker.register(swPath).catch(e => console.warn('SW retry failed', e));
+                }, 1200);
+            });
+        // still run session check
+        checkSession();
+    });
+} else {
+    window.addEventListener('load', checkSession);
 }
